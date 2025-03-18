@@ -111,6 +111,22 @@ const Navbar: React.FC = () => {
                       <img src="asset/assets/img/Layout-Vertical.png" alt="" />
                     </a>
                   </li>
+
+                  <li
+                    className="nav-item mx-0 mx-lg-1"
+                    onClick={(e) => {
+                      localStorage.removeItem("token");
+                      localStorage.removeItem("customer_login_auth");
+                      setTimeout(() => {
+                        window.location.href =
+                          window.location.origin + "/admin";
+                      }, 500);
+                    }}
+                  >
+                    <a className="nav-link py-3 px-0 px-lg-3" href="#about">
+                      logout
+                    </a>
+                  </li>
                 </ul>
               </div>
             </nav>
