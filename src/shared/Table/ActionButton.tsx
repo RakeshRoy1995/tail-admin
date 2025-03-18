@@ -1,5 +1,3 @@
-import RawPDFDownload from "@/pages/Training Mgt/Certificate/PDFMaker/PDFMaker/PDFMaker";
-import QuestionDownload from "@/pages/Training Mgt/Questions/QuestionDownload/QuestionDownload";
 import { accessPermission } from "@/utils";
 
 export default function ActionButton(
@@ -41,15 +39,6 @@ export default function ActionButton(
               fill="#016E69"
             />
           </svg>
-        </button>
-      )}
-      {showPDF && (
-        <button
-          aria-label="pdf"
-          className="bg-[#e6f1f0]  rounded-full"
-          onClick={(e: any) => onclickEvt(id, "pdf")}
-        >
-      <QuestionDownload data={customDataPdf} />
         </button>
       )}
 
