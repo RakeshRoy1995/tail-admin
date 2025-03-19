@@ -151,6 +151,8 @@ function LeftSideMenuBar() {
   const [nextPhase, setnextPhase] = useState(0);
   const [phases, setphases] = useState([]);
   const [blocks, setblocks] = useState([]);
+  const [Allblocks, setallblocks] = useState([]);
+  const [AllQues, setAllQues] = useState([]);
   const [Ques, setQues] = useState([]);
 
   // get phases
@@ -163,6 +165,12 @@ function LeftSideMenuBar() {
         if (response.data.length) {
           setactivephase(response.data[0].id);
           setnextPhase(response.data[1].id);
+
+          const res_block = await axiosInstance.get("/blocks"); // Example endpoint
+          setallblocks(res_block.data);
+
+          const res_ques = await axiosInstance.get("/question"); // Example endpoint
+          setAllQues(res_ques.data);
         }
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -176,12 +184,10 @@ function LeftSideMenuBar() {
   useEffect(() => {
     const fetchBlockByPhase = async (id: any) => {
       try {
-        const res = await axiosInstance.get(
-          "/phases/getBlockByPhaseId/" + id + "",
-        ); // Example endpoint
-        setblocks(res.data);
-        if (res.data.length) {
-          setactiveBlock(res.data[0].id);
+        const result = Allblocks.filter((d: any) => d.phaseId == id);
+        setblocks(result);
+        if (result.length) {
+          setactiveBlock(result[0].id);
         }
       } catch (err) {
         console.error("Error fetching users:", err);
@@ -195,10 +201,11 @@ function LeftSideMenuBar() {
   useEffect(() => {
     const fetchQuestionByBlock = async (id: any) => {
       try {
-        const res = await axiosInstance.get(
-          "/blocks/getQuestionByBlock/" + id + "",
-        ); // Example endpoint
-        setQues(res.data);
+        const result = AllQues.filter((d: any) => d.blockId == id);
+        setblocks(result);
+        if (result.length) {
+          setQues(result[0].id);
+        }
       } catch (err) {
         console.error("Error fetching users:", err);
       }
@@ -897,7 +904,15 @@ function LeftSideMenuBar() {
             >
               <Breadcrumb name1="Dashboard" name2="Application" date="Aug 11" />
               <div className="row tab-panel-body">
-                <PhasesForm blocks={blocks} Ques={Ques} activephase={activephase} setactiveBlock={setactiveBlock} activeBlock={activeBlock} nextPhase={nextPhase} phases={phases} />
+                <PhasesForm
+                  blocks={blocks}
+                  Ques={Ques}
+                  activephase={activephase}
+                  setactiveBlock={setactiveBlock}
+                  activeBlock={activeBlock}
+                  nextPhase={nextPhase}
+                  phases={phases}
+                />
               </div>
             </div>
           </div>

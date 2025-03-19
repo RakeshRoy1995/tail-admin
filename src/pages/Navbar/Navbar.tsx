@@ -47,7 +47,7 @@ const Navbar: React.FC = () => {
     }, 1000);
   };
 
-  const current_role = JSON.parse(localStorage.getItem("current_role"));
+  const current_role =  null
   const all_role = JSON.parse(localStorage.getItem("all_role"));
 
   console.log(`get_org_UserGrp`, current_role);

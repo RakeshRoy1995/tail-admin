@@ -37,17 +37,16 @@ const App: FC = () => {
     <>
       <Suspense fallback={<div>Loading...</div>}>
         <Routes>
-          <Route path="/" index element={<LandingPage />} />
-
-          <Route path="/" element={<LayoutUser />}>
+          {/* <Route path="/" element={<LayoutUser />}>
             <Route
               path="/apply-call-for-submission/:id"
               element={<OutreachCardsApply />}
             />
-          </Route>
+          </Route> */}
 
           <Route path="/" element={<PrivateRoute />}>
             <Route path="/" element={<Layout />}>
+              <Route path="/" element={<Home />} />
               <Route path="/admin" element={<Home />} />
               {/* <Route path="/pmu" element={<Pmu/>}/> */}
               {/* <Route path="/Dashboard" element={<Dashboard/>}/> */}

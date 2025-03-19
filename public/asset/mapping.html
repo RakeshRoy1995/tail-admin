@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Tail IIDT Mapping</title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <!-- Font Awesome icons (free version)-->
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    <!-- Google fonts-->
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lato:ital,wght@0,300;0,400;0,700;0,900;1,400;1,700;1,900&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,800;1,900&display=swap"
+        rel="stylesheet">
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <link href="css/styles.css" rel="stylesheet" />
+</head>
+
+<body id="page-top">
+    <!-- Navigation-->
+    <section>
+        <div class="container-fuild">
+            <div class="row">
+                <nav class="navbar navbar-expand-lg bg-secondary text-uppercase" id="mainNav">
+
+                    <a class="navbar-brand" href="#page-top"><img src="assets/img/logo.png" alt="Logo"></a>
+                    <button class="navbar-toggler text-uppercase font-weight-bold bg-primary text-white rounded"
+                        type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive"
+                        aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                        Menu
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarResponsive">
+
+
+                        <ul class="navbar-nav ms-auto">
+                            <li class="nav-item mx-0 mx-lg-1">
+                                <form class="form-inline my-2 my-lg-0">
+                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                    <input class="form-control mr-sm-2" type="search" placeholder="Search"
+                                        aria-label="Search">
+                                </form>
+                            </li>
+                            <li class="nav-item mx-0 mx-lg-1">
+                                <a class="nav-link py-3 px-0 px-lg-3" href="#about">
+                                    <img src="assets/img/Layout-4-blocks.png" alt="">
+                                </a>
+                            </li>
+
+                            <li class="nav-item mx-0 mx-lg-1">
+                                <a class="nav-link py-3 px-0 px-lg-3" href="#about">
+                                    <img src="assets/img/Equalizer.png" alt="">
+                                </a>
+                            </li>
+
+                            <li class="nav-item mx-0 mx-lg-1">
+                                <a class="nav-link py-3 px-0 px-lg-3" href="#about">
+                                    <img src="assets/img/User.png" alt="">
+                                </a>
+                            </li>
+                            <li class="nav-item mx-0 mx-lg-1">
+                                <a class="nav-link py-3 px-0 px-lg-3" href="#about">
+                                    <img src="assets/img/Layout-Vertical.png" alt="">
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+                </nav>
+            </div>
+        </div>
+    </section>
+    <div class="clearfix"></div>
+    <!-- Masthead-->
+
+    <section class="admin-body mapping-body">
+        <div class="container-fuild mapping-wrap">
+            <div class="row mapping-wrap-row">
+                <div class="col-md-9 mapping-wrapper">
+                    <div class="row left-block">
+                        <h1>Mapping the landscape</h1>
+                        <div class="col-md-4">
+                            <div class="frame-img">
+                                <img src="assets/img/frame.png" alt="">
+                            </div>
+                            <h2>Frame Core Problems:</h2>
+
+                        </div>
+                        <div class="col-md-8">
+                            <div class="content-wrapper">
+                                <div class="box-prompt">
+                                    <div class="title-wrap">
+                                        <h5>Complete</h5>
+                                        <h3>What problems are you trying to solve? </h3>
+                                    </div>
+                                    <form>
+                                        <div class="form-group">
+                                            <div class="textarea-container">
+                                                <textarea class="form-control" rows="5"
+                                                    placeholder="How can I help you?"></textarea>
+
+                                                <!-- File Upload Icon (Paperclip) -->
+                                                <label for="file-upload"
+                                                    class="file-upload-icon fas fa-paperclip"></label>
+
+                                                <!-- Voice Icon (Microphone) -->
+                                                <i class="voice-icon fas fa-microphone"></i>
+
+                                                <!-- Hidden File Input -->
+                                                <input type="file" id="file-upload" class="file-input"
+                                                    onchange="handleFileUpload(event)">
+
+                                                <!-- Submit Button -->
+                                                <button type="submit" class="submit-btn"><i class="fa fa-paper-plane"
+                                                        aria-hidden="true"></i> Submit</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+
+                                <div class="title-wrap red-dot">
+                                    <h5>Anwaring</h5>
+                                    <h3>Who is mostly affected/impacted by the problem? </h3>
+                                </div>
+
+                                <div class="title-wrap red-dot Waiting">
+                                    <h5>Waiting for answer</h5>
+                                    <h3>Who owns the problem you are trying to solve? </h3>
+                                </div>
+                                <div class="title-wrap red-dot Waiting">
+                                    <h5>Waiting for answer</h5>
+                                    <h3>How contested is the purpose you’re dealing with? </h3>
+                                </div>
+                                <div class="title-wrap red-dot Waiting last-title-wrap">
+                                    <h5>Waiting for answer</h5>
+                                    <h3>Is there societal appetite to solve this problem?</h3>
+                                </div>
+
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="row left-block">
+                        <div class="col-md-4">
+                            <div class="frame-img">
+                                <img src="assets/img/frame-2.png" alt="">
+                            </div>
+                            <h2>Map of Institutions and Voids </h2>
+
+                        </div>
+                        <div class="col-md-8">
+                            <div class="content-wrapper">
+                                <div class="box-prompt">
+                                    <div class="title-wrap">
+                                        <h5>Complete</h5>
+                                        <h3>What problems are you trying to solve? </h3>
+                                    </div>
+                                </div>
+
+                                <div class="title-wrap red-dot">
+                                    <h5>Anwaring</h5>
+                                    <h3>Who is mostly affected/impacted by the problem? </h3>
+                                </div>
+
+                                <div class="title-wrap red-dot Waiting">
+                                    <h5>Waiting for answer</h5>
+                                    <h3>Who owns the problem you are trying to solve? </h3>
+                                </div>
+                                <div class="title-wrap red-dot Waiting">
+                                    <h5>Waiting for answer</h5>
+                                    <h3>How contested is the purpose you’re dealing with? </h3>
+                                </div>
+                                <div class="title-wrap red-dot Waiting last-title-wrap">
+                                    <h5>Waiting for answer</h5>
+                                    <h3>Is there societal appetite to solve this problem?</h3>
+                                </div>
+
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="row left-block">
+                        <div class="col-md-4">
+                            <div class="frame-img">
+                                <img src="assets/img/frame-3.png" alt="">
+                            </div>
+                            <h2>Initial Purpose </h2>
+
+                        </div>
+                        <div class="col-md-8">
+                            <div class="content-wrapper">
+                                <div class="box-prompt">
+                                    <div class="title-wrap">
+                                        <h5>Complete</h5>
+                                        <h3>What problems are you trying to solve? </h3>
+                                    </div>
+                                </div>
+
+                                <div class="title-wrap red-dot">
+                                    <h5>Anwaring</h5>
+                                    <h3>Who is mostly affected/impacted by the problem? </h3>
+                                </div>
+
+                                <div class="title-wrap red-dot Waiting">
+                                    <h5>Waiting for answer</h5>
+                                    <h3>Who owns the problem you are trying to solve? </h3>
+                                </div>
+                                <div class="title-wrap red-dot Waiting">
+                                    <h5>Waiting for answer</h5>
+                                    <h3>How contested is the purpose you’re dealing with? </h3>
+                                </div>
+                                <div class="title-wrap red-dot Waiting last-title-wrap">
+                                    <h5>Waiting for answer</h5>
+                                    <h3>Is there societal appetite to solve this problem?</h3>
+                                </div>
+
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12 modal-wrap">
+                            <button type="button" class="btn btn-secondary">Discard</button>
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                data-bs-target="#exampleModal">
+                                Next Phase
+                            </button>
+
+                            <!-- Modal Structure -->
+                            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                                aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Modal Title</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Itaque, labore,
+                                            consectetur iure dolore illo architecto quos expedita. Sed, similique dolore
+                                            velit sequi enim molestiae pariatur, laboriosam ut repellendus iste eius?
+                                            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Itaque, labore,
+                                            consectetur iure dolore illo architecto quos expedita. Sed, similique dolore
+                                            velit sequi enim molestiae pariatur, laboriosam ut repellendus iste eius?
+                                            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Itaque, labore,
+                                            consectetur iure dolore illo architecto quos expedita. Sed, similique dolore
+                                            velit sequi enim molestiae pariatur, laboriosam ut repellendus iste eius?
+                                            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Itaque, labore,
+                                            consectetur iure dolore illo architecto quos expedita. Sed, similique dolore
+                                            velit sequi enim molestiae pariatur, laboriosam ut repellendus iste eius?
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Close</button>
+                                            <button type="button" class="btn btn-primary">+ OK</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                </div>
+                <div class="col-md-3">
+                    <div class="mapping-sidebar">
+                        <div class="top-widget com-widget">
+                            <img src="assets/img/ai-bar.png" alt="">
+                        </div>
+
+                        <div class="middle-widget com-widget">
+                            <img src="assets/img/middle-widget.png" alt="">
+                        </div>
+
+                        <div class="bottom-widget com-widget">
+                            <img src="assets/img/bottom-widget.png" alt="">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <div class="section-three mapping-three">
+        <div class="container">
+            <div class="row">
+                <div class="image-wrap">
+                    <img src="assets/img/l-img5.png" alt="">
+                    <img src="assets/img/l-img2.png" alt="">
+                    <img src="assets/img/l-img4.png" alt="">
+                    <img src="assets/img/l-img3.png" alt="">
+                    <img src="assets/img/l-img5.png" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- Footer-->
+    <footer class="footer text-center">
+        <div class="container-fuild">
+            <div class="row">
+                <!-- Footer Location-->
+                <div class="col-lg-6 col-md-6 col-4">
+                    <div class="footer-logo ">
+                        <img src="assets/img/footer-logo.png" alt="">
+                    </div>
+
+                </div>
+
+                <div class="col-lg-6 col-md-6 col-8">
+                    <div class="copyright text-right text-white">
+                        <p>All rights reserved &copy; 2025</p>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </footer>
+    <!-- Copyright Section-->
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Bootstrap core JS-->
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <!-- Core theme JS-->
+    <script src="js/scripts.js"></script>
+</body>
+
+</html>
