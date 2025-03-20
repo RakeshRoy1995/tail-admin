@@ -281,12 +281,16 @@ function LeftSideMenuBar() {
                   <Breadcrumb
                     name1="Dashboard"
                     name2="Application"
-                    date="Aug 11"
+                    date={new Date().toLocaleDateString("en-US", {
+                      month: "short",
+                      day: "2-digit",
+                      year: "numeric",
+                      })}
                   />
                   <div className="row tab-panel-body">
                     <div className="col-lg-3 col-md-3">
                       <div className="left-sidebar-menu">
-                        <h3>My account</h3>
+                        <h3>QUICK ACTIONS</h3>
                         <div className="menu-bar">
                           <ul>
                             <li>
@@ -509,13 +513,17 @@ function LeftSideMenuBar() {
                   <Breadcrumb
                     name1="Dashboard"
                     name2="Application"
-                    date="Aug 11"
+                    date={new Date().toLocaleDateString("en-US", {
+                      month: "short",
+                      day: "2-digit",
+                      year: "numeric",
+                      })}
                   />
 
                   <div className="row tab-panel-body">
                     <div className="col-lg-3 col-md-3">
                       <div className="left-sidebar-menu">
-                        <h3>My account</h3>
+                        <h3>QUICK ACTIONS</h3>
                         <div className="menu-bar">
                           <ul>
                             <li>
@@ -707,12 +715,16 @@ function LeftSideMenuBar() {
                   <Breadcrumb
                     name1="Dashboard"
                     name2="Application"
-                    date="Aug 11"
+                    date={new Date().toLocaleDateString("en-US", {
+                      month: "short",
+                      day: "2-digit",
+                      year: "numeric",
+                      })}
                   />
                   <div className="row tab-panel-body">
                     <div className="col-lg-3 col-md-3">
                       <div className="left-sidebar-menu">
-                        <h3>My account</h3>
+                        <h3>QUICK ACTIONS</h3>
                         <div className="menu-bar">
                           <ul>
                             <li>
