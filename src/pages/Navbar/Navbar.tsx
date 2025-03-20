@@ -62,7 +62,8 @@ const Navbar: React.FC = () => {
               id="mainNav"
             >
               <a className="navbar-brand" href="#page-top">
-                <img src="asset/assets/img/logo.png" alt="Logo" />
+                {/* <img src="asset/assets/img/logo.png" alt="Logo" /> */}
+                <img src="asset/assets/img/navlogo-coinnovator.jpg" alt="Logo" />
               </a>
               <button
                 className="navbar-toggler text-uppercase font-weight-bold bg-primary text-white rounded"
