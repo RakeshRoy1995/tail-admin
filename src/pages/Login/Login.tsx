@@ -93,7 +93,8 @@ const Login = () => {
                 </p>
                 <div className="inner-logo">
                   <a className="center-img" href="#">
-                    <img src="assets/img/form-logo.png" alt="" />
+                    {/* <img src="asset/assets/img/form-logo.png" alt="" /> */}
+                    <img src="/public/asset/assets/img/logo-coinnovator301209.jpg" alt="" />
                   </a>
                 </div>
                 <div className="inner-form">

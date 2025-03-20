@@ -182,7 +182,7 @@ export default function PhasesForm({
                         </div>
                         <div className="col-md-8">
                           <div className="content-wrapper">
-                            {AllQues.map((qd: any) => (
+                            {AllQues?.map((qd: any) => (
                               <>
                                 {qd.blockId == d.id && (
                                   <div className="box-prompt">
