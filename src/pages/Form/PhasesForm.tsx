@@ -9,7 +9,7 @@ import {
   AccordionSummary,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 const API_URL = import.meta.env.VITE_REACT_APP_API_URL;
 const token = localStorage.getItem("token");
@@ -36,12 +36,6 @@ export default function PhasesForm({
   const [output, setoutput] = useState<any>([]);
   const [showMode, setshowMode] = useState<any>("");
   const [outPutQues, setoutPutQues] = useState<any>([]);
-
-  const [openItem, setOpenItem] = useState(null);
-
-  const toggleItem = (item) => {
-    setOpenItem(openItem === item ? null : item);
-  };
 
   const phaseName = phases.find((d: any) => d.id == activephase)?.name || "";
 
@@ -155,11 +149,16 @@ export default function PhasesForm({
       if (res.length) {
         setoutput(Object.values(groupBy(res, "blockId")));
       }
+      setrender(!render)
     } catch (error) {
       seterror("Something Went Wrong");
     }
     setsubmit(false);
   };
+
+  // useEffect(() => {
+  //   getPhaseOutput();
+  // },[])
 
   console.log(`AiResponse`, output, outPutQues);
   return (
@@ -192,6 +191,7 @@ export default function PhasesForm({
                                 {qd.blockId == d.id && (
                                   <div className="box-prompt">
                                     <div className="title-wrap">
+                                      
                                       <h5>Complete</h5>
                                       <h3
                                         onClick={(e) => {
@@ -378,6 +378,7 @@ export default function PhasesForm({
                                 {output.map((out_data: any) => (
                                   <div
                                     className="card-header"
+                                    style={{textAlign:"left"}}
                                     id="headingOne"
                                     onClick={(e) => setoutPutQues(out_data)}
                                   >
@@ -405,6 +406,7 @@ export default function PhasesForm({
                                           <AccordionDetails>
                                             <div
                                               className="card-body"
+                                              style={{textAlign:"left"}}
                                               dangerouslySetInnerHTML={{
                                                 __html: d?.aiReply,
                                               }}
