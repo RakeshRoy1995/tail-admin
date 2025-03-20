@@ -6,12 +6,12 @@ import ForgotPassword from "@/pages/Login/ForgotPassword";
 import Poreport from "@/pages/Report/Poreport";
 import LoanRepaymentForm from "@/LoanRepaymentForm";
 import PhasesForm from "@/pages/Form/PhasesForm";
+import HomeEntryPage from "@/pages/HomeEntryPage/HomeEntryPage";
 const Home = React.lazy(() => import("@/pages/Home/index"));
 const PrivateRoute = React.lazy(() => import("./PrivateRoute"));
 const Login = React.lazy(() => import("@/pages/Login/Login"));
 
 const RegisterForm = React.lazy(() => import("@/pages/register/Index"));
-
 
 const RolePermissionAdd = React.lazy(
   () => import("@/pages/user/role-permission/RolePermissionAdd"),
@@ -43,18 +43,16 @@ const App: FC = () => {
               element={<OutreachCardsApply />}
             />
           </Route> */}
+          <Route path="/" element={<HomeEntryPage />}></Route>
 
           <Route path="/" element={<PrivateRoute />}>
             <Route path="/" element={<Layout />}>
-              <Route path="/" element={<Home />} />
+              {/* <Route path="/" element={<Home />} /> */}
               <Route path="/admin" element={<Home />} />
               {/* <Route path="/pmu" element={<Pmu/>}/> */}
               {/* <Route path="/Dashboard" element={<Dashboard/>}/> */}
 
-              <Route
-                path="/form-phase"
-                element={<PhasesForm />}
-              />
+              <Route path="/form-phase" element={<PhasesForm />} />
               <Route path="/dashboard/role" element={<Role />} />
               <Route path="/dashboard/employee" element={<Employee />} />
               <Route path="/dashboard/user" element={<User />} />
@@ -63,7 +61,6 @@ const App: FC = () => {
                 element={<RolePermissionManagement />}
               />
               <Route path="/dashboard/menu" element={<MenuPage />} />
-              
 
               <Route path="/change-password" element={<ChangePassword />} />
 
@@ -78,9 +75,7 @@ const App: FC = () => {
                 path="/payment-schedule-generation"
                 element={<LoanRepaymentForm />}
               />
-              
             </Route>
-
           </Route>
 
           {/* <Route path="/projectsetup"  element={<ProjectSetup/>}/> */}
