@@ -9,7 +9,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'http://149.28.135.157:5000',
+        target: 'https://tial-chat.rpu.solutions',
         changeOrigin: true,
         secure: false,
       },

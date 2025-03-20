@@ -161,10 +161,10 @@ export default function PhasesForm({
     setsubmit(false);
   };
 
-  useEffect(() => {
-    console.log(`2`, 2);
-    getPhaseOutput();
-  }, [phases[0]?.id]);
+  // useEffect(() => {
+  //   console.log(`2`, 2);
+  //   getPhaseOutput();
+  // }, [phases[0]?.id]);
 
   console.log(`AiResponse`, output, outPutQues);
   return (
