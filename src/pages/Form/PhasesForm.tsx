@@ -36,6 +36,7 @@ export default function PhasesForm({
   const [output, setoutput] = useState<any>([]);
   const [showMode, setshowMode] = useState<any>("");
   const [outPutQues, setoutPutQues] = useState<any>([]);
+  const [textareaShow, settextareaShow] = useState<any>(false);
 
   const phaseName = phases.find((d: any) => d.id == activephase)?.name || "";
 
@@ -58,6 +59,7 @@ export default function PhasesForm({
       setAiResponse(AiResponse);
       localStorage.setItem("ai_question_answer", JSON.stringify(AiResponse));
       setrender(!render);
+      
     } catch (error) {
       seterror("Something Went Wrong");
     }
@@ -85,6 +87,9 @@ export default function PhasesForm({
         text: "Success",
         confirmButtonText: "Close",
       });
+      settextareaShow(false);
+      setdata(null);
+      setactiveQuestion(0)
     } catch (error: any) {
       seterror(error?.response?.data?.message || "Something Went Wrong");
     }
@@ -149,16 +154,17 @@ export default function PhasesForm({
       if (res.length) {
         setoutput(Object.values(groupBy(res, "blockId")));
       }
-      setrender(!render)
+      setrender(!render);
     } catch (error) {
       seterror("Something Went Wrong");
     }
     setsubmit(false);
   };
 
-  // useEffect(() => {
-  //   getPhaseOutput();
-  // },[])
+  useEffect(() => {
+    console.log(`2`, 2);
+    getPhaseOutput();
+  }, [phases[0]?.id]);
 
   console.log(`AiResponse`, output, outPutQues);
   return (
@@ -175,89 +181,145 @@ export default function PhasesForm({
                   <>
                     {d.phaseId == activephase && (
                       <>
-                      <div className="row left-block">
-                        <div
-                          className="col-md-4"
-                          onClick={(e) => setactiveBlock(d.id)}
-                        >
-                          <div className="frame-img">
-                            <img src="asset/assets/img/frame.png" alt="" />
+                        <div className="row left-block">
+                          <div
+                            className="col-md-4"
+                            onClick={(e) => setactiveBlock(d.id)}
+                          >
+                            <div className="frame-img">
+                              <img src="asset/assets/img/frame.png" alt="" />
+                            </div>
+                            <h2>{d.name} :</h2>
                           </div>
-                          <h2>{d.name} :</h2>
-                        </div>
-                        <div className="col-md-8">
-                          <div className="content-wrapper">
-                            {AllQues?.map((qd: any) => (
-                              <>
-                                {qd.blockId == d.id && (
-                                  <div className="box-prompt">
-                                    <div className="title-wrap">
-                                      
-                                      <h5>Complete</h5>
-                                      <h3
-                                        onClick={(e) => {
-                                          setdata({
-                                            ...data,
-                                            ["question_id"]: qd.id,
-                                          });
-                                          setactiveQuestion(qd.id);
-                                        }}
-                                        style={{ cursor: "pointer" }}
-                                      >
-                                        {qd.question}{" "}
-                                      </h3>
-                                    </div>
-                                    <form>
-                                      <div className="form-group"  style={{ backgroundColor: "#fff" }}>
-                                        {activeQuestion == qd.id && (
-                                          <div className="textarea-container">
-                                            {AiResponse.map((ai_d: any) => (
-                                              <div className="container" style={{ paddingTop: "10px" }}>
-                                                {ai_d.question_id == qd.id && (
-                                                  <>
-                                                    <div style={{ fontSize: "12px", display: "flex", alignItems: "center", backgroundColor: "#f1f1f1", padding: "10px", borderRadius: "8px", marginBottom: "8px" }}>
-                                                    <img src="asset/assets/img/User.png" alt="" style={{ width: "24px", height: "24px", marginRight: "8px" }} />
-                                                    {ai_d.yourMessage}
-                                                    </div>
-                                                    <div style={{ fontSize: "12px", display: "flex", alignItems: "center", backgroundColor: "#f1f1f1", padding: "10px", borderRadius: "8px", marginBottom: "8px" }}>
-                                                      <img src="asset/assets/img/img1.png" alt="" style={{ width: "24px", height: "24px", marginRight: "8px" }} />
+                          <div className="col-md-8">
+                            <div className="content-wrapper">
+                              {AllQues?.map((qd: any) => (
+                                <>
+                                  {qd.blockId == d.id && (
+                                    <div className="box-prompt">
+                                      <div className="title-wrap">
+                                        <h5>Complete</h5>
+                                        <h3
+                                          onClick={(e) => {
+                                            setdata({
+                                              ...data,
+                                              ["question_id"]: qd.id,
+                                            });
+                                            settextareaShow(true);
+                                            setactiveQuestion(qd.id);
+                                          }}
+                                          style={{ cursor: "pointer" }}
+                                        >
+                                          {qd.question}{" "}
+                                        </h3>
+                                      </div>
+                                      <form>
+                                        <div
+                                          className="form-group"
+                                          style={{ backgroundColor: "#fff" }}
+                                        >
+                                          {activeQuestion == qd.id && (
+                                            <div className="textarea-container">
+                                              {AiResponse.map((ai_d: any) => (
+                                                <div
+                                                  className="container"
+                                                  style={{ paddingTop: "10px" }}
+                                                >
+                                                  {ai_d.question_id ==
+                                                    qd.id && (
+                                                    <>
                                                       <div
-                                                      dangerouslySetInnerHTML={{
-                                                        __html: ai_d.aiReply,
-                                                      }}
-                                                      />
-                                                      {(ai_d.saved || ai_d.saved == false) && (
-                                                      <button
-                                                        type="button"
-                                                        disabled={submit}
-                                                        onClick={(e) =>
-                                                        onSubmitAnswer(ai_d)
-                                                        }
-                                                        style={{ marginLeft: "auto", backgroundColor: "#007bff", color: "#fff", border: "none", borderRadius: "4px", padding: "5px 10px", cursor: "pointer" }}
+                                                        style={{
+                                                          fontSize: "12px",
+                                                          display: "flex",
+                                                          alignItems: "center",
+                                                          backgroundColor:
+                                                            "#f1f1f1",
+                                                          padding: "10px",
+                                                          borderRadius: "8px",
+                                                          marginBottom: "8px",
+                                                        }}
                                                       >
-                                                        <i
-                                                        className="fa fa-save"
-                                                        aria-hidden="true"
-                                                        />{" "}
-                                                        Save
-                                                      </button>
-                                                      )}
-                                                    </div>
-                                                    <hr />
-                                                  </>
-                                                )}
-                                              </div>
-                                            ))}
-                                            {activeQuestion == qd.id && (
+                                                        <img
+                                                          src="asset/assets/img/User.png"
+                                                          alt=""
+                                                          style={{
+                                                            width: "24px",
+                                                            height: "24px",
+                                                            marginRight: "8px",
+                                                          }}
+                                                        />
+                                                        {ai_d.yourMessage}
+                                                      </div>
+                                                      <div
+                                                        style={{
+                                                          fontSize: "12px",
+                                                          display: "flex",
+                                                          alignItems: "center",
+                                                          backgroundColor:
+                                                            "#f1f1f1",
+                                                          padding: "10px",
+                                                          borderRadius: "8px",
+                                                          marginBottom: "8px",
+                                                        }}
+                                                      >
+                                                        <img
+                                                          src="asset/assets/img/img1.png"
+                                                          alt=""
+                                                          style={{
+                                                            width: "24px",
+                                                            height: "24px",
+                                                            marginRight: "8px",
+                                                          }}
+                                                        />
+                                                        <div
+                                                          dangerouslySetInnerHTML={{
+                                                            __html:
+                                                              ai_d.aiReply,
+                                                          }}
+                                                        />
+                                                        {(ai_d.saved ||
+                                                          ai_d.saved ==
+                                                            false) && (
+                                                          <button
+                                                            type="button"
+                                                            disabled={submit}
+                                                            onClick={(e) =>
+                                                              onSubmitAnswer(
+                                                                ai_d,
+                                                              )
+                                                            }
+                                                            style={{
+                                                              marginLeft:
+                                                                "auto",
+                                                              backgroundColor:
+                                                                "#007bff",
+                                                              color: "#fff",
+                                                              border: "none",
+                                                              borderRadius:
+                                                                "4px",
+                                                              padding:
+                                                                "5px 10px",
+                                                              cursor: "pointer",
+                                                            }}
+                                                          >
+                                                            <i
+                                                              className="fa fa-save"
+                                                              aria-hidden="true"
+                                                            />{" "}
+                                                            Save
+                                                          </button>
+                                                        )}
+                                                      </div>
+                                                      <hr />
+                                                    </>
+                                                  )}
+                                                </div>
+                                              ))}
+                                              {textareaShow && (
                                               <textarea
                                                 className="form-control"
-                                                rows={3}
-                                                style={{
-                                                  boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
-                                                  border: "1px solid #ccc",
-                                                  borderRadius: "8px",
-                                                  padding: "10px",
-                                                }}
+                                                rows={5}
                                                 onChange={(e) =>
                                                   setdata({
                                                     ...data,
@@ -265,48 +327,48 @@ export default function PhasesForm({
                                                   })
                                                 }
                                                 placeholder="How can I help you?"
-                                                defaultValue={""}
+                                                defaultValue={data?.message}
                                               />
                                             )}
 
-                                            {/* File Upload Icon (Paperclip) */}
-                                            {/* <label
+                                              {/* File Upload Icon (Paperclip) */}
+                                              {/* <label
                                           htmlFor="file-upload"
                                           className="file-upload-icon fas fa-paperclip"
                                         /> */}
-                                            {/* Voice Icon (Microphone) */}
-                                            {/* <i className="voice-icon fas fa-microphone" /> */}
-                                            {/* Hidden File Input */}
-                                            {/* <input
+                                              {/* Voice Icon (Microphone) */}
+                                              {/* <i className="voice-icon fas fa-microphone" /> */}
+                                              {/* Hidden File Input */}
+                                              {/* <input
                                           type="file"
                                           id="file-upload"
                                           className="file-input"
                                         /> */}
-                                            {/* Submit Button */}
+                                              {/* Submit Button */}
 
-                                            {data.message && (
-                                              <button
-                                                type="button"
-                                                disabled={submit}
-                                                onClick={(e) => onSubmit()}
-                                                className="submit-btn"
-                                              >
-                                                <i
-                                                  className="fa fa-paper-plane"
-                                                  aria-hidden="true"
-                                                />{" "}
-                                                Submit {submit && "..."}
-                                              </button>
-                                            )}
-                                          </div>
-                                        )}
-                                      </div>
-                                    </form>
-                                  </div>
-                                )}
-                              </>
-                            ))}
-                            {/* <div className="title-wrap red-dot">
+                                              {data?.message && (
+                                                <button
+                                                  type="button"
+                                                  disabled={submit}
+                                                  onClick={(e) => onSubmit()}
+                                                  className="submit-btn"
+                                                >
+                                                  <i
+                                                    className="fa fa-paper-plane"
+                                                    aria-hidden="true"
+                                                  />{" "}
+                                                  Submit {submit && "..."}
+                                                </button>
+                                              )}
+                                            </div>
+                                          )}
+                                        </div>
+                                      </form>
+                                    </div>
+                                  )}
+                                </>
+                              ))}
+                              {/* <div className="title-wrap red-dot">
                           <h5>Anwaring</h5>
                           <h3>
                             Who is mostly affected/impacted by the problem?{" "}
@@ -318,23 +380,23 @@ export default function PhasesForm({
                             Who owns the problem you are trying to solve?{" "}
                           </h3>
                         </div> */}
+                            </div>
                           </div>
-                        </div>
 
-                        <div className="row">
-                          <div className="col-md-12 modal-wrap">
-                            <button
-                              type="button"
-                              onClick={(e: any) => getBlockOutput(d.id)}
-                              className="btn btn-primary"
-                              data-bs-toggle="modal"
-                              data-bs-target="#exampleModal"
-                            >
-                              See Output
-                            </button>
+                          <div className="row">
+                            <div className="col-md-12 modal-wrap">
+                              <button
+                                type="button"
+                                onClick={(e: any) => getBlockOutput(d.id)}
+                                className="btn btn-primary"
+                                data-bs-toggle="modal"
+                                data-bs-target="#exampleModal"
+                              >
+                                See Output
+                              </button>
+                            </div>
                           </div>
                         </div>
-                      </div>
                       </>
                     )}
                   </>
@@ -385,7 +447,7 @@ export default function PhasesForm({
                                 {output.map((out_data: any) => (
                                   <div
                                     className="card-header"
-                                    style={{textAlign:"left"}}
+                                    style={{ textAlign: "left" }}
                                     id="headingOne"
                                     onClick={(e) => setoutPutQues(out_data)}
                                   >
@@ -413,7 +475,7 @@ export default function PhasesForm({
                                           <AccordionDetails>
                                             <div
                                               className="card-body"
-                                              style={{textAlign:"left"}}
+                                              style={{ textAlign: "left" }}
                                               dangerouslySetInnerHTML={{
                                                 __html: d?.aiReply,
                                               }}
@@ -421,7 +483,7 @@ export default function PhasesForm({
                                           </AccordionDetails>
                                         </Accordion>
                                       ) : (
-                                        <Accordion >
+                                        <Accordion>
                                           <AccordionSummary
                                             expandIcon={<ExpandMoreIcon />}
                                             aria-controls="panel2-content"
@@ -444,60 +506,8 @@ export default function PhasesForm({
                                     </>
                                   ))}
                                 </div>
-
-                                {/* <div id="accordion">
-                                  {outPutQues.map((d: any, k:number) => (
-                                    <div className="card">
-                                      <div
-                                        className="card-header"
-                                        id="headingOne"
-                                      >
-                                        <h5 className="mb-0">
-                                          <button
-                                            className="btn btn-link"
-                                            data-toggle="collapse"
-                                            data-target={"#collapseOne"+ k}
-                                            aria-expanded="true"
-                                            aria-controls={"collapseOne"+ k}
-                                          >
-                                            {d.question}
-                                          </button>
-                                        </h5>
-                                      </div>
-                                      <div
-                                        id={"collapseOne"+ k}
-                                        className="collapse"
-                                        aria-labelledby="headingOne"
-                                        data-parent="#accordion"
-                                      >
-                                        <div
-                                          className="card-body"
-                                          dangerouslySetInnerHTML={{
-                                            __html: d?.aiReply,
-                                          }}
-                                        ></div>
-                                      </div>
-                                    </div>
-                                  ))}
-                                </div> */}
                               </div>
                             </div>
-                            {/* {output.map((output_data) => (
-                              <>
-                                <h3>{output_data?.question}</h3>
-
-                                <div
-                                  dangerouslySetInnerHTML={{
-                                    __html: output_data?.aiReply,
-                                  }}
-                                />
-                              </>
-                            ))} */}
-                            {/* <Table
-                              rows={output || []}
-                              column={column}
-                              getheaderColor={() => {}}
-                            /> */}
                           </div>
                         </div>
                         <div className="modal-footer">
