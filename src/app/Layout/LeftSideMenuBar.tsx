@@ -148,6 +148,7 @@ import PhasesForm from "@/pages/Form/PhasesForm";
 function LeftSideMenuBar() {
   const [activephase, setactivephase] = useState(0);
   const [activeBlock, setactiveBlock] = useState(0);
+  const [activeQuestion, setactiveQuestion] = useState(0);
   const [nextPhase, setnextPhase] = useState(0);
   const [phases, setphases] = useState([]);
   const [blocks, setblocks] = useState([]);
@@ -160,17 +161,40 @@ function LeftSideMenuBar() {
     const fetchData = async () => {
       try {
         const response = await axiosInstance.get("/phases"); // Example endpoint
-        setphases(response.data);
 
         if (response.data.length) {
+          setphases(response.data);
+          console.log(`response.data[0].id`, response.data);
           setactivephase(response.data[0].id);
           setnextPhase(response.data[1].id);
 
           const res_block = await axiosInstance.get("/blocks"); // Example endpoint
-          setallblocks(res_block.data);
+          let blockId = 0;
+          if (res_block.data.length) {
+            setallblocks(res_block.data);
+
+            const result = res_block.data.filter(
+              (d: any) => d.phaseId == response.data[0].id,
+            );
+            setblocks(result);
+            if (result.length) {
+              blockId = result[0].id
+              setactiveBlock(blockId);
+            }
+          }
 
           const res_ques = await axiosInstance.get("/question"); // Example endpoint
           setAllQues(res_ques.data);
+
+          if (res_ques.data) {
+            const resQues = AllQues.filter(
+              (d: any) => d.blockId == blockId,
+            );
+            if (resQues.length) {
+              setQues(resQues);
+              setactiveQuestion(resQues[0].id);
+            }
+          }
         }
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -185,6 +209,7 @@ function LeftSideMenuBar() {
     const fetchBlockByPhase = async (id: any) => {
       try {
         const result = Allblocks.filter((d: any) => d.phaseId == id);
+        console.log(`result`, Allblocks, id, result);
         setblocks(result);
         if (result.length) {
           setactiveBlock(result[0].id);
@@ -201,10 +226,11 @@ function LeftSideMenuBar() {
   useEffect(() => {
     const fetchQuestionByBlock = async (id: any) => {
       try {
+        setQues([]);
         const result = AllQues.filter((d: any) => d.blockId == id);
-        setblocks(result);
         if (result.length) {
-          setQues(result[0].id);
+          setQues(result);
+          setactiveQuestion(result[0].id);
         }
       } catch (err) {
         console.error("Error fetching users:", err);
@@ -912,6 +938,11 @@ function LeftSideMenuBar() {
                   activeBlock={activeBlock}
                   nextPhase={nextPhase}
                   phases={phases}
+                  AllQues={AllQues}
+                  activeQuestion={activeQuestion}
+                  setactiveQuestion={setactiveQuestion}
+                  Allblocks={Allblocks}
+                  setactivephase={setactivephase}
                 />
               </div>
             </div>
