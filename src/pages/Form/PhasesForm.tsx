@@ -107,6 +107,31 @@ export default function PhasesForm({
     setsubmit(false);
   };
 
+  const getPhaseOutput = async () => {
+    seterror("");
+    setsubmit(true);
+    try {
+      const user_details = getUserDetails();
+
+      const page_list = `${API_URL}/user-ai-chat/userId/${user_details?.id}/phaseId/${activephase}`;
+      const method = "get";
+
+      const options = {
+        method,
+        headers: {
+          "content-type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      };
+
+      const { data } = await submitFormData(page_list, options);
+      setoutput(data);
+    } catch (error) {
+      seterror("Something Went Wrong");
+    }
+    setsubmit(false);
+  };
+
   const column = [
     {
       name: "Question",
@@ -303,11 +328,12 @@ export default function PhasesForm({
                   </button>
                   <button
                     type="button"
+                    onClick={()=>getPhaseOutput()}
                     className="btn btn-primary"
                     data-bs-toggle="modal"
                     data-bs-target="#exampleModal"
                   >
-                    Next Phase
+                    See Phase Output
                   </button>
                   {/* Modal Structure */}
                   <div
