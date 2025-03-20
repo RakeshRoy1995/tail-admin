@@ -169,13 +169,14 @@ export default function PhasesForm({
           <div className="row mapping-wrap-row">
             <div className="text-danger text-center">{error}</div>
             <div className="col-md-9 mapping-wrapper">
-              <div className="row left-block">
+              <div className="row ">
                 <h1>{phaseName}</h1>
 
                 {Allblocks.map((d: any) => (
                   <>
                     {d.phaseId == activephase && (
                       <>
+                      <div className="row left-block">
                         <div
                           className="col-md-4"
                           onClick={(e) => setactiveBlock(d.id)}
@@ -207,42 +208,41 @@ export default function PhasesForm({
                                       </h3>
                                     </div>
                                     <form>
-                                      <div className="form-group">
+                                      <div className="form-group"  style={{ backgroundColor: "#fff" }}>
                                         {activeQuestion == qd.id && (
                                           <div className="textarea-container">
                                             {AiResponse.map((ai_d: any) => (
-                                              <div className="container">
+                                              <div className="container" style={{ paddingTop: "10px" }}>
                                                 {ai_d.question_id == qd.id && (
                                                   <>
-                                                    <li>
-                                                      You : {ai_d.yourMessage}
-                                                    </li>
-                                                    <li>
-                                                      AI :
+                                                    <div style={{ fontSize: "12px", display: "flex", alignItems: "center", backgroundColor: "#f1f1f1", padding: "10px", borderRadius: "8px", marginBottom: "8px" }}>
+                                                    <img src="asset/assets/img/User.png" alt="" style={{ width: "24px", height: "24px", marginRight: "8px" }} />
+                                                    {ai_d.yourMessage}
+                                                    </div>
+                                                    <div style={{ fontSize: "12px", display: "flex", alignItems: "center", backgroundColor: "#f1f1f1", padding: "10px", borderRadius: "8px", marginBottom: "8px" }}>
+                                                      <img src="asset/assets/img/img1.png" alt="" style={{ width: "24px", height: "24px", marginRight: "8px" }} />
                                                       <div
-                                                        dangerouslySetInnerHTML={{
-                                                          __html: ai_d.aiReply,
-                                                        }}
+                                                      dangerouslySetInnerHTML={{
+                                                        __html: ai_d.aiReply,
+                                                      }}
                                                       />
-                                                      {(ai_d.saved ||
-                                                        ai_d.saved ==
-                                                          false) && (
-                                                        <button
-                                                          type="button"
-                                                          disabled={submit}
-                                                          onClick={(e) =>
-                                                            onSubmitAnswer(ai_d)
-                                                          }
-                                                          // className="submit-btn"
-                                                        >
-                                                          <i
-                                                            className="fa fa-save"
-                                                            aria-hidden="true"
-                                                          />{" "}
-                                                          {/* Save  */}
-                                                        </button>
+                                                      {(ai_d.saved || ai_d.saved == false) && (
+                                                      <button
+                                                        type="button"
+                                                        disabled={submit}
+                                                        onClick={(e) =>
+                                                        onSubmitAnswer(ai_d)
+                                                        }
+                                                        style={{ marginLeft: "auto", backgroundColor: "#007bff", color: "#fff", border: "none", borderRadius: "4px", padding: "5px 10px", cursor: "pointer" }}
+                                                      >
+                                                        <i
+                                                        className="fa fa-save"
+                                                        aria-hidden="true"
+                                                        />{" "}
+                                                        Save
+                                                      </button>
                                                       )}
-                                                    </li>
+                                                    </div>
                                                     <hr />
                                                   </>
                                                 )}
@@ -251,7 +251,13 @@ export default function PhasesForm({
                                             {activeQuestion == qd.id && (
                                               <textarea
                                                 className="form-control"
-                                                rows={5}
+                                                rows={3}
+                                                style={{
+                                                  boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+                                                  border: "1px solid #ccc",
+                                                  borderRadius: "8px",
+                                                  padding: "10px",
+                                                }}
                                                 onChange={(e) =>
                                                   setdata({
                                                     ...data,
@@ -328,6 +334,7 @@ export default function PhasesForm({
                             </button>
                           </div>
                         </div>
+                      </div>
                       </>
                     )}
                   </>
