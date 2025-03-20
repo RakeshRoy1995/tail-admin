@@ -101,7 +101,7 @@ export default function PhasesForm({
 
       const selectedBlock = Allblocks.find((d) => d.id == blockId);
 
-      const txt = "block " + selectedBlock.name;
+      const txt = "Block : " + selectedBlock.name;
       setshowMode(txt);
 
       const page_list = `${API_URL}/user-ai-chat/userId/${user_details?.id}/blockId/${blockId}`;
@@ -130,7 +130,7 @@ export default function PhasesForm({
     try {
       const user_details = getUserDetails();
 
-      setshowMode("Phase :" + phaseName);
+      setshowMode("Phase : " + phaseName);
 
       const page_list = `${API_URL}/user-ai-chat/userId/${user_details?.id}/phaseId/${activephase}`;
       const method = "get";
