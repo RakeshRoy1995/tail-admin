@@ -1,7 +1,14 @@
 import { submitAI, submitFormData } from "@/api/Reqest";
 import useFetch from "@/hooks/useFetch";
 import Table from "@/shared/Table/Table";
-import { getUserDetails } from "@/utils";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { getUserDetails, groupBy } from "@/utils";
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Typography,
+} from "@mui/material";
 import React, { useState } from "react";
 import Swal from "sweetalert2";
 const API_URL = import.meta.env.VITE_REACT_APP_API_URL;
@@ -19,7 +26,7 @@ export default function PhasesForm({
   activeQuestion,
   setactiveQuestion,
   Allblocks,
-  setactivephase
+  setactivephase,
 }: any) {
   const [data, setdata] = useState<any>({});
   const [AiResponse, setAiResponse] = useState<any>([]);
@@ -27,6 +34,14 @@ export default function PhasesForm({
   const [submit, setsubmit] = useState<any>(false);
   const [error, seterror] = useState<any>("");
   const [output, setoutput] = useState<any>([]);
+  const [showMode, setshowMode] = useState<any>("");
+  const [outPutQues, setoutPutQues] = useState<any>([]);
+
+  const [openItem, setOpenItem] = useState(null);
+
+  const toggleItem = (item) => {
+    setOpenItem(openItem === item ? null : item);
+  };
 
   const phaseName = phases.find((d: any) => d.id == activephase)?.name || "";
 
@@ -42,7 +57,7 @@ export default function PhasesForm({
         question_id: data?.question_id,
         yourMessage: data.message,
         aiReply: response.data?.response,
-        saved: false,
+        saved: true,
       };
 
       AiResponse.push(obj);
@@ -83,10 +98,17 @@ export default function PhasesForm({
   };
 
   const getBlockOutput = async (blockId: any) => {
+    setoutput([]);
     seterror("");
     setsubmit(true);
+    setshowMode("block");
     try {
       const user_details = getUserDetails();
+
+      const selectedBlock = Allblocks.find((d) => d.id == blockId);
+
+      const txt = "block " + selectedBlock.name;
+      setshowMode(txt);
 
       const page_list = `${API_URL}/user-ai-chat/userId/${user_details?.id}/blockId/${blockId}`;
       const method = "get";
@@ -100,7 +122,7 @@ export default function PhasesForm({
       };
 
       const { data } = await submitFormData(page_list, options);
-      setoutput(data);
+      setoutput(Object.values(groupBy(data, "blockId")));
     } catch (error) {
       seterror("Something Went Wrong");
     }
@@ -110,8 +132,11 @@ export default function PhasesForm({
   const getPhaseOutput = async () => {
     seterror("");
     setsubmit(true);
+    setoutput([]);
     try {
       const user_details = getUserDetails();
+
+      setshowMode("Phase :" + phaseName);
 
       const page_list = `${API_URL}/user-ai-chat/userId/${user_details?.id}/phaseId/${activephase}`;
       const method = "get";
@@ -125,38 +150,18 @@ export default function PhasesForm({
       };
 
       const { data } = await submitFormData(page_list, options);
-      setoutput(data);
+      const res = data.filter((d: any) => d.phaseId == activephase);
+
+      if (res.length) {
+        setoutput(Object.values(groupBy(res, "blockId")));
+      }
     } catch (error) {
       seterror("Something Went Wrong");
     }
     setsubmit(false);
   };
 
-  const column = [
-    {
-      name: "Question",
-      selector: (row: any) => row.question,
-      sortable: true,
-    },
-    {
-      name: "Your Message",
-      selector: (row: any) => row.yourMessage,
-      sortable: true,
-    },
-    {
-      name: "AI Reply",
-      selector: (row: any) => row.aiReply,
-      sortable: true,
-    },
-
-    {
-      name: "Block",
-      selector: (row: any) => row.block_name,
-      sortable: true,
-    },
-  ];
-
-  console.log(`AiResponse`, AiResponse);
+  console.log(`AiResponse`, output, outPutQues);
   return (
     <>
       <section className="admin-body mapping-body">
@@ -213,8 +218,13 @@ export default function PhasesForm({
                                                       You : {ai_d.yourMessage}
                                                     </li>
                                                     <li>
-                                                      AI : {ai_d.aiReply}{" "}
-                                                      {(!ai_d.saved ||
+                                                      AI :
+                                                      <div
+                                                        dangerouslySetInnerHTML={{
+                                                          __html: ai_d.aiReply,
+                                                        }}
+                                                      />
+                                                      {(ai_d.saved ||
                                                         ai_d.saved ==
                                                           false) && (
                                                         <button
@@ -238,18 +248,21 @@ export default function PhasesForm({
                                                 )}
                                               </div>
                                             ))}
-                                            <textarea
-                                              className="form-control"
-                                              rows={5}
-                                              onChange={(e) =>
-                                                setdata({
-                                                  ...data,
-                                                  ["message"]: e.target.value,
-                                                })
-                                              }
-                                              placeholder="How can I help you?"
-                                              defaultValue={""}
-                                            />
+                                            {activeQuestion == qd.id && (
+                                              <textarea
+                                                className="form-control"
+                                                rows={5}
+                                                onChange={(e) =>
+                                                  setdata({
+                                                    ...data,
+                                                    ["message"]: e.target.value,
+                                                  })
+                                                }
+                                                placeholder="How can I help you?"
+                                                defaultValue={""}
+                                              />
+                                            )}
+
                                             {/* File Upload Icon (Paperclip) */}
                                             {/* <label
                                           htmlFor="file-upload"
@@ -328,7 +341,7 @@ export default function PhasesForm({
                   </button>
                   <button
                     type="button"
-                    onClick={()=>getPhaseOutput()}
+                    onClick={() => getPhaseOutput()}
                     className="btn btn-primary"
                     data-bs-toggle="modal"
                     data-bs-target="#exampleModal"
@@ -343,11 +356,11 @@ export default function PhasesForm({
                     aria-labelledby="exampleModalLabel"
                     aria-hidden="true"
                   >
-                    <div className="modal-dialog">
+                    <div className="modal-dialog modal-lg">
                       <div className="modal-content">
                         <div className="modal-header">
                           <h5 className="modal-title" id="exampleModalLabel">
-                            Modal Title
+                            {showMode}
                           </h5>
                           <button
                             type="button"
@@ -360,11 +373,122 @@ export default function PhasesForm({
                           {submit && "loading..."}
 
                           <div className="bg-white rounded-xl shadow-md p-10 mt-5">
-                            <Table
+                            <div className="row ">
+                              <div className="col-4 card text-left">
+                                {output.map((out_data: any) => (
+                                  <div
+                                    className="card-header"
+                                    id="headingOne"
+                                    onClick={(e) => setoutPutQues(out_data)}
+                                  >
+                                    <h5 className="mb-0">
+                                      {out_data[0].block_name}
+                                    </h5>
+                                  </div>
+                                ))}
+                              </div>
+                              <div className="col-8">
+                                <div>
+                                  {outPutQues.map((d: any, k: number) => (
+                                    <>
+                                      {k == 0 ? (
+                                        <Accordion defaultExpanded>
+                                          <AccordionSummary
+                                            expandIcon={<ExpandMoreIcon />}
+                                            aria-controls="panel2-content"
+                                            id="panel2-header"
+                                          >
+                                            <Typography component="span">
+                                              {d.question}
+                                            </Typography>
+                                          </AccordionSummary>
+                                          <AccordionDetails>
+                                            <div
+                                              className="card-body"
+                                              dangerouslySetInnerHTML={{
+                                                __html: d?.aiReply,
+                                              }}
+                                            ></div>
+                                          </AccordionDetails>
+                                        </Accordion>
+                                      ) : (
+                                        <Accordion >
+                                          <AccordionSummary
+                                            expandIcon={<ExpandMoreIcon />}
+                                            aria-controls="panel2-content"
+                                            id="panel2-header"
+                                          >
+                                            <Typography component="span">
+                                              {d.question}
+                                            </Typography>
+                                          </AccordionSummary>
+                                          <AccordionDetails>
+                                            <div
+                                              className="card-body"
+                                              dangerouslySetInnerHTML={{
+                                                __html: d?.aiReply,
+                                              }}
+                                            ></div>
+                                          </AccordionDetails>
+                                        </Accordion>
+                                      )}
+                                    </>
+                                  ))}
+                                </div>
+
+                                {/* <div id="accordion">
+                                  {outPutQues.map((d: any, k:number) => (
+                                    <div className="card">
+                                      <div
+                                        className="card-header"
+                                        id="headingOne"
+                                      >
+                                        <h5 className="mb-0">
+                                          <button
+                                            className="btn btn-link"
+                                            data-toggle="collapse"
+                                            data-target={"#collapseOne"+ k}
+                                            aria-expanded="true"
+                                            aria-controls={"collapseOne"+ k}
+                                          >
+                                            {d.question}
+                                          </button>
+                                        </h5>
+                                      </div>
+                                      <div
+                                        id={"collapseOne"+ k}
+                                        className="collapse"
+                                        aria-labelledby="headingOne"
+                                        data-parent="#accordion"
+                                      >
+                                        <div
+                                          className="card-body"
+                                          dangerouslySetInnerHTML={{
+                                            __html: d?.aiReply,
+                                          }}
+                                        ></div>
+                                      </div>
+                                    </div>
+                                  ))}
+                                </div> */}
+                              </div>
+                            </div>
+                            {/* {output.map((output_data) => (
+                              <>
+                                <h3>{output_data?.question}</h3>
+
+                                <div
+                                  dangerouslySetInnerHTML={{
+                                    __html: output_data?.aiReply,
+                                  }}
+                                />
+                              </>
+                            ))} */}
+                            {/* <Table
                               rows={output || []}
                               column={column}
                               getheaderColor={() => {}}
-                            />
+                            /> */}
                           </div>
                         </div>
                         <div className="modal-footer">
@@ -406,9 +530,24 @@ export default function PhasesForm({
         <div className="container">
           <div className="row">
             <div className="image-wrap">
-              <img src="asset/assets/img/l-img5.png" style={{cursor:"pointer"}} alt="" onClick={(e)=>setactivephase(1)} />
-              <img src="asset/assets/img/l-img2.png" style={{cursor:"pointer"}} alt="" onClick={(e)=>setactivephase(2)} />
-              <img src="asset/assets/img/l-img4.png" style={{cursor:"pointer"}} alt="" onClick={(e)=>setactivephase(3)} />
+              <img
+                src="asset/assets/img/l-img5.png"
+                style={{ cursor: "pointer" }}
+                alt=""
+                onClick={(e) => setactivephase(1)}
+              />
+              <img
+                src="asset/assets/img/l-img2.png"
+                style={{ cursor: "pointer" }}
+                alt=""
+                onClick={(e) => setactivephase(2)}
+              />
+              <img
+                src="asset/assets/img/l-img4.png"
+                style={{ cursor: "pointer" }}
+                alt=""
+                onClick={(e) => setactivephase(3)}
+              />
               <img src="asset/assets/img/l-img3.png" alt="" />
               <img src="asset/assets/img/l-img5.png" alt="" />
             </div>
@@ -416,6 +555,5 @@ export default function PhasesForm({
         </div>
       </div>
     </>
-
   );
 }
