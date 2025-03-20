@@ -412,6 +412,11 @@ export function get_org_UserGrp() {
   return data?.username;
 }
 
+export function getUserDetails() {
+  const data = JSON.parse(localStorage.getItem("customer_login_auth"));
+  return data;
+}
+
 export function get_all_role() {
   const data = JSON.parse(localStorage.getItem("all_role")) || [];
   return data;

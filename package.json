@@ -3,6 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  
   "scripts": {
     "extract-translations": "npx i18next-parser",
     "watch-translations": "nodemon --watch src --exec 'npx i18next-parser'",
@@ -12,6 +13,8 @@
     "preview": "vite preview",
     "format": "prettier --write ."
   },
+
+  "proxy": "http://149.28.135.157:5000",
   "dependencies": {
     "@amcharts/amcharts5": "^5.10.8",
     "@emotion/react": "^11.13.0",
