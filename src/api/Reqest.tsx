@@ -1,6 +1,7 @@
 import axios from "axios";
 
 const API_URL = import.meta.env.VITE_REACT_APP_API_URL;
+const API_AI = import.meta.env.VITE_REACT_APP_AI;
 
 const authToken = localStorage.getItem("customer_login_auth") || "";
 const token: any = authToken ? JSON.parse(authToken) : "";
@@ -316,4 +317,17 @@ export function getPOlist() {
   return axios(options)
     .then((response) => response.data)
     .catch((error) => console.error("Error fetching division data:", error));
+}
+
+export function submitAI(message:any) {
+  const api = `http://149.28.135.157:5000/api`; // Replace API_URL with your base URL
+
+  const options = {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    data : {message},
+    url: api,
+  };
+
+  return axios(options);
 }

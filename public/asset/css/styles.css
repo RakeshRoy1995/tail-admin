@@ -428,6 +428,8 @@ footer .row {
     background: #F0F2FB;
     margin-left: 0;
     margin-right: 0;
+    margin-bottom: 20px;
+    border-radius: 10px;
 }
 .mapping-body .mapping-wrapper h1 {
     font-size: 28px;
@@ -440,6 +442,7 @@ footer .row {
 
 .mapping-body .content-wrapper {
     padding-left: 45px;
+    padding-top: 25px;
 }
 .mapping-body .title-wrap{position: relative;padding-bottom: 35px;}
 .mapping-body .title-wrap:before {
@@ -453,6 +456,17 @@ footer .row {
     background-size: contain;
     z-index: 1;
 }
+.mapping-body .title-wrap.red-dot:before {
+    content: '';
+    position: absolute;
+    top: 8px;
+    left: -30px;
+    width: 24px;
+    height: 22px;
+    background: url(../assets/img/red-icon.png) no-repeat center center;
+    background-size: contain;
+    z-index: 1;
+}
 .mapping-body .title-wrap:after {
     content: '';
     position: absolute;
@@ -462,17 +476,29 @@ footer .row {
     z-index: 1;
     border-left: 1px dashed #E1E3EA;
 }
+.mapping-body .last-title-wrap::after {
+    display: none;
+}
 .mapping-body .content-wrapper h5{
     font-family: "Inter", sans-serif;
     font-size: 12px;
     font-weight: 600;
     color: #50CD89;
 }
+.mapping-body .content-wrapper .Waiting h5{
+    color: #7239EA;
+}
 .mapping-body .content-wrapper h3{
     color: #4D5586;
     font-family: "Inter", sans-serif;
     font-size: 20px;
     font-weight: 600;
+}
+.mapping-body .left-block .frame-img {
+  padding-top: 35px;
+}
+.mapping-body .left-block .frame-img img {
+    width: 100%;
 }
 
 .mapping-body .textarea-container {
@@ -526,6 +552,23 @@ footer .row {
     left: 65px;
     position: absolute;
     bottom: 5px;
+}
+.left-block h2 {
+    text-align: center;
+    font-size: 22px;
+    font-weight: 500;
+    color: #000000;
+    padding-top: 5rem;
+}
+
+.mapping-body .modal-wrap {
+    text-align: right;
+    padding-bottom: 15px;
+    padding-top: 25px;
+}
+
+.section-three.mapping-three {
+    padding: 50px 0;
 }
 
 @media (max-width:1200px) {
