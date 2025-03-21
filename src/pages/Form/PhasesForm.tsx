@@ -2,7 +2,12 @@ import { submitAI, submitFormData } from "@/api/Reqest";
 import useFetch from "@/hooks/useFetch";
 import Table from "@/shared/Table/Table";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { getUserDetails, groupBy } from "@/utils";
+import {
+  getPreviousQuestion,
+  getUserDetails,
+  groupBy,
+  statusOfQuestion,
+} from "@/utils";
 import {
   Accordion,
   AccordionDetails,
@@ -11,6 +16,7 @@ import {
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
+import AiResponseForm from "./AiResponseForm";
 const API_URL = import.meta.env.VITE_REACT_APP_API_URL;
 const token = localStorage.getItem("token");
 
@@ -59,7 +65,6 @@ export default function PhasesForm({
       setAiResponse(AiResponse);
       localStorage.setItem("ai_question_answer", JSON.stringify(AiResponse));
       setrender(!render);
-      
     } catch (error) {
       seterror("Something Went Wrong");
     }
@@ -89,7 +94,7 @@ export default function PhasesForm({
       });
       settextareaShow(false);
       setdata(null);
-      setactiveQuestion(0)
+      setactiveQuestion(0);
     } catch (error: any) {
       seterror(error?.response?.data?.message || "Something Went Wrong");
     }
@@ -128,16 +133,17 @@ export default function PhasesForm({
     setsubmit(false);
   };
 
-  const getPhaseOutput = async () => {
+  const getPhaseOutput = async (id = null) => {
     seterror("");
     setsubmit(true);
     setoutput([]);
     try {
+      const phaseId = activephase || id;
       const user_details = getUserDetails();
 
       setshowMode("Phase : " + phaseName);
 
-      const page_list = `${API_URL}/user-ai-chat/userId/${user_details?.id}/phaseId/${activephase}`;
+      const page_list = `${API_URL}/user-ai-chat/userId/${user_details?.id}/phaseId/${phaseId}`;
       const method = "get";
 
       const options = {
@@ -161,10 +167,11 @@ export default function PhasesForm({
     setsubmit(false);
   };
 
-  // useEffect(() => {
-  //   console.log(`2`, 2);
-  //   getPhaseOutput();
-  // }, [phases[0]?.id]);
+  useEffect(() => {
+    if (phases[0]?.id) {
+      getPhaseOutput();
+    }
+  }, [phases[0]?.id]);
 
   console.log(`AiResponse`, output, outPutQues);
   return (
@@ -197,22 +204,42 @@ export default function PhasesForm({
                                 <>
                                   {qd.blockId == d.id && (
                                     <div className="box-prompt">
-                                      <div className="title-wrap">
-                                        <h5>Complete</h5>
-                                        <h3
-                                          onClick={(e) => {
-                                            setdata({
-                                              ...data,
-                                              ["question_id"]: qd.id,
-                                            });
-                                            settextareaShow(true);
-                                            setactiveQuestion(qd.id);
-                                          }}
-                                          style={{ cursor: "pointer" }}
-                                        >
-                                          {qd.question}{" "}
-                                        </h3>
-                                      </div>
+                                      {statusOfQuestion(output, qd.id) == 1 ? (
+                                        <div className="title-wrap">
+                                          <h5> complete</h5>
+                                          <h3
+                                            onClick={(e) => {
+                                              setdata({
+                                                ...data,
+                                                ["question_id"]: qd.id,
+                                              });
+                                              settextareaShow(true);
+                                              setactiveQuestion(qd.id);
+                                            }}
+                                            style={{ cursor: "pointer" }}
+                                          >
+                                            {qd.question}{" "}
+                                          </h3>
+                                        </div>
+                                      ) : (
+                                        <div className="title-wrap red-dot Waiting">
+                                          <h5> Waiting for answer </h5>
+                                          <h3
+                                            onClick={(e) => {
+                                              setdata({
+                                                ...data,
+                                                ["question_id"]: qd.id,
+                                              });
+                                              settextareaShow(true);
+                                              setactiveQuestion(qd.id);
+                                            }}
+                                            style={{ cursor: "pointer" }}
+                                          >
+                                            {qd.question}{" "}
+                                          </h3>
+                                        </div>
+                                      )}
+
                                       <form>
                                         <div
                                           className="form-group"
@@ -220,6 +247,31 @@ export default function PhasesForm({
                                         >
                                           {activeQuestion == qd.id && (
                                             <div className="textarea-container">
+                                              {/* Ai repsonse edit mode */}
+                                              <>
+                                                {textareaShow && (
+                                                  <>
+                                                    {getPreviousQuestion(
+                                                      output,
+                                                      qd.id,
+                                                    ) && (
+                                                      <AiResponseForm
+                                                        ai_d={getPreviousQuestion(
+                                                          output,
+                                                          qd.id,
+                                                        )}
+                                                        onSubmitAnswer={
+                                                          onSubmitAnswer
+                                                        }
+                                                        submit={submit}
+                                                        type="edit"
+                                                      />
+                                                    )}
+                                                  </>
+                                                )}
+                                              </>
+
+                                              {/* Ai repsonse after submit */}
                                               {AiResponse.map((ai_d: any) => (
                                                 <div
                                                   className="container"
@@ -228,108 +280,34 @@ export default function PhasesForm({
                                                   {ai_d.question_id ==
                                                     qd.id && (
                                                     <>
-                                                      <div
-                                                        style={{
-                                                          fontSize: "12px",
-                                                          display: "flex",
-                                                          alignItems: "center",
-                                                          backgroundColor:
-                                                            "#f1f1f1",
-                                                          padding: "10px",
-                                                          borderRadius: "8px",
-                                                          marginBottom: "8px",
-                                                        }}
-                                                      >
-                                                        <img
-                                                          src="asset/assets/img/User.png"
-                                                          alt=""
-                                                          style={{
-                                                            width: "24px",
-                                                            height: "24px",
-                                                            marginRight: "8px",
-                                                          }}
-                                                        />
-                                                        {ai_d.yourMessage}
-                                                      </div>
-                                                      <div
-                                                        style={{
-                                                          fontSize: "12px",
-                                                          display: "flex",
-                                                          alignItems: "center",
-                                                          backgroundColor:
-                                                            "#f1f1f1",
-                                                          padding: "10px",
-                                                          borderRadius: "8px",
-                                                          marginBottom: "8px",
-                                                        }}
-                                                      >
-                                                        <img
-                                                          src="asset/assets/img/img1.png"
-                                                          alt=""
-                                                          style={{
-                                                            width: "24px",
-                                                            height: "24px",
-                                                            marginRight: "8px",
-                                                          }}
-                                                        />
-                                                        <div
-                                                          dangerouslySetInnerHTML={{
-                                                            __html:
-                                                              ai_d.aiReply,
-                                                          }}
-                                                        />
-                                                        {(ai_d.saved ||
-                                                          ai_d.saved ==
-                                                            false) && (
-                                                          <button
-                                                            type="button"
-                                                            disabled={submit}
-                                                            onClick={(e) =>
-                                                              onSubmitAnswer(
-                                                                ai_d,
-                                                              )
-                                                            }
-                                                            style={{
-                                                              marginLeft:
-                                                                "auto",
-                                                              backgroundColor:
-                                                                "#007bff",
-                                                              color: "#fff",
-                                                              border: "none",
-                                                              borderRadius:
-                                                                "4px",
-                                                              padding:
-                                                                "5px 10px",
-                                                              cursor: "pointer",
-                                                            }}
-                                                          >
-                                                            <i
-                                                              className="fa fa-save"
-                                                              aria-hidden="true"
-                                                            />{" "}
-                                                            Save
-                                                          </button>
-                                                        )}
-                                                      </div>
-                                                      <hr />
+                                                      <AiResponseForm
+                                                        ai_d={ai_d}
+                                                        onSubmitAnswer={
+                                                          onSubmitAnswer
+                                                        }
+                                                        submit={submit}
+                                                      />
                                                     </>
                                                   )}
                                                 </div>
                                               ))}
                                               {textareaShow && (
-                                              <textarea
-                                                className="form-control"
-                                                rows={5}
-                                                onChange={(e) =>
-                                                  setdata({
-                                                    ...data,
-                                                    ["message"]: e.target.value,
-                                                  })
-                                                }
-                                                placeholder="How can I help you?"
-                                                defaultValue={data?.message}
-                                              />
-                                            )}
+                                                <>
+                                                  <textarea
+                                                    className="form-control"
+                                                    rows={5}
+                                                    onChange={(e) =>
+                                                      setdata({
+                                                        ...data,
+                                                        ["message"]:
+                                                          e.target.value,
+                                                      })
+                                                    }
+                                                    placeholder="How can I help you?"
+                                                    defaultValue={data?.message}
+                                                  />
+                                                </>
+                                              )}
 
                                               {/* File Upload Icon (Paperclip) */}
                                               {/* <label
