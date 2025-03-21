@@ -3,7 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import { Layout } from "@/app/Layout";
 import ChangePassword from "./ChangePassword";
 import ForgotPassword from "@/pages/Login/ForgotPassword";
-import Poreport from "@/pages/Report/Poreport";
+
 import LoanRepaymentForm from "@/LoanRepaymentForm";
 import PhasesForm from "@/pages/Form/PhasesForm";
 import HomeEntryPage from "@/pages/HomeEntryPage/HomeEntryPage";
@@ -64,11 +64,7 @@ const App: FC = () => {
 
               <Route path="/change-password" element={<ChangePassword />} />
 
-              <Route
-                // target-report
-                path="/po-report"
-                element={<Poreport />}
-              />
+             
 
               <Route
                 // target-report
