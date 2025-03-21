@@ -1,9 +1,22 @@
 import { submitAI, submitFormData } from "@/api/Reqest";
 import useFetch from "@/hooks/useFetch";
 import Table from "@/shared/Table/Table";
-import { getUserDetails } from "@/utils";
-import React, { useState } from "react";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import {
+  getPreviousQuestion,
+  getUserDetails,
+  groupBy,
+  statusOfQuestion,
+} from "@/utils";
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Typography,
+} from "@mui/material";
+import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
+import AiResponseForm from "./AiResponseForm";
 const API_URL = import.meta.env.VITE_REACT_APP_API_URL;
 const token = localStorage.getItem("token");
 
@@ -19,7 +32,7 @@ export default function PhasesForm({
   activeQuestion,
   setactiveQuestion,
   Allblocks,
-  setactivephase
+  setactivephase,
 }: any) {
   const [data, setdata] = useState<any>({});
   const [AiResponse, setAiResponse] = useState<any>([]);
@@ -27,6 +40,9 @@ export default function PhasesForm({
   const [submit, setsubmit] = useState<any>(false);
   const [error, seterror] = useState<any>("");
   const [output, setoutput] = useState<any>([]);
+  const [showMode, setshowMode] = useState<any>("");
+  const [outPutQues, setoutPutQues] = useState<any>([]);
+  const [textareaShow, settextareaShow] = useState<any>(false);
 
   const phaseName = phases.find((d: any) => d.id == activephase)?.name || "";
 
@@ -42,7 +58,7 @@ export default function PhasesForm({
         question_id: data?.question_id,
         yourMessage: data.message,
         aiReply: response.data?.response,
-        saved: false,
+        saved: true,
       };
 
       AiResponse.push(obj);
@@ -76,6 +92,9 @@ export default function PhasesForm({
         text: "Success",
         confirmButtonText: "Close",
       });
+      settextareaShow(false);
+      setdata(null);
+      setactiveQuestion(0);
     } catch (error: any) {
       seterror(error?.response?.data?.message || "Something Went Wrong");
     }
@@ -83,10 +102,17 @@ export default function PhasesForm({
   };
 
   const getBlockOutput = async (blockId: any) => {
+    setoutput([]);
     seterror("");
     setsubmit(true);
+    setshowMode("block");
     try {
       const user_details = getUserDetails();
+
+      const selectedBlock = Allblocks.find((d) => d.id == blockId);
+
+      const txt = "Block : " + selectedBlock.name;
+      setshowMode(txt);
 
       const page_list = `${API_URL}/user-ai-chat/userId/${user_details?.id}/blockId/${blockId}`;
       const method = "get";
@@ -100,20 +126,24 @@ export default function PhasesForm({
       };
 
       const { data } = await submitFormData(page_list, options);
-      setoutput(data);
+      setoutput(Object.values(groupBy(data, "blockId")));
     } catch (error) {
       seterror("Something Went Wrong");
     }
     setsubmit(false);
   };
 
-  const getPhaseOutput = async () => {
+  const getPhaseOutput = async (id = null) => {
     seterror("");
     setsubmit(true);
+    setoutput([]);
     try {
+      const phaseId = activephase || id;
       const user_details = getUserDetails();
 
-      const page_list = `${API_URL}/user-ai-chat/userId/${user_details?.id}/phaseId/${activephase}`;
+      setshowMode("Phase : " + phaseName);
+
+      const page_list = `${API_URL}/user-ai-chat/userId/${user_details?.id}/phaseId/${phaseId}`;
       const method = "get";
 
       const options = {
@@ -125,38 +155,25 @@ export default function PhasesForm({
       };
 
       const { data } = await submitFormData(page_list, options);
-      setoutput(data);
+      const res = data.filter((d: any) => d.phaseId == activephase);
+
+      if (res.length) {
+        setoutput(Object.values(groupBy(res, "blockId")));
+      }
+      setrender(!render);
     } catch (error) {
       seterror("Something Went Wrong");
     }
     setsubmit(false);
   };
 
-  const column = [
-    {
-      name: "Question",
-      selector: (row: any) => row.question,
-      sortable: true,
-    },
-    {
-      name: "Your Message",
-      selector: (row: any) => row.yourMessage,
-      sortable: true,
-    },
-    {
-      name: "AI Reply",
-      selector: (row: any) => row.aiReply,
-      sortable: true,
-    },
+  useEffect(() => {
+    if (phases[0]?.id) {
+      getPhaseOutput();
+    }
+  }, [phases[0]?.id]);
 
-    {
-      name: "Block",
-      selector: (row: any) => row.block_name,
-      sortable: true,
-    },
-  ];
-
-  console.log(`AiResponse`, AiResponse);
+  console.log(`AiResponse`, output, outPutQues);
   return (
     <>
       <section className="admin-body mapping-body">
@@ -164,130 +181,172 @@ export default function PhasesForm({
           <div className="row mapping-wrap-row">
             <div className="text-danger text-center">{error}</div>
             <div className="col-md-9 mapping-wrapper">
-              <div className="row left-block">
+              <div className="row ">
                 <h1>{phaseName}</h1>
 
                 {Allblocks.map((d: any) => (
                   <>
                     {d.phaseId == activephase && (
                       <>
-                        <div
-                          className="col-md-4"
-                          onClick={(e) => setactiveBlock(d.id)}
-                        >
-                          <div className="frame-img">
-                            <img src="asset/assets/img/frame.png" alt="" />
+                        <div className="row left-block">
+                          <div
+                            className="col-md-4"
+                            onClick={(e) => setactiveBlock(d.id)}
+                          >
+                            <div className="frame-img">
+                              <img src="asset/assets/img/frame.png" alt="" />
+                            </div>
+                            <h2>{d.name} :</h2>
                           </div>
-                          <h2>{d.name} :</h2>
-                        </div>
-                        <div className="col-md-8">
-                          <div className="content-wrapper">
-                            {AllQues?.map((qd: any) => (
-                              <>
-                                {qd.blockId == d.id && (
-                                  <div className="box-prompt">
-                                    <div className="title-wrap">
-                                      <h5>Complete</h5>
-                                      <h3
-                                        onClick={(e) => {
-                                          setdata({
-                                            ...data,
-                                            ["question_id"]: qd.id,
-                                          });
-                                          setactiveQuestion(qd.id);
-                                        }}
-                                        style={{ cursor: "pointer" }}
-                                      >
-                                        {qd.question}{" "}
-                                      </h3>
-                                    </div>
-                                    <form>
-                                      <div className="form-group">
-                                        {activeQuestion == qd.id && (
-                                          <div className="textarea-container">
-                                            {AiResponse.map((ai_d: any) => (
-                                              <div className="container">
-                                                {ai_d.question_id == qd.id && (
+                          <div className="col-md-8">
+                            <div className="content-wrapper">
+                              {AllQues?.map((qd: any) => (
+                                <>
+                                  {qd.blockId == d.id && (
+                                    <div className="box-prompt">
+                                      {statusOfQuestion(output, qd.id) == 1 ? (
+                                        <div className="title-wrap">
+                                          <h5> complete</h5>
+                                          <h3
+                                            onClick={(e) => {
+                                              setdata({
+                                                ...data,
+                                                ["question_id"]: qd.id,
+                                              });
+                                              settextareaShow(true);
+                                              setactiveQuestion(qd.id);
+                                            }}
+                                            style={{ cursor: "pointer" }}
+                                          >
+                                            {qd.question}{" "}
+                                          </h3>
+                                        </div>
+                                      ) : (
+                                        <div className="title-wrap red-dot Waiting">
+                                          <h5> Waiting for answer </h5>
+                                          <h3
+                                            onClick={(e) => {
+                                              setdata({
+                                                ...data,
+                                                ["question_id"]: qd.id,
+                                              });
+                                              settextareaShow(true);
+                                              setactiveQuestion(qd.id);
+                                            }}
+                                            style={{ cursor: "pointer" }}
+                                          >
+                                            {qd.question}{" "}
+                                          </h3>
+                                        </div>
+                                      )}
+
+                                      <form>
+                                        <div
+                                          className="form-group"
+                                          style={{ backgroundColor: "#fff" }}
+                                        >
+                                          {activeQuestion == qd.id && (
+                                            <div className="textarea-container">
+                                              {/* Ai repsonse edit mode */}
+                                              <>
+                                                {textareaShow && (
                                                   <>
-                                                    <li>
-                                                      You : {ai_d.yourMessage}
-                                                    </li>
-                                                    <li>
-                                                      AI : {ai_d.aiReply}{" "}
-                                                      {(!ai_d.saved ||
-                                                        ai_d.saved ==
-                                                          false) && (
-                                                        <button
-                                                          type="button"
-                                                          disabled={submit}
-                                                          onClick={(e) =>
-                                                            onSubmitAnswer(ai_d)
-                                                          }
-                                                          // className="submit-btn"
-                                                        >
-                                                          <i
-                                                            className="fa fa-save"
-                                                            aria-hidden="true"
-                                                          />{" "}
-                                                          {/* Save  */}
-                                                        </button>
-                                                      )}
-                                                    </li>
-                                                    <hr />
+                                                    {getPreviousQuestion(
+                                                      output,
+                                                      qd.id,
+                                                    ) && (
+                                                      <AiResponseForm
+                                                        ai_d={getPreviousQuestion(
+                                                          output,
+                                                          qd.id,
+                                                        )}
+                                                        onSubmitAnswer={
+                                                          onSubmitAnswer
+                                                        }
+                                                        submit={submit}
+                                                        type="edit"
+                                                      />
+                                                    )}
                                                   </>
                                                 )}
-                                              </div>
-                                            ))}
-                                            <textarea
-                                              className="form-control"
-                                              rows={5}
-                                              onChange={(e) =>
-                                                setdata({
-                                                  ...data,
-                                                  ["message"]: e.target.value,
-                                                })
-                                              }
-                                              placeholder="How can I help you?"
-                                              defaultValue={""}
-                                            />
-                                            {/* File Upload Icon (Paperclip) */}
-                                            {/* <label
+                                              </>
+
+                                              {/* Ai repsonse after submit */}
+                                              {AiResponse.map((ai_d: any) => (
+                                                <div
+                                                  className="container"
+                                                  style={{ paddingTop: "10px" }}
+                                                >
+                                                  {ai_d.question_id ==
+                                                    qd.id && (
+                                                    <>
+                                                      <AiResponseForm
+                                                        ai_d={ai_d}
+                                                        onSubmitAnswer={
+                                                          onSubmitAnswer
+                                                        }
+                                                        submit={submit}
+                                                      />
+                                                    </>
+                                                  )}
+                                                </div>
+                                              ))}
+                                              {textareaShow && (
+                                                <>
+                                                  <textarea
+                                                    className="form-control"
+                                                    rows={5}
+                                                    onChange={(e) =>
+                                                      setdata({
+                                                        ...data,
+                                                        ["message"]:
+                                                          e.target.value,
+                                                      })
+                                                    }
+                                                    placeholder="How can I help you?"
+                                                    defaultValue={data?.message}
+                                                  />
+                                                </>
+                                              )}
+
+                                              {/* File Upload Icon (Paperclip) */}
+                                              {/* <label
                                           htmlFor="file-upload"
                                           className="file-upload-icon fas fa-paperclip"
                                         /> */}
-                                            {/* Voice Icon (Microphone) */}
-                                            {/* <i className="voice-icon fas fa-microphone" /> */}
-                                            {/* Hidden File Input */}
-                                            {/* <input
+                                              {/* Voice Icon (Microphone) */}
+                                              {/* <i className="voice-icon fas fa-microphone" /> */}
+                                              {/* Hidden File Input */}
+                                              {/* <input
                                           type="file"
                                           id="file-upload"
                                           className="file-input"
                                         /> */}
-                                            {/* Submit Button */}
+                                              {/* Submit Button */}
 
-                                            {data.message && (
-                                              <button
-                                                type="button"
-                                                disabled={submit}
-                                                onClick={(e) => onSubmit()}
-                                                className="submit-btn"
-                                              >
-                                                <i
-                                                  className="fa fa-paper-plane"
-                                                  aria-hidden="true"
-                                                />{" "}
-                                                Submit {submit && "..."}
-                                              </button>
-                                            )}
-                                          </div>
-                                        )}
-                                      </div>
-                                    </form>
-                                  </div>
-                                )}
-                              </>
-                            ))}
-                            {/* <div className="title-wrap red-dot">
+                                              {data?.message && (
+                                                <button
+                                                  type="button"
+                                                  disabled={submit}
+                                                  onClick={(e) => onSubmit()}
+                                                  className="submit-btn"
+                                                >
+                                                  <i
+                                                    className="fa fa-paper-plane"
+                                                    aria-hidden="true"
+                                                  />{" "}
+                                                  Submit {submit && "..."}
+                                                </button>
+                                              )}
+                                            </div>
+                                          )}
+                                        </div>
+                                      </form>
+                                    </div>
+                                  )}
+                                </>
+                              ))}
+                              {/* <div className="title-wrap red-dot">
                           <h5>Anwaring</h5>
                           <h3>
                             Who is mostly affected/impacted by the problem?{" "}
@@ -299,20 +358,21 @@ export default function PhasesForm({
                             Who owns the problem you are trying to solve?{" "}
                           </h3>
                         </div> */}
+                            </div>
                           </div>
-                        </div>
 
-                        <div className="row">
-                          <div className="col-md-12 modal-wrap">
-                            <button
-                              type="button"
-                              onClick={(e: any) => getBlockOutput(d.id)}
-                              className="btn btn-primary"
-                              data-bs-toggle="modal"
-                              data-bs-target="#exampleModal"
-                            >
-                              See Output
-                            </button>
+                          <div className="row">
+                            <div className="col-md-12 modal-wrap">
+                              <button
+                                type="button"
+                                onClick={(e: any) => getBlockOutput(d.id)}
+                                className="btn btn-primary"
+                                data-bs-toggle="modal"
+                                data-bs-target="#exampleModal"
+                              >
+                                See Output
+                              </button>
+                            </div>
                           </div>
                         </div>
                       </>
@@ -328,7 +388,7 @@ export default function PhasesForm({
                   </button>
                   <button
                     type="button"
-                    onClick={()=>getPhaseOutput()}
+                    onClick={() => getPhaseOutput()}
                     className="btn btn-primary"
                     data-bs-toggle="modal"
                     data-bs-target="#exampleModal"
@@ -343,11 +403,11 @@ export default function PhasesForm({
                     aria-labelledby="exampleModalLabel"
                     aria-hidden="true"
                   >
-                    <div className="modal-dialog">
+                    <div className="modal-dialog modal-lg">
                       <div className="modal-content">
                         <div className="modal-header">
                           <h5 className="modal-title" id="exampleModalLabel">
-                            Modal Title
+                            {showMode}
                           </h5>
                           <button
                             type="button"
@@ -360,11 +420,72 @@ export default function PhasesForm({
                           {submit && "loading..."}
 
                           <div className="bg-white rounded-xl shadow-md p-10 mt-5">
-                            <Table
-                              rows={output || []}
-                              column={column}
-                              getheaderColor={() => {}}
-                            />
+                            <div className="row ">
+                              <div className="col-4 card text-left">
+                                {output.map((out_data: any) => (
+                                  <div
+                                    className="card-header"
+                                    style={{ textAlign: "left" }}
+                                    id="headingOne"
+                                    onClick={(e) => setoutPutQues(out_data)}
+                                  >
+                                    <h5 className="mb-0">
+                                      {out_data[0].block_name}
+                                    </h5>
+                                  </div>
+                                ))}
+                              </div>
+                              <div className="col-8">
+                                <div>
+                                  {outPutQues.map((d: any, k: number) => (
+                                    <>
+                                      {k == 0 ? (
+                                        <Accordion defaultExpanded>
+                                          <AccordionSummary
+                                            expandIcon={<ExpandMoreIcon />}
+                                            aria-controls="panel2-content"
+                                            id="panel2-header"
+                                          >
+                                            <Typography component="span">
+                                              {d.question}
+                                            </Typography>
+                                          </AccordionSummary>
+                                          <AccordionDetails>
+                                            <div
+                                              className="card-body"
+                                              style={{ textAlign: "left" }}
+                                              dangerouslySetInnerHTML={{
+                                                __html: d?.aiReply,
+                                              }}
+                                            ></div>
+                                          </AccordionDetails>
+                                        </Accordion>
+                                      ) : (
+                                        <Accordion>
+                                          <AccordionSummary
+                                            expandIcon={<ExpandMoreIcon />}
+                                            aria-controls="panel2-content"
+                                            id="panel2-header"
+                                          >
+                                            <Typography component="span">
+                                              {d.question}
+                                            </Typography>
+                                          </AccordionSummary>
+                                          <AccordionDetails>
+                                            <div
+                                              className="card-body"
+                                              dangerouslySetInnerHTML={{
+                                                __html: d?.aiReply,
+                                              }}
+                                            ></div>
+                                          </AccordionDetails>
+                                        </Accordion>
+                                      )}
+                                    </>
+                                  ))}
+                                </div>
+                              </div>
+                            </div>
                           </div>
                         </div>
                         <div className="modal-footer">
@@ -406,9 +527,24 @@ export default function PhasesForm({
         <div className="container">
           <div className="row">
             <div className="image-wrap">
-              <img src="asset/assets/img/l-img5.png" style={{cursor:"pointer"}} alt="" onClick={(e)=>setactivephase(1)} />
-              <img src="asset/assets/img/l-img2.png" style={{cursor:"pointer"}} alt="" onClick={(e)=>setactivephase(2)} />
-              <img src="asset/assets/img/l-img4.png" style={{cursor:"pointer"}} alt="" onClick={(e)=>setactivephase(3)} />
+              <img
+                src="asset/assets/img/l-img5.png"
+                style={{ cursor: "pointer" }}
+                alt=""
+                onClick={(e) => setactivephase(1)}
+              />
+              <img
+                src="asset/assets/img/l-img2.png"
+                style={{ cursor: "pointer" }}
+                alt=""
+                onClick={(e) => setactivephase(2)}
+              />
+              <img
+                src="asset/assets/img/l-img4.png"
+                style={{ cursor: "pointer" }}
+                alt=""
+                onClick={(e) => setactivephase(3)}
+              />
               <img src="asset/assets/img/l-img3.png" alt="" />
               <img src="asset/assets/img/l-img5.png" alt="" />
             </div>
@@ -416,6 +552,5 @@ export default function PhasesForm({
         </div>
       </div>
     </>
-
   );
 }

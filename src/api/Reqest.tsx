@@ -320,7 +320,7 @@ export function getPOlist() {
 }
 
 export function submitAI(message:any) {
-  const api = `http://149.28.135.157:5000/api`; // Replace API_URL with your base URL
+  const api = `https://tial-chat.rpu.solutions/api`; // Replace API_URL with your base URL
 
   const options = {
     method: "POST",

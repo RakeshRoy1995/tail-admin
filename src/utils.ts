@@ -76,7 +76,7 @@ export function formatDate_Submit_2(dateString: any) {
       .split("/")
       .map((num: any) => num.padStart(2, "0"));
     // Pass it to the Date constructor in the correct order
-    const date = new Date(`${month }-${day}-${year }`);
+    const date = new Date(`${month}-${day}-${year}`);
     return date;
   } catch (error) {
     if (
@@ -84,7 +84,6 @@ export function formatDate_Submit_2(dateString: any) {
       dateString &&
       !dateString.includes("/")
     ) {
-
       console.log(`dateStringdateString`, dateString);
       return formatDate_(formatDate_3(new Date(dateString)));
     } else {
@@ -583,18 +582,38 @@ export const modelCss = {
   p: 4,
 };
 
-const mobileNumnerValidate = (data:any) => {
-  return  data.length == 11
-}
+const mobileNumnerValidate = (data: any) => {
+  return data.length == 11;
+};
 
-export const PO_Branch_id = () => {
+export const statusOfQuestion = (output: any, question_id: number) => {
+  for (let index = 0; index < output.length; index++) {
+    const element = output[index];
 
-  const authToken = localStorage.getItem("customer_login_auth") || "";
-  const data: any = authToken ? JSON.parse(authToken) : "";
-
-  return {
-    partnerOrganizationId : data?.user?.partnerOrganizationId,
-    branchId : data?.user?.branchId,
+    for (let index = 0; index < element.length; index++) {
+      const el = element[index];
+      if (el.question_id == question_id) {
+        return 1;
+      }
+    }
   }
 
-}
+  return 2;
+};
+
+
+
+export const getPreviousQuestion = (output: any, question_id: number) => {
+  for (let index = 0; index < output.length; index++) {
+    const element = output[index];
+
+    for (let index = 0; index < element.length; index++) {
+      const el = element[index];
+      if (el.question_id == question_id) {
+        return el;
+      }
+    }
+  }
+
+  return null;
+};

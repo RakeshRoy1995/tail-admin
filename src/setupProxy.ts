@@ -4,7 +4,7 @@ module.exports = function(app) {
   app.use(
     '/api',
     createProxyMiddleware({
-      target: 'http://149.28.135.157:5000',
+      target: 'https://tial-chat.rpu.solutions',
       changeOrigin: true,
     })
   );

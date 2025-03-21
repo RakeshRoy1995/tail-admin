@@ -14,7 +14,7 @@
     "format": "prettier --write ."
   },
 
-  "proxy": "http://149.28.135.157:5000",
+  "proxy": "https://tial-chat.rpu.solutions",
   "dependencies": {
     "@amcharts/amcharts5": "^5.10.8",
     "@emotion/react": "^11.13.0",
