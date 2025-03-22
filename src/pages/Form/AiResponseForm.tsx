@@ -8,7 +8,7 @@ export default function AiResponseForm({
 }: any) {
   return (
     <div className="container" style={{ paddingTop: "10px" }}>
-      {!type && (
+      {type == "add" && (
         <div
           style={{
             fontSize: "12px",
@@ -58,7 +58,7 @@ export default function AiResponseForm({
           }}
         />
 
-        {(ai_d.saved || ai_d.saved == false) && !type && (
+        {type == "add"  && (
           <button
             type="button"
             disabled={submit}

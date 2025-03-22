@@ -58,7 +58,8 @@ export default function PhasesForm({
         question_id: data?.question_id,
         yourMessage: data.message,
         aiReply: response.data?.response,
-        saved: true,
+        conversetion_id: 'test',
+        status: 1,
       };
 
       AiResponse.push(obj);
@@ -77,9 +78,11 @@ export default function PhasesForm({
       const page_list = `${API_URL}/user-ai-chat`;
       const method = "POST";
 
+      delete data['yourMessage']
+
       const options = {
         method,
-        data,
+        data:data,
         headers: {
           "content-type": "application/json",
           Authorization: `Bearer ${token}`,
@@ -95,6 +98,7 @@ export default function PhasesForm({
       settextareaShow(false);
       setdata(null);
       setactiveQuestion(0);
+      // getPhaseOutput();
     } catch (error: any) {
       seterror(error?.response?.data?.message || "Something Went Wrong");
     }
@@ -103,6 +107,7 @@ export default function PhasesForm({
 
   const getBlockOutput = async (blockId: any) => {
     setoutput([]);
+    setoutPutQues([])
     seterror("");
     setsubmit(true);
     setshowMode("block");
@@ -115,7 +120,7 @@ export default function PhasesForm({
       setshowMode(txt);
 
       const page_list = `${API_URL}/user-ai-chat/userId/${user_details?.id}/blockId/${blockId}`;
-      const method = "get";
+      const method = "put";
 
       const options = {
         method,
@@ -137,14 +142,17 @@ export default function PhasesForm({
     seterror("");
     setsubmit(true);
     setoutput([]);
+    setoutPutQues([]);
     try {
       const phaseId = activephase || id;
       const user_details = getUserDetails();
 
       setshowMode("Phase : " + phaseName);
 
-      const page_list = `${API_URL}/user-ai-chat/userId/${user_details?.id}/phaseId/${phaseId}`;
-      const method = "get";
+      // const page_list = `${API_URL}/user-ai-chat/userId/${user_details?.id}/blockId/null?phaseId=${phaseId}`;
+
+      const page_list = `${API_URL}/user-ai-chat/userId-phaseId/${user_details?.id}/${phaseId}`;
+      const method = "post";
 
       const options = {
         method,
@@ -162,7 +170,7 @@ export default function PhasesForm({
       }
       setrender(!render);
     } catch (error) {
-      seterror("Something Went Wrong");
+      // seterror("Something Went Wrong");
     }
     setsubmit(false);
   };
@@ -286,6 +294,7 @@ export default function PhasesForm({
                                                           onSubmitAnswer
                                                         }
                                                         submit={submit}
+                                                        type="add"
                                                       />
                                                     </>
                                                   )}
