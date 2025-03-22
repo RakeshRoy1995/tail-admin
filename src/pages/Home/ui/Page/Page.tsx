@@ -138,7 +138,7 @@ const Home: FC = () => {
   }, []);
   return (
     <>
-     <Dashboard/>
+     
     </>
   );
 };
