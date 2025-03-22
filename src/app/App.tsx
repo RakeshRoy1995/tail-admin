@@ -7,6 +7,9 @@ import ForgotPassword from "@/pages/Login/ForgotPassword";
 import LoanRepaymentForm from "@/LoanRepaymentForm";
 import PhasesForm from "@/pages/Form/PhasesForm";
 import HomeEntryPage from "@/pages/HomeEntryPage/HomeEntryPage";
+import PhaseOverView from "@/pages/PhaseOverView/PhaseOverView";
+import PhaseOutput from "@/pages/PhaseOutput/PhaseOutput";
+import BlockOutput from "@/pages/BlockOutput/BlockOutput";
 const Home = React.lazy(() => import("@/pages/Home/index"));
 const PrivateRoute = React.lazy(() => import("./PrivateRoute"));
 const Login = React.lazy(() => import("@/pages/Login/Login"));
@@ -46,6 +49,9 @@ const App: FC = () => {
           <Route path="/" element={<HomeEntryPage />}></Route>
 
           <Route path="/" element={<PrivateRoute />}>
+            <Route path="/phase-overview" element={<PhaseOverView />} />
+            <Route path="/phase-output" element={<PhaseOutput />} />
+            <Route path="/block-output" element={<BlockOutput />} />
             <Route path="/" element={<Layout />}>
               {/* <Route path="/" element={<Home />} /> */}
               <Route path="/admin" element={<Home />} />
@@ -56,6 +62,7 @@ const App: FC = () => {
               <Route path="/dashboard/role" element={<Role />} />
               <Route path="/dashboard/employee" element={<Employee />} />
               <Route path="/dashboard/user" element={<User />} />
+
               <Route
                 path="/dashboard/role-permission"
                 element={<RolePermissionManagement />}
@@ -63,8 +70,6 @@ const App: FC = () => {
               <Route path="/dashboard/menu" element={<MenuPage />} />
 
               <Route path="/change-password" element={<ChangePassword />} />
-
-             
 
               <Route
                 // target-report

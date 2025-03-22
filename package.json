@@ -3,7 +3,6 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  
   "scripts": {
     "extract-translations": "npx i18next-parser",
     "watch-translations": "nodemon --watch src --exec 'npx i18next-parser'",
@@ -13,7 +12,6 @@
     "preview": "vite preview",
     "format": "prettier --write ."
   },
-
   "proxy": "https://tial-chat.rpu.solutions",
   "dependencies": {
     "@amcharts/amcharts5": "^5.10.8",
@@ -44,6 +42,7 @@
     "react-big-calendar": "^1.16.3",
     "react-calendar": "^5.1.0",
     "react-chartjs-2": "^5.2.0",
+    "react-color": "^2.19.3",
     "react-data-table-component": "^7.6.2",
     "react-datepicker": "^7.3.0",
     "react-dom": "^18.3.1",
