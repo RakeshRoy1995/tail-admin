@@ -5,6 +5,7 @@ import { permission_for_custom_route } from "@/utils";
 import Breadcrumb from "@/shared/Breadcumb/Breadcrumb";
 import axiosInstance from "@/api/axios";
 import PhasesForm from "@/pages/Form/PhasesForm";
+import { motion } from "framer-motion";
 
 const current_role = JSON.parse(localStorage.getItem("current_role"));
 function LeftSideMenuBar() {
@@ -17,6 +18,15 @@ function LeftSideMenuBar() {
   const [Allblocks, setallblocks] = useState([]);
   const [AllQues, setAllQues] = useState([]);
   const [Ques, setQues] = useState([]);
+
+  const parentAnimation = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5, staggerChildren: 0.1 } },
+  };
+
+  const childHoverAnimation = {
+    whileHover: { scale: 1.1, transition: { duration: 0.3 } },
+  };
 
   // get phases
   useEffect(() => {
@@ -286,7 +296,7 @@ function LeftSideMenuBar() {
                       month: "short",
                       day: "2-digit",
                       year: "numeric",
-                      })}
+                    })}
                   />
                   <div className="row tab-panel-body">
                     <div className="col-lg-3 col-md-3">
@@ -396,111 +406,129 @@ function LeftSideMenuBar() {
                           </ul>
                         </div>
                       </div>
-                    </div>
-                    <div className="col-lg-9 col-md-9 right-panel-wrap">
-                      <div className="row ">
-                        <div className="col-md-3 col-sm-3 col-6">
+                      </div>
+                      
+
+                      <motion.div
+                        className="col-lg-9 col-md-9 right-panel-wrap"
+                        variants={parentAnimation}
+                        initial="hidden"
+                        animate="visible"
+                      >
+                        <div className="row ">
+                          
+                        <motion.div className="col-md-3 col-sm-3 col-6" {...childHoverAnimation}>
                           <div className="icon-box">
                             <a href="#">
                               <img src="asset/assets/img/img1.png" alt="" />
                               <p>Knowledge Base</p>
                             </a>
                           </div>
-                        </div>
-                        <div className="col-md-3 col-sm-3 col-6">
+                          </motion.div>
+                          
+                        <motion.div className="col-md-3 col-sm-3 col-6" {...childHoverAnimation}>
                           <div className="icon-box">
                             <a href="#">
                               <img src="asset/assets/img/img2.png" alt="" />
                               <p>CASE LIBRARY</p>
                             </a>
                           </div>
-                        </div>
-                        <div className="col-md-3 col-sm-3 col-6">
+                        </motion.div>
+
+                        <motion.div className="col-md-3 col-sm-3 col-6" {...childHoverAnimation}>
                           <div className="icon-box">
-                            <a href="#">
+                            <Link to="/phase-overview">
                               <img src="asset/assets/img/img3.png" alt="" />
                               <p>PHASE OVERVIEW</p>
-                            </a>
+                            </Link>
                           </div>
-                        </div>
-                        <div className="col-md-3 col-sm-3 col-6">
+                          </motion.div>
+                          
+                        <motion.div className="col-md-3 col-sm-3 col-6" {...childHoverAnimation}>
                           <div className="icon-box">
                             <a href="#">
                               <img src="asset/assets/img/img4.png" alt="" />
                               <p>PROMPT LIBRARY</p>
                             </a>
                           </div>
-                        </div>
+                          </motion.div>
+                          
                       </div>
                       <div className="row ">
-                        <div className="col-md-3 col-sm-3 col-6">
+                        <motion.div className="col-md-3 col-sm-3 col-6" {...childHoverAnimation}>
                           <div className="icon-box">
-                            <a href="#">
+                            <Link to="/phase-output">
                               <img src="asset/assets/img/img5.png" alt="" />
                               <p>PHASE OUTPUTS</p>
-                            </a>
+                            </Link>
                           </div>
-                        </div>
-                        <div className="col-md-3 col-sm-3 col-6">
+                        </motion.div>
+                        <motion.div className="col-md-3 col-sm-3 col-6" {...childHoverAnimation}>
                           <div className="icon-box">
-                            <a href="#">
-                              <img src="asset/assets/img/img6.png" alt="" />
-                              <p>BLOCK OUTPUTS</p>
-                            </a>
+                              <Link to="/block-output">
+                                <img src="asset/assets/img/img6.png" alt="" />
+                                <p>BLOCK OUTPUTS</p>
+                              </Link>
+                       
                           </div>
-                        </div>
-                        <div className="col-md-3 col-sm-3 col-6">
+                          </motion.div>
+                          
+                        <motion.div className="col-md-3 col-sm-3 col-6" {...childHoverAnimation}>
                           <div className="icon-box">
                             <a href="#">
                               <img src="asset/assets/img/img7.png" alt="" />
                               <p>TASK PROGRESS</p>
                             </a>
                           </div>
-                        </div>
-                        <div className="col-md-3 col-sm-3 col-6">
+                          </motion.div>
+                          
+                        <motion.div className="col-md-3 col-sm-3 col-6" {...childHoverAnimation}>
                           <div className="icon-box">
                             <a href="#">
                               <img src="asset/assets/img/img8.png" alt="" />
                               <p>AI MODEL MGMT</p>
                             </a>
                           </div>
-                        </div>
+                          </motion.div>
+                          
                       </div>
                       <div className="row ">
-                        <div className="col-md-3 col-sm-3 col-6">
+                        <motion.div className="col-md-3 col-sm-3 col-6" {...childHoverAnimation}>
                           <div className="icon-box">
                             <a href="#">
                               <img src="asset/assets/img/img9.png" alt="" />
                               <p>DISCONNECT PHASE / BLOCKS</p>
                             </a>
                           </div>
-                        </div>
-                        <div className="col-md-3 col-sm-3 col-6">
+                        </motion.div>
+                        <motion.div className="col-md-3 col-sm-3 col-6" {...childHoverAnimation}>
                           <div className="icon-box">
                             <a href="#">
                               <img src="asset/assets/img/img10.png" alt="" />
                               <p>SUMMARY OUTPUT</p>
                             </a>
                           </div>
-                        </div>
-                        <div className="col-md-3 col-sm-3 col-6">
+                        </motion.div>
+                        <motion.div className="col-md-3 col-sm-3 col-6" {...childHoverAnimation}>
                           <div className="icon-box">
                             <a href="#">
                               <img src="asset/assets/img/img11.png" alt="" />
                               <p>SECTORAL TAGS</p>
                             </a>
                           </div>
-                        </div>
-                        <div className="col-md-3 col-sm-3 col-6">
+                        </motion.div>
+                        <motion.div className="col-md-3 col-sm-3 col-6" {...childHoverAnimation}>
                           <div className="icon-box">
                             <a href="#">
                               <img src="asset/assets/img/img12.png" alt="" />
                               <p>RUN PROJECT</p>
                             </a>
                           </div>
-                        </div>
+                        </motion.div>
                       </div>
-                    </div>
+                      </motion.div>
+                      
+
                   </div>
                 </div>
 
@@ -518,7 +546,7 @@ function LeftSideMenuBar() {
                       month: "short",
                       day: "2-digit",
                       year: "numeric",
-                      })}
+                    })}
                   />
 
                   <div className="row tab-panel-body">
@@ -607,103 +635,110 @@ function LeftSideMenuBar() {
                           </ul>
                         </div>
                       </div>
-                    </div>
-                    <div className="col-lg-9 col-md-9 right-panel-wrap">
+                      </div>
+                      
+                    <motion.div
+                      className="col-lg-9 col-md-9 right-panel-wrap"
+                      variants={parentAnimation}
+                      initial="hidden"
+                      animate="visible"
+                    >
                       <div className="row ">
-                        <div className="col-md-3 col-sm-3 col-6">
+                        <motion.div className="col-md-3 col-sm-3 col-6" {...childHoverAnimation}>
                           <div className="icon-box">
                             <a href="#">
                               <img src="asset/assets/img/img13.png" alt="" />
                               <p>Start new project</p>
                             </a>
                           </div>
-                        </div>
-                        <div className="col-md-3 col-sm-3 col-6">
+                        </motion.div>
+                        <motion.div className="col-md-3 col-sm-3 col-6" {...childHoverAnimation}>
                           <div className="icon-box">
                             <a href="#">
                               <img src="asset/assets/img/img14.png" alt="" />
                               <p>project care</p>
                             </a>
                           </div>
-                        </div>
-                        <div className="col-md-3 col-sm-3 col-6">
+                        </motion.div>
+                        <motion.div className="col-md-3 col-sm-3 col-6" {...childHoverAnimation}>
                           <div className="icon-box">
                             <a href="#">
                               <img src="asset/assets/img/img15.png" alt="" />
                               <p>project xyz</p>
                             </a>
                           </div>
-                        </div>
-                        <div className="col-md-3 col-sm-3 col-6">
+                        </motion.div>
+                        <motion.div className="col-md-3 col-sm-3 col-6" {...childHoverAnimation}>
                           <div className="icon-box">
                             <a href="#">
                               <img src="asset/assets/img/img7.png" alt="" />
                               <p>Progress</p>
                             </a>
                           </div>
-                        </div>
+                        </motion.div>
                       </div>
                       <div className="row ">
-                        <div className="col-md-3 col-sm-3 col-6">
+                        <motion.div className="col-md-3 col-sm-3 col-6" {...childHoverAnimation}>
                           <div className="icon-box">
                             <a href="#">
                               <img src="asset/assets/img/img5.png" alt="" />
                               <p>PHASE OUTPUTS</p>
                             </a>
                           </div>
-                        </div>
-                        <div className="col-md-3 col-sm-3 col-6">
+                        </motion.div>
+                        <motion.div className="col-md-3 col-sm-3 col-6" {...childHoverAnimation}>
                           <div className="icon-box">
                             <a href="#">
                               <img src="asset/assets/img/img6.png" alt="" />
                               <p>BLOCK OUTPUTS</p>
                             </a>
                           </div>
-                        </div>
-                        <div className="col-md-3 col-sm-3 col-6">
+                        </motion.div>
+                        <motion.div className="col-md-3 col-sm-3 col-6" {...childHoverAnimation}>
                           <div className="icon-box">
                             <a href="#">
                               <img src="asset/assets/img/img9.png" alt="" />
                               <p>DISCONNECT PHASE / BLOCKS</p>
                             </a>
                           </div>
-                        </div>
-                        <div className="col-md-3 col-sm-3 col-6">
+                        </motion.div>
+                        <motion.div className="col-md-3 col-sm-3 col-6" {...childHoverAnimation}>
                           <div className="icon-box">
                             <a href="#">
                               <img src="asset/assets/img/img8.png" alt="" />
                               <p>AI MODEL MGMT</p>
                             </a>
                           </div>
-                        </div>
+                        </motion.div>
                       </div>
                       <div className="row ">
-                        <div className="col-md-3 col-sm-3 col-6">
+                        <motion.div className="col-md-3 col-sm-3 col-6" {...childHoverAnimation}>
                           <div className="icon-box">
                             <a href="#">
                               <img src="asset/assets/img/img10.png" alt="" />
                               <p>SUMMARY OUTPUT</p>
                             </a>
                           </div>
-                        </div>
-                        <div className="col-md-3 col-sm-3 col-6">
+                        </motion.div>
+                        <motion.div className="col-md-3 col-sm-3 col-6" {...childHoverAnimation}>
                           <div className="icon-box">
                             <a href="#">
                               <img src="asset/assets/img/img16.png" alt="" />
                               <p>SECTORAL TAGS</p>
                             </a>
                           </div>
-                        </div>
-                        <div className="col-md-3 col-sm-3 col-6">
+                        </motion.div>
+                        <motion.div className="col-md-3 col-sm-3 col-6" {...childHoverAnimation}>
                           <div className="icon-box">
                             <a href="#">
                               <img src="asset/assets/img/img12.png" alt="" />
                               <p>RUN PROJECT</p>
                             </a>
                           </div>
-                        </div>
+                        </motion.div>
                       </div>
-                    </div>
+                      </motion.div>
+                      
                   </div>
                 </div>
                 <div
@@ -720,7 +755,7 @@ function LeftSideMenuBar() {
                       month: "short",
                       day: "2-digit",
                       year: "numeric",
-                      })}
+                    })}
                   />
                   <div className="row tab-panel-body">
                     <div className="col-lg-3 col-md-3">
@@ -787,42 +822,49 @@ function LeftSideMenuBar() {
                         </div>
                       </div>
                     </div>
-                    <div className="col-lg-9 col-md-9 right-panel-wrap">
+                    <motion.div
+                      className="col-lg-9 col-md-9 right-panel-wrap"
+                      variants={parentAnimation}
+                      initial="hidden"
+                      animate="visible"
+                    >
                       <div className="row ">
-                        <div className="col-md-3 col-sm-3 col-6">
+                        <motion.div className="col-md-3 col-sm-3 col-6" {...childHoverAnimation}>
                           <div className="icon-box">
                             <a href="#">
                               <img src="asset/assets/img/img1.png" alt="" />
                               <p>Knowledge Base</p>
                             </a>
                           </div>
-                        </div>
-                        <div className="col-md-3 col-sm-3 col-6">
+                        </motion.div>
+                        <motion.div className="col-md-3 col-sm-3 col-6" {...childHoverAnimation}>
                           <div className="icon-box">
                             <a href="#">
                               <img src="asset/assets/img/img2.png" alt="" />
                               <p>CASE LIBRARY</p>
                             </a>
                           </div>
-                        </div>
-                        <div className="col-md-3 col-sm-3 col-6">
+                        </motion.div>
+
+                        <motion.div className="col-md-3 col-sm-3 col-6" {...childHoverAnimation}>
                           <div className="icon-box">
                             <a href="#">
                               <img src="asset/assets/img/img3.png" alt="" />
                               <p>PHASE OVERVIEW</p>
                             </a>
                           </div>
-                        </div>
-                        <div className="col-md-3 col-sm-3 col-6">
+                        </motion.div>
+
+                        <motion.div className="col-md-3 col-sm-3 col-6" {...childHoverAnimation}>
                           <div className="icon-box">
                             <a href="#">
                               <img src="asset/assets/img/img4.png" alt="" />
                               <p>GUIDE PROMPTS</p>
                             </a>
                           </div>
-                        </div>
+                        </motion.div>
                       </div>
-                    </div>
+                    </motion.div>
                   </div>
                 </div>
                 <div

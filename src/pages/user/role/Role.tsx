@@ -17,13 +17,14 @@ const token = localStorage.getItem("token");
 
 const Role = () => {
   const [isEditMood, setIsEditMood] = useState<boolean>(true);
-  const [userGrp, setUserGrp] = useState([])
-  const [organizationLvL, setOrganizationLvL] = useState([])
+  const [userGrp, setUserGrp] = useState([]);
+  const [organizationLvL, setOrganizationLvL] = useState([]);
   const handleCancel = () => {
     setIsEditMood(!isEditMood);
   };
   const { t } = useTranslation();
   const [render, setrender] = useState(true);
+
   const {
     data,
     loading,
@@ -64,6 +65,7 @@ const Role = () => {
       ),
     },
   ];
+
   const handleSubmit = async (e: any) => {
     e.preventDefault();
 
@@ -81,6 +83,7 @@ const Role = () => {
       page_list = `${API_URL}/role/${singleData?.roleId}`;
       method = "PUT";
     }
+
     const options = {
       method,
       data: obj,
@@ -143,10 +146,9 @@ const Role = () => {
       });
       setcommon_Data(null);
       fetchData();
-      setsingleData(null)
+      setsingleData(null);
       const form: any = document.querySelector("form");
       form.reset();
-
     }
 
     if (error) {
@@ -167,7 +169,6 @@ const Role = () => {
     }
   }, [deleteMsg]);
 
-
   // Fetch user grp
   useEffect(() => {
     const fetchAllowance = async () => {
@@ -180,7 +181,7 @@ const Role = () => {
         });
         if (!response.ok) throw new Error("Error fetching projects.");
         const data = await response.json();
-        console.log("User Grp", data)
+        console.log("User Grp", data);
         setUserGrp(data);
       } catch (error) {
         console.error(error);
@@ -189,6 +190,7 @@ const Role = () => {
     fetchAllowance();
   }, []);
 
+  
   // Fetch org lvl
   useEffect(() => {
     const fetchOrgLevel = async () => {
@@ -213,7 +215,6 @@ const Role = () => {
   // console.log(userGrp)
   return (
     <>
-
       {addFormShow ? (
         <Breadcrumb name1={t("Role")} name2={t("Role")} />
       ) : (
@@ -229,101 +230,112 @@ const Role = () => {
         transition={{ duration: 0.5 }}
       >
         {addFormShow && (
-            <form
+          <form
             onSubmit={handleSubmit}
             className={`${isEditMood ? "block" : "hidden"} mb-5`}
-            >
+          >
             <input type="hidden" name="id" value={singleData?.id} />
             <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 gap-5 bg-white rounded-xl shadow-md p-10">
-
               {/* user grp */}
               <div className="relative">
-              <label className="block text-sm font-medium text-gray-700 absolute -mt-1 ml-4 bg-white">
-                {t("User Group")}
-              </label>
-              <select
-                required
-                name="userGroupId"
-                className="w-full border p-4 rounded  h-14 appearance-none"
-
-              >
-                <option value="">{t("Select")}</option>
-                {userGrp?.map(user => (
-                <option key={user?.userGroupId} value={user?.userGroupId}
-                  selected={user?.userGroupId == singleData?.userGroupId}
+                <label className="block text-sm font-medium text-gray-700 absolute -mt-1 ml-4 bg-white">
+                  {t("User Group")}
+                </label>
+                <select
+                  required
+                  name="userGroupId"
+                  className="w-full border p-4 rounded  h-14 appearance-none"
                 >
-                  {user?.userGroupName}
-                </option>
-                ))}
-              </select>
-              <DropDownIcon />
+                  <option value="">{t("Select")}</option>
+                  {userGrp?.map((user) => (
+                    <option
+                      key={user?.userGroupId}
+                      value={user?.userGroupId}
+                      selected={user?.userGroupId == singleData?.userGroupId}
+                    >
+                      {user?.userGroupName}
+                    </option>
+                  ))}
+                </select>
+                <DropDownIcon />
               </div>
               {/* org lvl */}
               <div className="relative">
-              <label className="block text-sm font-medium text-gray-700 absolute -mt-1 ml-4 bg-white">
-                {t("Organization Level")}
-              </label>
-              <select
-                required
-                name="organizationLevelId"
-                className="w-full border p-4 rounded  h-14 appearance-none"
-
-              >
-                <option value="">{t("Select")}</option>
-                {organizationLvL?.map(org => (
-                <option key={org?.orgLevelId} value={org?.orgLevelId}
-                  selected={org?.orgLevelId == singleData?.organizationLevelId}
+                <label className="block text-sm font-medium text-gray-700 absolute -mt-1 ml-4 bg-white">
+                  {t("Organization Level")}
+                </label>
+                <select
+                  required
+                  name="organizationLevelId"
+                  className="w-full border p-4 rounded  h-14 appearance-none"
                 >
-                  {org?.orgLevelName}
-                </option>
-                ))}
-              </select>
-              <DropDownIcon />
+                  <option value="">{t("Select")}</option>
+                  {organizationLvL?.map((org) => (
+                    <option
+                      key={org?.orgLevelId}
+                      value={org?.orgLevelId}
+                      selected={
+                        org?.orgLevelId == singleData?.organizationLevelId
+                      }
+                    >
+                      {org?.orgLevelName}
+                    </option>
+                  ))}
+                </select>
+                <DropDownIcon />
               </div>
-
-
 
               {/* Sector Name */}
               <div className="flex flex-col relative mb-5">
-              <label
-                htmlFor="projectName"
-                className="text-sm absolute -mt-2 ml-4 mb-2 bg-white"
-              >
-                {t("Name")}
-              </label>
-              <input
-                name="name"
-                id="projectName"
-                type="text"
-                placeholder={t("Write name here")}
-                className="border p-4 rounded-md h-14 text-sm"
-                defaultValue={singleData?.name}
-              />
+                <label
+                  htmlFor="projectName"
+                  className="text-sm absolute -mt-2 ml-4 mb-2 bg-white"
+                >
+                  {t("Name")}
+                </label>
+                <input
+                  name="name"
+                  id="projectName"
+                  type="text"
+                  placeholder={t("Write name here")}
+                  className="border p-4 rounded-md h-14 text-sm"
+                  defaultValue={singleData?.name}
+                />
               </div>
-
 
               {/*  Description */}
               <div className="flex flex-col relative">
-              <label
-                htmlFor="description"
-                className="text-sm absolute -mt-2 ml-4 mb-2 bg-white"
-              >
-                {t("Description")}
-              </label>
-              <textarea
-                name="description"
-                id="description"
-                className="border p-5 rounded h-14 resize-none"
-                defaultValue={singleData?.description || ""}
-              />
+                <label
+                  htmlFor="description"
+                  className="text-sm absolute -mt-2 ml-4 mb-2 bg-white"
+                >
+                  {t("Description")}
+                </label>
+                <textarea
+                  name="description"
+                  id="description"
+                  className="border p-5 rounded h-14 resize-none"
+                  defaultValue={singleData?.description || ""}
+                />
               </div>
-
             </div>
             {/* Add Button - Right Aligned */}
             <div className="flex justify-end gap-4">
-              {singleData?.roleId ? <UpdateButton setsingleData={setsingleData} loading={loading}   setaddFormShow={setaddFormShow}/> : <AddButton setsingleData={setsingleData} loading={loading}  setaddFormShow={ setaddFormShow}/>}
+              {singleData?.roleId ? (
+                <UpdateButton
+                  setsingleData={setsingleData}
+                  loading={loading}
+                  setaddFormShow={setaddFormShow}
+                />
+              ) : (
+                <AddButton
+                  setsingleData={setsingleData}
+                  loading={loading}
+                  setaddFormShow={setaddFormShow}
+                />
+              )}
             </div>
-            </form>
+          </form>
         )}
         <Table
           rows={data || []}
