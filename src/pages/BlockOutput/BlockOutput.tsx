@@ -12,11 +12,9 @@ const BlockOutput = () => {
     null,
   );
   const [blockID, setBlockID] = React.useState<number | null>(null);
-
-  const [expandedPhaseId, setExpandedPhaseId] = React.useState<number | null>(
+  const [expandedBlockId, setExpandedBlockId] = React.useState<number | null>(
     null,
   );
-
 
   const [render, setrender] = useState<any>(true);
   const [submit, setsubmit] = useState<any>(false);
@@ -28,7 +26,7 @@ const BlockOutput = () => {
 
   const toggleBlock = (blockID: number) => {
     setBlockID(blockID);
-    setExpandedPhaseId(expandedPhaseId === blockID ? null : blockID);
+    setExpandedBlockId(expandedBlockId === blockID ? null : blockID);
   };
 
   React.useEffect(() => {
@@ -59,14 +57,13 @@ const BlockOutput = () => {
     fetchData();
   }, [selectedUserId]);
 
-  const getPhaseOutput = async () => {
+  const getBlockOutput = async () => {
     seterror("");
     setsubmit(true);
     setoutput([]);
     setoutPutQues([]);
     try {
-
-      const page_list = `${API_URL}/user-ai-chat/userId/${selectedUserId}/blockId/${phaseID}`;
+      const page_list = `${API_URL}/user-ai-chat/userId/${selectedUserId}/blockId/${blockID}`;
       const method = "PUT";
 
       const options = {
@@ -92,9 +89,11 @@ const BlockOutput = () => {
 
   React.useEffect(() => {
     if (blockID) {
-      getPhaseOutput();
+      getBlockOutput();
     }
   }, [blockID]);
+
+  console.log("output", output);
 
   return (
     <div className="container-fluid tab-panel">
@@ -119,7 +118,7 @@ const BlockOutput = () => {
                     <option value="" disabled>
                       -- Select a User --
                     </option>
-                    {allUsersList.map((user: any) => (
+                    {allUsersList?.map((user: any) => (
                       <option key={user.id} value={user.id}>
                         {user?.username}
                       </option>
@@ -146,7 +145,7 @@ const BlockOutput = () => {
                         >
                           {block.name}
                         </div>
-                        {expandedPhaseId === block.id && (
+                        {expandedBlockId === block.id && (
                           <div
                             className="phase-description"
                             style={{
