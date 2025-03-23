@@ -65,7 +65,9 @@ export default function PhasesForm({
       AiResponse.push(obj);
       setAiResponse(AiResponse);
       localStorage.setItem("ai_question_answer", JSON.stringify(AiResponse));
+      setdata({...data , message : null});
       setrender(!render);
+      
     } catch (error) {
       seterror("Something Went Wrong");
     }
@@ -181,7 +183,7 @@ export default function PhasesForm({
     }
   }, [phases[0]?.id]);
 
-  console.log(`AiResponse`, output, outPutQues);
+  console.log(`AiResponse`,  data);
   return (
     <>
       <section className="admin-body mapping-body">
