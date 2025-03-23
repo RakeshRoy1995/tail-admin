@@ -58,7 +58,7 @@ export default function PhasesForm({
         question_id: data?.question_id,
         yourMessage: data.message,
         aiReply: response.data?.response,
-        conversetion_id: 'test',
+        conversetion_id: "test",
         status: 1,
       };
 
@@ -78,11 +78,11 @@ export default function PhasesForm({
       const page_list = `${API_URL}/user-ai-chat`;
       const method = "POST";
 
-      delete data['yourMessage']
+      delete data["yourMessage"];
 
       const options = {
         method,
-        data:data,
+        data: data,
         headers: {
           "content-type": "application/json",
           Authorization: `Bearer ${token}`,
@@ -107,7 +107,7 @@ export default function PhasesForm({
 
   const getBlockOutput = async (blockId: any) => {
     setoutput([]);
-    setoutPutQues([])
+    setoutPutQues([]);
     seterror("");
     setsubmit(true);
     setshowMode("block");
@@ -497,8 +497,6 @@ export default function PhasesForm({
                               </div>
                             </div>
                           </div>
-
-                          
                         </div>
                         <div className="modal-footer">
                           <button
