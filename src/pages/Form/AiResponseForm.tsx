@@ -1,3 +1,4 @@
+import AIOutputShow from "@/shared/showOutputFormat/AIOutputShow";
 import React from "react";
 
 export default function AiResponseForm({
@@ -32,10 +33,11 @@ export default function AiResponseForm({
           {ai_d.yourMessage}
         </div>
       )}
+
       <div
         style={{
           fontSize: "12px",
-          display: "flex",
+          // display: "flex",
           alignItems: "center",
           backgroundColor: "#f1f1f1",
           padding: "10px",
@@ -52,13 +54,9 @@ export default function AiResponseForm({
             marginRight: "8px",
           }}
         />
-        <div
-          dangerouslySetInnerHTML={{
-            __html: ai_d.aiReply,
-          }}
-        />
 
-        {type == "add"  && (
+        {ai_d.aiReply && <AIOutputShow messages={ai_d.aiReply} />}
+        {type == "add" && (
           <button
             type="button"
             disabled={submit}
