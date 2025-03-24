@@ -2,14 +2,18 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 
 export default function Admin() {
-    const parentAnimation = {
-        hidden: { opacity: 0, y: 20 },
-        visible: { opacity: 1, y: 0, transition: { duration: 0.5, staggerChildren: 0.1 } },
-      };
-    
-      const childHoverAnimation = {
-        whileHover: { scale: 1.1, transition: { duration: 0.3 } },
-      };
+  const parentAnimation = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.5, staggerChildren: 0.1 },
+    },
+  };
+
+  const childHoverAnimation = {
+    whileHover: { scale: 1.1, transition: { duration: 0.3 } },
+  };
   return (
     <motion.div
       className="col-lg-9 col-md-9 right-panel-wrap"

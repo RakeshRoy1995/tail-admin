@@ -6,6 +6,7 @@ import Breadcrumb from "@/shared/Breadcumb/Breadcrumb";
 import axiosInstance from "@/api/axios";
 import PhasesForm from "@/pages/Form/PhasesForm";
 import { motion } from "framer-motion";
+import MemberAdmin from "@/pages/member/admin/MemberAdmin";
 
 const current_role = JSON.parse(localStorage.getItem("current_role"));
 function LeftSideMenuBar() {
@@ -36,6 +37,7 @@ function LeftSideMenuBar() {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        console.log(`1`, 1);
         const response = await axiosInstance.get("/phases"); // Example endpoint
 
         if (response.data.length) {
@@ -114,108 +116,14 @@ function LeftSideMenuBar() {
     fetchQuestionByBlock(activeBlock);
   }, [activeBlock]);
 
+  console.log(`csdcsd`, phases);
+
   return (
-    // <div className="flex">
-    //   {/* Sidebar */}
-    //   <div
-    //     className={`fixed top-0 left-0 h-full bg-white shadow-lg transition-all duration-300 ${isSidebarOpen ? "w-screen sm:w-64 md:w-screen lg:w-56" : "w-0 sm:w-0 md:w-0 lg:w-16"
-    //       } z-50`}
-
-    //   >
-    //     {/* Sidebar Header with Toggle Button */}
-    //     <div className="flex items-center justify-between p-4 mt-2.5 border-gray-700">
-    //       <h2
-    //         className={`text-QuaternaryColor text-lg font-semibold ${isSidebarOpen
-    //             ? "block"
-    //             : "hidden xs:hidden sm:block md:hidden lg:hidden xl:hidden"
-    //           }`}
-    //       >
-    //         MENU
-    //       </h2>
-    //       <button
-    //         onClick={toggleSidebar}
-    //         className="text-QuinaryColor hover:text-QuinaryColor focus:outline-none"
-    //       >
-    //         <svg
-    //           width="20"
-    //           height="20"
-    //           viewBox="0 0 24 24"
-    //           fill="none"
-    //           xmlns="http://www.w3.org/2000/svg"
-    //         >
-    //           <path
-    //             d="M4 7L20 7"
-    //             stroke="black"
-    //             strokeWidth="1.5"
-    //             strokeLinecap="round"
-    //           />
-    //           <path
-    //             d="M4 12L20 12"
-    //             stroke="black"
-    //             strokeWidth="1.5"
-    //             strokeLinecap="round"
-    //           />
-    //           <path
-    //             d="M4 17L20 17"
-    //             stroke="black"
-    //             strokeWidth="1.5"
-    //             strokeLinecap="round"
-    //           />
-    //         </svg>
-    //       </button>
-    //     </div>
-
-    //     {/* Sidebar Content */}
-    //     <div className="flex flex-col h-full overflow-y-auto py-2">
-    //       {/* Fix applied here */}
-    //       <div className="px-0.5">
-    //         <Menu isSidebarOpen={isSidebarOpen} />
-    //       </div>
-    //     </div>
-    //   </div>
-
-    //   {/* Main Content Area */}
-    //   {/* Add an overlay for screens below the breakpoint */}
-    //   {isSidebarOpen && window.innerWidth < breakpoint && (
-    //     <div
-    //       className="fixed inset-0 bg-black bg-opacity-50 z-40 sm:hidden"
-    //       onClick={toggleSidebar}
-    //     ></div>
-    //   )}
-
-    //   <div
-    //     className={`flex flex-col w-full ${isSidebarOpen ? `ml-0 sm:ml-64` : `ml-0 sm:ml-0 md:ml-0 lg:ml-28`
-    //       } transition-all duration-300`}
-    //   >
-    //     <div className="container p-5">
-    //       {/* {permission ? (
-    //         <Outlet />
-    //       ) : (
-    //         <p className="text-red-600 text-center">Permission Denied</p>
-    //       )} */}
-    //       <Outlet />
-    //     </div>
-    //   </div>
-
-    // </div>
 
     <>
       {current_role?.roleId == 5 ? (
         <div className="row tab-panel-body">
-          <PhasesForm
-            blocks={blocks}
-            Ques={Ques}
-            activephase={activephase}
-            setactiveBlock={setactiveBlock}
-            activeBlock={activeBlock}
-            nextPhase={nextPhase}
-            phases={phases}
-            AllQues={AllQues}
-            activeQuestion={activeQuestion}
-            setactiveQuestion={setactiveQuestion}
-            Allblocks={Allblocks}
-            setactivephase={setactivephase}
-          />
+          <MemberAdmin />
         </div>
       ) : (
         <section className="admin-body">
