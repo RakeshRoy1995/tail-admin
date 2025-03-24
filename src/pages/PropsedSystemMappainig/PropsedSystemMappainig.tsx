@@ -218,98 +218,91 @@ const PropsedSystemMappainig = () => {
           </div>
         </div>
 
-        <div className="container my-5">
-          <motion.div
-            className="row align-items-start"
-            variants={cardVariants}
-            initial="hidden"
-            animate="visible"
-          >
-            {/* Main Card */}
-            <motion.div
-              className="col-md-9 card shadow-lg flex-grow-1 rounded-4"
-              whileHover={{
-                scale: 1.03,
-                backgroundColor: "rgba(240, 240, 240, 0.5)", 
-                transition: { duration: 0.3 },
-              }}
-            >
-              {/* Header */}
-              <div
-                className="card-header text-white"
-                style={{ backgroundColor: "#1a472a" }}
+        <div className="container my-5 h-100">
+          <div className="row g-4 h-100">
+            {/* Left column - first card */}
+            <div className="col-md-9 d-flex">
+              <motion.div
+                className="card shadow-lg rounded-4 flex-grow-1"
+                variants={cardVariants}
+                initial="hidden"
+                animate="visible"
+                whileHover={{
+                  scale: 1.03,
+                  backgroundColor: "rgba(240, 240, 240, 0.5)", // Slight color overlay
+                  transition: { duration: 0.3 },
+                }}
               >
-                <div className="d-flex align-items-center gap-3">
+                <div
+                  className="card-header bg-success text-white d-flex align-items-center"
+                  style={{ backgroundColor: "#1a472a" }}
+                >
                   <div
-                    className="d-flex align-items-center justify-content-center rounded-circle"
-                    style={{
-                      width: "40px",
-                      height: "40px",
-                      backgroundColor: "#2d7a5d",
-                    }}
+                    className="p-2 bg-dark rounded-circle d-flex align-items-center justify-content-center"
+                    style={{ width: 40, height: 40 }}
                   >
-                    <FileText size={20} color="white" />
+                    {cards[0].icon}
                   </div>
-                  <h5 className="m-0">Proposed system mapping</h5>
+
+                  <h5 className="ms-3 mb-0">Proposed system mapping</h5>
                 </div>
-              </div>
+                {/* Content */}
+                <div
+                  className="card-body"
+                  style={{ ...cardBodyStyle, ...customScrollbarStyle }}
+                >
+                  <p>
+                    Take into account "List of Possible problem framings", "List
+                    of affected people", "List of Institutions Mapped" and "List
+                    of Institutional Gaps" that you created based on the problem
+                    statement and future findings; create a summary report
+                    titled "Proposed system mapping" that will help in designing
+                    a new institution or modifying an existing one to tackle the
+                    problem.
+                  </p>
+                  <p>
+                    The report should contain the summary of the problem
+                    statement, the affected people or groups, the institutional
+                    gaps and the institutional landscape for the problem
+                    statement. Then provide a set of bullet points on what needs
+                    to be tackled by an institution or modify the existing
+                    institution to tackle the problem. Please take into account
+                    the TIALA's institutional design model and suggest what
+                    needs to be addressed in phase 2 of the model. The summary
+                    should contain these items:
+                  </p>
+                  <ol className="ps-3">
+                    <li>
+                      Map the landscape of existing institutions, systems, or
+                      initiatives relevant to the core problems. Include both
+                      direct stakeholders and those that influence the landscape
+                      like advocacy organizations, policy-making bodies, and
+                      community groups.
+                    </li>
+                    <li>
+                      Define the initial purpose of the institution or
+                      initiative. Take into consideration how it will address
+                      the identified core problems and goals in relation to the
+                      groups it intends to serve.
+                    </li>
+                    <li>
+                      Evaluate the constraints—political, social, operational,
+                      or financial—that could affect the creation of a new
+                      institution or initiative.
+                    </li>
+                    <li>
+                      Identify the key stakeholders who could form the guiding
+                      coalition. Specify their potential roles and contributions
+                      in overcoming constraints and leveraging opportunities.
+                    </li>
+                  </ol>
+                  <p className="fst-italic">
+                    The summary should not be longer than 2000 words.
+                  </p>
+                </div>
+              </motion.div>
+            </div>
 
-              
-
-              {/* Content */}
-              <div className="card-body">
-                <p>
-                  Take into account "List of Possible problem framings", "List
-                  of affected people", "List of Institutions Mapped" and "List
-                  of Institutional Gaps" that you created based on the problem
-                  statement and future findings; create a summary report titled
-                  "Proposed system mapping" that will help in designing a new
-                  institution or modifying an existing one to tackle the
-                  problem.
-                </p>
-                <p>
-                  The report should contain the summary of the problem
-                  statement, the affected people or groups, the institutional
-                  gaps and the institutional landscape for the problem
-                  statement. Then provide a set of bullet points on what needs
-                  to be tackled by an institution or modify the existing
-                  institution to tackle the problem. Please take into account
-                  the TIALA's institutional design model and suggest what needs
-                  to be addressed in phase 2 of the model. The summary should
-                  contain these items:
-                </p>
-                <ol className="ps-3">
-                  <li>
-                    Map the landscape of existing institutions, systems, or
-                    initiatives relevant to the core problems. Include both
-                    direct stakeholders and those that influence the landscape
-                    like advocacy organizations, policy-making bodies, and
-                    community groups.
-                  </li>
-                  <li>
-                    Define the initial purpose of the institution or initiative.
-                    Take into consideration how it will address the identified
-                    core problems and goals in relation to the groups it intends
-                    to serve.
-                  </li>
-                  <li>
-                    Evaluate the constraints—political, social, operational, or
-                    financial—that could affect the creation of a new
-                    institution or initiative.
-                  </li>
-                  <li>
-                    Identify the key stakeholders who could form the guiding
-                    coalition. Specify their potential roles and contributions
-                    in overcoming constraints and leveraging opportunities.
-                  </li>
-                </ol>
-                <p className="fst-italic">
-                  The summary should not be longer than 2000 words.
-                </p>
-              </div>
-            </motion.div>
-
-            {/* Buttons on the same row */}
             <div className="col-md-3 d-flex flex-column gap-2">
               <motion.button
                 className="btn btn-secondary w-100"
@@ -319,7 +312,7 @@ const PropsedSystemMappainig = () => {
                   transition: { duration: 0.3 },
                 }}
               >
-                Rework
+                Regenerate
               </motion.button>
 
               <motion.button
@@ -335,7 +328,7 @@ const PropsedSystemMappainig = () => {
                 <span>Save output</span>
               </motion.button>
             </div>
-          </motion.div>
+          </div>
         </div>
       </div>
     </>
