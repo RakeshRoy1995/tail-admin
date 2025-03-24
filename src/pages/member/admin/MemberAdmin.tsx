@@ -24,6 +24,8 @@ import Swal from "sweetalert2";
 // import AiResponseForm from "./AiResponseForm";
 import { submitAI, submitFormData } from "@/api/Reqest";
 import axiosInstance from "@/api/axios";
+import PropsedSystemMappainig from "@/pages/PropsedSystemMappainig/PropsedSystemMappainig";
+import ProblemDefLayout from "@/pages/problemDefLayout/ProblemDefLayout";
 const API_URL = import.meta.env.VITE_REACT_APP_API_URL;
 const token = localStorage.getItem("token");
 
@@ -38,6 +40,9 @@ export default function MemberAdmin() {
   const [outPutQues, setoutPutQues] = useState<any>([]);
   const [textareaShow, settextareaShow] = useState<any>(false);
   const [showSavedQuestion, setshowSavedQuestion] = useState<any>(false);
+  const [showPhaseOutput, setshowPhaseOutput] = useState<any>(false);
+  const [showPhaseOutputSummery, setshowPhaseOutputSummery] =
+    useState<any>(false);
 
   const [activephase, setactivephase] = useState(0);
   const [activeBlock, setactiveBlock] = useState(0);
@@ -142,7 +147,6 @@ export default function MemberAdmin() {
     seterror("");
     setsubmit(true);
     try {
-      
       const user_details = getUserDetails();
       const response = await submitAI(data.message);
       const chat_id = localStorage.getItem("chat_id");
@@ -302,14 +306,13 @@ export default function MemberAdmin() {
     }
   }, [phases]);
 
-
   const onSubmitPhaseOutput = async () => {
-    setsubmit(true);
     try {
+      setshowPhaseOutputSummery(true);
 
       const selectedPhase = phases?.find((d: any) => d.id == activephase) || [];
 
-      console.log(`selectedPhase`, selectedPhase , output);
+      console.log(`selectedPhase`, selectedPhase, output);
 
       // for (let i = 0; i < output.length; i++) {
       //   const element = output[i];
@@ -345,71 +348,92 @@ export default function MemberAdmin() {
       //   },
       // };
 
-     
       // getPhaseOutput();
     } catch (error: any) {
       seterror(error?.response?.data?.message || "Something Went Wrong");
     }
-    setsubmit(false);
   };
+
+  console.log(`showPhaseOutput`, showPhaseOutput, output);
 
   return (
     <>
       <Header />
-      <main>
-        {/*Left Sidebar with sections and question*/}
-        <div className="__left-sidebar border-end __height-half ">
-          {/* Close left sidebar */}
-          <button
-            className="close_left_sidebar btn btn-danger mb-3"
-            type="button"
-          >
-            <i className="fa fa-times" aria-hidden="true" />
-            close
-          </button>
-          {/* Profile Section */}
-          <ProfileSection />
-          {/* sidebar Section */}
-          <SidebarMember
-            Allblocks={Allblocks}
-            activeBlock={activeBlock}
-            setactiveBlock={setactiveBlock}
-            activephase={activephase}
-            AllQues={AllQues}
-            setdata={setdata}
-            settextareaShow={settextareaShow}
-            setactiveQuestion={setactiveQuestion}
-            data={data}
-            output={output}
-          />
-        </div>
-        {/*Question and answer section*/}
+      {!showPhaseOutputSummery ? (
+        <main>
+          {showPhaseOutput ? (
+            <ProblemDefLayout
+              output={output}
+              setoutPutQues={setoutPutQues}
+              outPutQues={outPutQues}
+              setshowPhaseOutput={setshowPhaseOutput}
+            />
+          ) : (
+            <>
+              {/*Left Sidebar with sections and question*/}
+              <div className="__left-sidebar border-end __height-half ">
+                {/* Close left sidebar */}
+                <button
+                  className="close_left_sidebar btn btn-danger mb-3"
+                  type="button"
+                >
+                  <i className="fa fa-times" aria-hidden="true" />
+                  close
+                </button>
+                {/* Profile Section */}
+                <ProfileSection />
+                {/* sidebar Section */}
+                <SidebarMember
+                  Allblocks={Allblocks}
+                  activeBlock={activeBlock}
+                  setactiveBlock={setactiveBlock}
+                  activephase={activephase}
+                  AllQues={AllQues}
+                  setdata={setdata}
+                  settextareaShow={settextareaShow}
+                  setactiveQuestion={setactiveQuestion}
+                  data={data}
+                  output={output}
+                />
+              </div>
+              {/*Question and answer section*/}
 
-        <QuesAnswer
-          data={data}
-          AllQues={AllQues}
-          AiResponse={AiResponse}
-          setdata={setdata}
-          submit={submit}
-          onSubmit={onSubmit}
-          onSubmitAnswer={onSubmitAnswer}
-          activeQuestion={activeQuestion}
-          showSavedQuestion={showSavedQuestion}
-          setshowSavedQuestion={setshowSavedQuestion}
-          output={output}
-        />
-        {/*Right Sidebar with sections and question*/}
-        <Rightbar setshowSavedQuestion={setshowSavedQuestion} onSubmitPhaseOutput={onSubmitPhaseOutput} />
-        {/* Phase Navigation */}
+              <QuesAnswer
+                data={data}
+                AllQues={AllQues}
+                AiResponse={AiResponse}
+                setdata={setdata}
+                submit={submit}
+                onSubmit={onSubmit}
+                onSubmitAnswer={onSubmitAnswer}
+                activeQuestion={activeQuestion}
+                showSavedQuestion={showSavedQuestion}
+                setshowSavedQuestion={setshowSavedQuestion}
+                output={output}
+                setshowPhaseOutput={setshowPhaseOutput}
+              />
+              {/*Right Sidebar with sections and question*/}
+              <Rightbar
+                setshowSavedQuestion={setshowSavedQuestion}
+                onSubmitPhaseOutput={onSubmitPhaseOutput}
+              />
+              {/* Phase Navigation */}
 
-        {phases.length > 0 && (
-          <Navigation
-            activephase={activephase}
-            phases={phases}
-            setactivephase={setactivephase}
-          />
-        )}
-      </main>
+              {phases.length > 0 && (
+                <Navigation
+                  activephase={activephase}
+                  phases={phases}
+                  setactivephase={setactivephase}
+                />
+              )}
+            </>
+          )}
+        </main>
+      ) : (
+        <main>
+          <PropsedSystemMappainig />
+        </main>
+      )}
     </>
   );
 }

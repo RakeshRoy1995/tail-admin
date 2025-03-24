@@ -87,6 +87,8 @@ export default function Header() {
     setName(value);
   };
 
+  const modelName = name || localStorage.getItem("AI_model")
+
   return (
     <header>
       <nav className="navbar navbar-light bg-white border-bottom border-light ">
@@ -109,7 +111,7 @@ export default function Header() {
                   data-bs-toggle="dropdown"
                   aria-expanded="false"
                 >
-                  {name || "Select AI Model"}
+                  {modelName || "Select AI Model"}
                 </button>
                 <ul
                   className="dropdown-menu dropdown-menu-end"

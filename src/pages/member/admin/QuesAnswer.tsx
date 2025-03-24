@@ -12,6 +12,7 @@ export default function QuesAnswer({
   showSavedQuestion,
   setshowSavedQuestion,
   output,
+  setshowPhaseOutput
 }: any) {
   console.log(`AiResponseAiResponseAiResponse`, output);
   return (
@@ -183,7 +184,8 @@ export default function QuesAnswer({
           </div>
           <a
             className="phase-output text-decoration-none mt-4"
-            href="./phase-description.html"
+            href="#"
+            onClick={(e) => setshowPhaseOutput(true)}
           >
             <i className="fas fa-arrow-circle-right" />
             Phase Output
