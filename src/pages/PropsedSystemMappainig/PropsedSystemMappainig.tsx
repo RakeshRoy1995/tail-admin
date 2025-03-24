@@ -50,15 +50,28 @@ const PropsedSystemMappainig = () => {
     visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
   };
 
+  const cardBodyStyle = {
+    overflowY: "auto",
+    maxHeight: "300px", // Adjust height as needed
+    paddingRight: "10px",
+  };
+
+  const customScrollbarStyle = {
+    scrollbarWidth: "thin",
+    scrollbarColor: "#6c757d #f8f9fa", // Custom scrollbar colors
+  };
+
   return (
     <>
       <div>
         <div className="w-100 py-3 px-4">
           <div className="d-flex align-items-center gap-3">
-            <a href="/" className="text-decoration-none">
+            {/* <a href="/" className="text-decoration-none">
               <div className="d-flex flex-column align-items-center">
                 <img
-                  src="/public/asset/assets/img/logo-coinnovator301209.jpg"
+                  // src="/public/asset/assets/img/logo-coinnovator301209.jpg"
+                  src="../../../public/asset/member/images/logo.png"
+                  
                   alt="CO-INNOVATOR Logo"
                   width={80}
                   height={50}
@@ -68,22 +81,40 @@ const PropsedSystemMappainig = () => {
                   CO-INNOVATOR
                 </span>
               </div>
-            </a>
+            </a> */}
             <div>
-              <div className="text-success fw-medium">Phase 1 output</div>
-              <h1 className="text-primary fw-bold display-6">
+              <div
+                className=""
+                style={{
+                  color: "rgba(15, 42, 29, 0.8)",
+                  fontSize: "1rem",
+                  lineHeight: "1.6",
+                }}
+              >
+                Phase 1 output
+              </div>
+              <h1
+                className="text-primary fw-bold display-6"
+                style={{
+                  color: "#1a4c32",
+                  fontSize: "1.75rem",
+                  fontWeight: 600,
+                  marginBottom: "0.5rem",
+                  fontFamily: "Manrope, sans-serif",
+                }}
+              >
                 Proposed System Mapping
               </h1>
             </div>
           </div>
         </div>
 
-        <div className="container mt-5">
-          <div className="row g-4">
+        <div className="container mt-5 h-100">
+          <div className="row g-4 h-100">
             {/* Left column - first card */}
-            <div className="col-md-4">
+            <div className="col-md-4 d-flex">
               <motion.div
-                className="card shadow-lg rounded-4"
+                className="card shadow-lg rounded-4 flex-grow-1"
                 variants={cardVariants}
                 initial="hidden"
                 animate="visible"
@@ -102,7 +133,10 @@ const PropsedSystemMappainig = () => {
                   </div>
                   <h5 className="ms-3 mb-0">{cards[0].title}</h5>
                 </div>
-                <div className="card-body">
+                <div
+                  className="card-body"
+                  style={{ ...cardBodyStyle, ...customScrollbarStyle }}
+                >
                   <p className="text-muted">{cards[0].content}</p>
                   <small className="text-secondary fst-italic">
                     {cards[0].footer}
@@ -112,11 +146,11 @@ const PropsedSystemMappainig = () => {
             </div>
 
             {/* Middle column - two stacked cards */}
-            <div className="col-md-4 d-flex flex-column gap-4">
+            <div className="col-md-5 d-flex flex-column gap-4">
               {cards.slice(1, 3).map((card, index) => (
                 <motion.div
                   key={index}
-                  className="card shadow-lg rounded-4"
+                  className="card shadow-lg rounded-4 flex-grow-1"
                   variants={cardVariants}
                   initial="hidden"
                   animate="visible"
@@ -135,7 +169,10 @@ const PropsedSystemMappainig = () => {
                     </div>
                     <h5 className="ms-3 mb-0">{card.title}</h5>
                   </div>
-                  <div className="card-body">
+                  <div
+                    className="card-body"
+                    style={{ ...cardBodyStyle, ...customScrollbarStyle }}
+                  >
                     <p className="text-muted">{card.content}</p>
                     <small className="text-secondary fst-italic">
                       {card.footer}
@@ -146,9 +183,9 @@ const PropsedSystemMappainig = () => {
             </div>
 
             {/* Right column - fourth card */}
-            <div className="col-md-4">
+            <div className="col-md-3 d-flex">
               <motion.div
-                className="card shadow-lg rounded-4"
+                className="card shadow-lg rounded-4 flex-grow-1"
                 variants={cardVariants}
                 initial="hidden"
                 animate="visible"
@@ -167,7 +204,10 @@ const PropsedSystemMappainig = () => {
                   </div>
                   <h5 className="ms-3 mb-0">{cards[3].title}</h5>
                 </div>
-                <div className="card-body">
+                <div
+                  className="card-body"
+                  style={{ ...cardBodyStyle, ...customScrollbarStyle }}
+                >
                   <p className="text-muted">{cards[3].content}</p>
                   <small className="text-secondary fst-italic">
                     {cards[3].footer}
@@ -180,17 +220,17 @@ const PropsedSystemMappainig = () => {
 
         <div className="container my-5">
           <motion.div
-            className="d-flex gap-5 align-items-start"
+            className="row align-items-start"
             variants={cardVariants}
             initial="hidden"
             animate="visible"
           >
             {/* Main Card */}
             <motion.div
-              className="card shadow-lg flex-grow-1 rounded-4"
+              className="col-md-9 card shadow-lg flex-grow-1 rounded-4"
               whileHover={{
                 scale: 1.03,
-                backgroundColor: "rgba(240, 240, 240, 0.5)", // Slight color overlay
+                backgroundColor: "rgba(240, 240, 240, 0.5)", 
                 transition: { duration: 0.3 },
               }}
             >
@@ -213,6 +253,8 @@ const PropsedSystemMappainig = () => {
                   <h5 className="m-0">Proposed system mapping</h5>
                 </div>
               </div>
+
+              
 
               {/* Content */}
               <div className="card-body">
@@ -268,29 +310,29 @@ const PropsedSystemMappainig = () => {
             </motion.div>
 
             {/* Buttons on the same row */}
-            <div className="d-flex flex-column gap-2">
+            <div className="col-md-3 d-flex flex-column gap-2">
               <motion.button
-              className="btn btn-secondary w-100"
-              whileHover={{
-                scale: 1.05,
-                backgroundColor: "rgba(200, 200, 200, 0.8)", // Slight color overlay
-                transition: { duration: 0.3 },
-              }}
+                className="btn btn-secondary w-100"
+                whileHover={{
+                  scale: 1.05,
+                  backgroundColor: "rgba(200, 200, 200, 0.8)", // Slight color overlay
+                  transition: { duration: 0.3 },
+                }}
               >
-              Rework
+                Rework
               </motion.button>
 
               <motion.button
-              className="btn text-white d-flex align-items-center justify-content-center gap-2"
-              style={{ backgroundColor: "#1a472a" }}
-              whileHover={{
-                scale: 1.05,
-                backgroundColor: "rgba(26, 71, 42, 0.8)", // Slight color overlay
-                transition: { duration: 0.3 },
-              }}
+                className="btn text-white d-flex align-items-center justify-content-center gap-2"
+                style={{ backgroundColor: "#1a472a" }}
+                whileHover={{
+                  scale: 1.05,
+                  backgroundColor: "rgba(26, 71, 42, 0.8)", // Slight color overlay
+                  transition: { duration: 0.3 },
+                }}
               >
-              <Bookmark size={16} />
-              <span>Save output</span>
+                <Bookmark size={16} />
+                <span>Save output</span>
               </motion.button>
             </div>
           </motion.div>
