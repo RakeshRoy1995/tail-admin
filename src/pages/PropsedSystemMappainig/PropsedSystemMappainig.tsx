@@ -7,6 +7,7 @@ import {
   AlertTriangle,
   Bookmark,
 } from "lucide-react";
+import { motion } from "framer-motion"; // Import framer-motion
 
 const cards = [
   {
@@ -44,6 +45,11 @@ const cards = [
 ];
 
 const PropsedSystemMappainig = () => {
+  const cardVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+  };
+
   return (
     <>
       <div>
@@ -76,7 +82,17 @@ const PropsedSystemMappainig = () => {
           <div className="row g-4">
             {/* Left column - first card */}
             <div className="col-md-4">
-              <div className="card shadow-lg">
+              <motion.div
+                className="card shadow-lg rounded-4"
+                variants={cardVariants}
+                initial="hidden"
+                animate="visible"
+                whileHover={{
+                  scale: 1.03,
+                  backgroundColor: "rgba(240, 240, 240, 0.5)", // Slight color overlay
+                  transition: { duration: 0.3 },
+                }}
+              >
                 <div className="card-header bg-success text-white d-flex align-items-center">
                   <div
                     className="p-2 bg-dark rounded-circle d-flex align-items-center justify-content-center"
@@ -92,13 +108,24 @@ const PropsedSystemMappainig = () => {
                     {cards[0].footer}
                   </small>
                 </div>
-              </div>
+              </motion.div>
             </div>
 
             {/* Middle column - two stacked cards */}
             <div className="col-md-4 d-flex flex-column gap-4">
               {cards.slice(1, 3).map((card, index) => (
-                <div key={index} className="card shadow-lg">
+                <motion.div
+                  key={index}
+                  className="card shadow-lg rounded-4"
+                  variants={cardVariants}
+                  initial="hidden"
+                  animate="visible"
+                  whileHover={{
+                    scale: 1.03,
+                    backgroundColor: "rgba(240, 240, 240, 0.5)", // Slight color overlay
+                    transition: { duration: 0.3 },
+                  }}
+                >
                   <div className="card-header bg-success text-white d-flex align-items-center">
                     <div
                       className="p-2 bg-dark rounded-circle d-flex align-items-center justify-content-center"
@@ -114,13 +141,23 @@ const PropsedSystemMappainig = () => {
                       {card.footer}
                     </small>
                   </div>
-                </div>
+                </motion.div>
               ))}
             </div>
 
             {/* Right column - fourth card */}
             <div className="col-md-4">
-              <div className="card shadow-lg">
+              <motion.div
+                className="card shadow-lg rounded-4"
+                variants={cardVariants}
+                initial="hidden"
+                animate="visible"
+                whileHover={{
+                  scale: 1.03,
+                  backgroundColor: "rgba(240, 240, 240, 0.5)", // Slight color overlay
+                  transition: { duration: 0.3 },
+                }}
+              >
                 <div className="card-header bg-success text-white d-flex align-items-center">
                   <div
                     className="p-2 bg-dark rounded-circle d-flex align-items-center justify-content-center"
@@ -136,15 +173,27 @@ const PropsedSystemMappainig = () => {
                     {cards[3].footer}
                   </small>
                 </div>
-              </div>
+              </motion.div>
             </div>
           </div>
         </div>
 
-        <div className="container mt-5" >
-          <div className="d-flex gap-3 align-items-start ">
+        <div className="container my-5">
+          <motion.div
+            className="d-flex gap-5 align-items-start"
+            variants={cardVariants}
+            initial="hidden"
+            animate="visible"
+          >
             {/* Main Card */}
-            <div className="card shadow-lg flex-grow-1">
+            <motion.div
+              className="card shadow-lg flex-grow-1 rounded-4"
+              whileHover={{
+                scale: 1.03,
+                backgroundColor: "rgba(240, 240, 240, 0.5)", // Slight color overlay
+                transition: { duration: 0.3 },
+              }}
+            >
               {/* Header */}
               <div
                 className="card-header text-white"
@@ -216,21 +265,35 @@ const PropsedSystemMappainig = () => {
                   The summary should not be longer than 2000 words.
                 </p>
               </div>
-            </div>
+            </motion.div>
 
             {/* Buttons on the same row */}
             <div className="d-flex flex-column gap-2">
-              <button className="btn btn-secondary w-100">Rework</button>
-
-              <button
-                className="btn text-white d-flex align-items-center justify-content-center gap-2"
-                style={{ backgroundColor: "#1a472a" }}
+              <motion.button
+              className="btn btn-secondary w-100"
+              whileHover={{
+                scale: 1.05,
+                backgroundColor: "rgba(200, 200, 200, 0.8)", // Slight color overlay
+                transition: { duration: 0.3 },
+              }}
               >
-                <Bookmark size={16} />
-                <span>Save output Saved</span>
-              </button>
+              Rework
+              </motion.button>
+
+              <motion.button
+              className="btn text-white d-flex align-items-center justify-content-center gap-2"
+              style={{ backgroundColor: "#1a472a" }}
+              whileHover={{
+                scale: 1.05,
+                backgroundColor: "rgba(26, 71, 42, 0.8)", // Slight color overlay
+                transition: { duration: 0.3 },
+              }}
+              >
+              <Bookmark size={16} />
+              <span>Save output Saved</span>
+              </motion.button>
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
     </>
