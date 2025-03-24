@@ -101,10 +101,12 @@ export default function QuesAnswer({
                 className="form-control"
                 placeholder="Type your message..."
                 onChange={(e) =>
+                {
                   setdata({
                     ...data,
                     ["message"]: e.target.value,
                   })
+                }
                 }
                 value={data.message}
               />

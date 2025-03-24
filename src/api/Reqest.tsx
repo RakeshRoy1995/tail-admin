@@ -55,12 +55,12 @@ export function forgetPasswordOptValidate(data: any) {
 }
 
 export function resetPassword(data: string, token: any) {
-  const page =`${API_URL}/user/reset/password`;
+  const page = `${API_URL}/user/reset/password`;
 
   const option = {
     data,
     headers: {
-      Authorization: `Bearer ${token}` ,
+      Authorization: `Bearer ${token}`,
       "content-type": "application/json",
     },
     method: "POST",
@@ -319,13 +319,15 @@ export function getPOlist() {
     .catch((error) => console.error("Error fetching division data:", error));
 }
 
-export function submitAI(message:any) {
+export function submitAI(message: any) {
+  const model = localStorage.getItem("AI_model");
+  const chat_id = localStorage.getItem("chat_id");
   const api = `https://tial-chat.rpu.solutions/api`; // Replace API_URL with your base URL
 
   const options = {
     method: "POST",
     headers: { "content-type": "application/json" },
-    data : {message},
+    data: { message, chat_id, model },
     url: api,
   };
 
