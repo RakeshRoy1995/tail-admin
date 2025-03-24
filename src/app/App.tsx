@@ -14,6 +14,7 @@ import Admin from "./Admin";
 import BlockOverview from "@/pages/BlockOverview/BlockOverview";
 const Home = React.lazy(() => import("@/pages/Home/index"));
 import MemberAdmin from "@/pages/member/admin/MemberAdmin";
+import ProblemDefLayout from "@/pages/problemDefLayout/ProblemDefLayout";
 const PrivateRoute = React.lazy(() => import("./PrivateRoute"));
 const Login = React.lazy(() => import("@/pages/Login/Login"));
 
@@ -49,6 +50,7 @@ const App: FC = () => {
               element={<PropsedSystemMappainig />}
             />
             <Route path="/admin" element={<MemberAdmin />} />
+            <Route path="/problem-def" element={<ProblemDefLayout />} />
             <Route path="/" element={<Layout />}>
               <Route path="/phase-overview" element={<PhaseOverView />} />
               <Route path="/block-overview" element={<BlockOverview />} />
