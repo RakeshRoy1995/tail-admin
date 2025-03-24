@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+
 import { Link } from "react-router-dom";
 import {
   FileText,
@@ -8,6 +9,9 @@ import {
   Bookmark,
 } from "lucide-react";
 import { motion } from "framer-motion"; // Import framer-motion
+import { getUserDetails } from "@/utils";
+import { submitAISummery, submitFormData } from "@/api/Reqest";
+import AIOutputShow from "@/shared/showOutputFormat/AIOutputShow";
 
 const cards = [
   {
@@ -44,7 +48,19 @@ const cards = [
   },
 ];
 
-const PropsedSystemMappainig = () => {
+const API_URL = import.meta.env.VITE_REACT_APP_API_URL;
+const token = localStorage.getItem("token");
+
+const PropsedSystemMappainig = ({
+  allPhasePromts,
+  questionAnswer,
+  activephase,
+}) => {
+  const [submit, setsubmit] = useState<any>(false);
+  const [error, seterror] = useState<any>("");
+  const [output, setoutput] = useState<any>([]);
+  const [payloadArr, setpayloadArr] = useState<any>([]);
+
   const cardVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
@@ -61,6 +77,124 @@ const PropsedSystemMappainig = () => {
     scrollbarColor: "#6c757d #f8f9fa", // Custom scrollbar colors
   };
 
+  const getPhaseOutput = async (id = null) => {
+    seterror("");
+    setsubmit(true);
+    setoutput([]);
+    try {
+      const user_details = getUserDetails();
+
+      const page_list = `${API_URL}/summary-output-phase/phase-userId/${id}/${user_details?.id}`;
+      const method = "get";
+
+      const options = {
+        method,
+        headers: {
+          "content-type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      };
+
+      const { data } = await submitFormData(page_list, options);
+      setoutput(data);
+    } catch (error) {
+      // seterror("Something Went Wrong");
+    }
+    setsubmit(false);
+  };
+
+  useEffect(() => {
+    getPhaseOutput(activephase);
+  }, [activephase]);
+
+  const onSubmit = async () => {
+    seterror("");
+    setoutput([]);
+    setsubmit(true);
+    try {
+      const user_details = getUserDetails();
+
+      const payloadArr = [];
+
+      const reply = questionAnswer.map((d: any) => d.aiReply);
+      const result = [reply.join("\n\n")];
+
+      for (let index = 0; index < allPhasePromts.length; index++) {
+        const element = allPhasePromts[index];
+        const array = [element.prompt, result];
+
+        const { data } = await submitAISummery(array.join("\n\n"));
+
+        const obj = {
+          output: data.summary,
+          phasepromptId: element.id,
+          userId: user_details?.id,
+          phaseId: element.phaseId,
+        };
+
+        payloadArr.push(obj);
+      }
+      setpayloadArr(payloadArr);
+      setoutput(payloadArr);
+
+      localStorage.setItem("phaseOutputSummery", JSON.stringify(payloadArr));
+
+      // for (let index = 0; index < payloadArr.length; index++) {
+      //   const element = payloadArr[index];
+
+      //   const page_list = `${API_URL}/summary-output-phase`;
+      //   const method = "post";
+
+      //   const options = {
+      //     method,
+      //     data: element,
+      //     headers: {
+      //       "content-type": "application/json",
+      //       Authorization: `Bearer ${token}`,
+      //     },
+      //   };
+
+      //   await submitFormData(page_list, options);
+      // }
+      console.log(`allPhasePromts`, allPhasePromts, result);
+      // const response = await submitAISummery("");
+    } catch (error) {
+      seterror("Something Went Wrong");
+    }
+    setsubmit(false);
+  };
+
+
+
+  const onSaveSummerySubmit = async () => {
+    seterror("");
+    setsubmit(true);
+    try {
+      for (let index = 0; index < payloadArr.length; index++) {
+        const element = payloadArr[index];
+
+        const page_list = `${API_URL}/summary-output-phase`;
+        const method = "post";
+
+        const options = {
+          method,
+          data: element,
+          headers: {
+            "content-type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        };
+
+        await submitFormData(page_list, options);
+      }
+      // const response = await submitAISummery("");
+    } catch (error) {
+      seterror("Something Went Wrong");
+    }
+    setsubmit(false);
+  };
+
+  console.log(`outpddddddddddut`, output, allPhasePromts, payloadArr);
   return (
     <>
       <div>
@@ -91,7 +225,7 @@ const PropsedSystemMappainig = () => {
                   lineHeight: "1.6",
                 }}
               >
-                Phase 1 output
+                Phase {activephase} output
               </div>
               <h1
                 className="text-primary fw-bold display-6"
@@ -110,6 +244,7 @@ const PropsedSystemMappainig = () => {
         </div>
 
         <div className="container mt-5 h-100">
+          <p className="text-center text-danger">{error}</p>
           <div className="row g-4 h-100">
             {/* Left column - first card */}
             <div className="col-md-4 d-flex">
@@ -137,7 +272,11 @@ const PropsedSystemMappainig = () => {
                   className="card-body"
                   style={{ ...cardBodyStyle, ...customScrollbarStyle }}
                 >
-                  <p className="text-muted">{cards[0].content}</p>
+                  <p className="text-muted">
+                    {output.length > 0 && (
+                      <AIOutputShow messages={output[0].output} />
+                    )}
+                  </p>
                   <small className="text-secondary fst-italic">
                     {cards[0].footer}
                   </small>
@@ -147,39 +286,75 @@ const PropsedSystemMappainig = () => {
 
             {/* Middle column - two stacked cards */}
             <div className="col-md-5 d-flex flex-column gap-4">
-              {cards.slice(1, 3).map((card, index) => (
-                <motion.div
-                  key={index}
-                  className="card shadow-lg rounded-4 flex-grow-1"
-                  variants={cardVariants}
-                  initial="hidden"
-                  animate="visible"
-                  whileHover={{
-                    scale: 1.03,
-                    backgroundColor: "rgba(240, 240, 240, 0.5)", // Slight color overlay
-                    transition: { duration: 0.3 },
-                  }}
-                >
-                  <div className="card-header bg-success text-white d-flex align-items-center">
-                    <div
-                      className="p-2 bg-dark rounded-circle d-flex align-items-center justify-content-center"
-                      style={{ width: 40, height: 40 }}
-                    >
-                      {card.icon}
-                    </div>
-                    <h5 className="ms-3 mb-0">{card.title}</h5>
-                  </div>
+              <motion.div
+                className="card shadow-lg rounded-4 flex-grow-1"
+                variants={cardVariants}
+                initial="hidden"
+                animate="visible"
+                whileHover={{
+                  scale: 1.03,
+                  backgroundColor: "rgba(240, 240, 240, 0.5)", // Slight color overlay
+                  transition: { duration: 0.3 },
+                }}
+              >
+                <div className="card-header bg-success text-white d-flex align-items-center">
                   <div
-                    className="card-body"
-                    style={{ ...cardBodyStyle, ...customScrollbarStyle }}
+                    className="p-2 bg-dark rounded-circle d-flex align-items-center justify-content-center"
+                    style={{ width: 40, height: 40 }}
                   >
-                    <p className="text-muted">{card.content}</p>
-                    <small className="text-secondary fst-italic">
-                      {card.footer}
-                    </small>
+                    {cards[0].icon}
                   </div>
-                </motion.div>
-              ))}
+                  <h5 className="ms-3 mb-0">{cards[0].title}</h5>
+                </div>
+                <div
+                  className="card-body"
+                  style={{ ...cardBodyStyle, ...customScrollbarStyle }}
+                >
+                  <p className="text-muted">
+                    {output.length > 0 && (
+                      <AIOutputShow messages={output[1]?.output} />
+                    )}
+                  </p>
+                  <small className="text-secondary fst-italic">
+                    {cards[0].footer}
+                  </small>
+                </div>
+              </motion.div>
+
+              <motion.div
+                className="card shadow-lg rounded-4 flex-grow-1"
+                variants={cardVariants}
+                initial="hidden"
+                animate="visible"
+                whileHover={{
+                  scale: 1.03,
+                  backgroundColor: "rgba(240, 240, 240, 0.5)", // Slight color overlay
+                  transition: { duration: 0.3 },
+                }}
+              >
+                <div className="card-header bg-success text-white d-flex align-items-center">
+                  <div
+                    className="p-2 bg-dark rounded-circle d-flex align-items-center justify-content-center"
+                    style={{ width: 40, height: 40 }}
+                  >
+                    {cards[0].icon}
+                  </div>
+                  <h5 className="ms-3 mb-0">{cards[0].title}</h5>
+                </div>
+                <div
+                  className="card-body"
+                  style={{ ...cardBodyStyle, ...customScrollbarStyle }}
+                >
+                  <p className="text-muted">
+                    {output.length > 0 && (
+                      <AIOutputShow messages={output[2]?.output} />
+                    )}{" "}
+                  </p>
+                  <small className="text-secondary fst-italic">
+                    {cards[0].footer}
+                  </small>
+                </div>
+              </motion.div>
             </div>
 
             {/* Right column - fourth card */}
@@ -208,7 +383,11 @@ const PropsedSystemMappainig = () => {
                   className="card-body"
                   style={{ ...cardBodyStyle, ...customScrollbarStyle }}
                 >
-                  <p className="text-muted">{cards[3].content}</p>
+                  <p className="text-muted">
+                    {output.length > 0 && (
+                      <AIOutputShow messages={output[3]?.output} />
+                    )}{" "}
+                  </p>
                   <small className="text-secondary fst-italic">
                     {cards[3].footer}
                   </small>
@@ -251,71 +430,32 @@ const PropsedSystemMappainig = () => {
                   className="card-body"
                   style={{ ...cardBodyStyle, ...customScrollbarStyle }}
                 >
-                  <p>
-                    Take into account "List of Possible problem framings", "List
-                    of affected people", "List of Institutions Mapped" and "List
-                    of Institutional Gaps" that you created based on the problem
-                    statement and future findings; create a summary report
-                    titled "Proposed system mapping" that will help in designing
-                    a new institution or modifying an existing one to tackle the
-                    problem.
-                  </p>
-                  <p>
-                    The report should contain the summary of the problem
-                    statement, the affected people or groups, the institutional
-                    gaps and the institutional landscape for the problem
-                    statement. Then provide a set of bullet points on what needs
-                    to be tackled by an institution or modify the existing
-                    institution to tackle the problem. Please take into account
-                    the TIALA's institutional design model and suggest what
-                    needs to be addressed in phase 2 of the model. The summary
-                    should contain these items:
-                  </p>
-                  <ol className="ps-3">
-                    <li>
-                      Map the landscape of existing institutions, systems, or
-                      initiatives relevant to the core problems. Include both
-                      direct stakeholders and those that influence the landscape
-                      like advocacy organizations, policy-making bodies, and
-                      community groups.
-                    </li>
-                    <li>
-                      Define the initial purpose of the institution or
-                      initiative. Take into consideration how it will address
-                      the identified core problems and goals in relation to the
-                      groups it intends to serve.
-                    </li>
-                    <li>
-                      Evaluate the constraints—political, social, operational,
-                      or financial—that could affect the creation of a new
-                      institution or initiative.
-                    </li>
-                    <li>
-                      Identify the key stakeholders who could form the guiding
-                      coalition. Specify their potential roles and contributions
-                      in overcoming constraints and leveraging opportunities.
-                    </li>
-                  </ol>
-                  <p className="fst-italic">
-                    The summary should not be longer than 2000 words.
-                  </p>
+                  {output.length > 0 && (
+                    <AIOutputShow messages={output[4]?.output} />
+                  )}
                 </div>
               </motion.div>
             </div>
 
             <div className="col-md-3 d-flex flex-column gap-2">
               <motion.button
+                disabled={submit}
+                type="button"
                 className="btn btn-secondary w-100"
+                onClick={(e) => onSubmit()}
                 whileHover={{
                   scale: 1.05,
                   backgroundColor: "rgba(200, 200, 200, 0.8)", // Slight color overlay
                   transition: { duration: 0.3 },
                 }}
               >
-                Regenerate
+                Regenerate {submit && "..."}
               </motion.button>
 
               <motion.button
+                disabled={submit}
+                type="button"
+                onClick={(e) => onSaveSummerySubmit()}
                 className="btn text-white d-flex align-items-center justify-content-center gap-2"
                 style={{ backgroundColor: "#1a472a" }}
                 whileHover={{
@@ -325,7 +465,7 @@ const PropsedSystemMappainig = () => {
                 }}
               >
                 <Bookmark size={16} />
-                <span>Save output</span>
+                <span>Save output {submit && "..."} </span>
               </motion.button>
             </div>
           </div>
