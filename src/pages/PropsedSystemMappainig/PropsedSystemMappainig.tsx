@@ -64,49 +64,29 @@ const PropsedSystemMappainig = () => {
   return (
     <>
       <div>
-        <div className="w-100 py-3 px-4">
-          <div className="d-flex align-items-center gap-3">
-            {/* <a href="/" className="text-decoration-none">
-              <div className="d-flex flex-column align-items-center">
-                <img
-                  // src="/public/asset/assets/img/logo-coinnovator301209.jpg"
-                  src="../../../public/asset/member/images/logo.png"
-                  
-                  alt="CO-INNOVATOR Logo"
-                  width={80}
-                  height={50}
-                  className="mb-1"
-                />
-                <span className="text-muted text-success fw-medium small">
-                  CO-INNOVATOR
-                </span>
-              </div>
-            </a> */}
-            <div>
-              <div
-                className=""
-                style={{
-                  color: "rgba(15, 42, 29, 0.8)",
-                  fontSize: "1rem",
-                  lineHeight: "1.6",
-                }}
-              >
-                Phase 1 output
-              </div>
-              <h1
-                className="text-primary fw-bold display-6"
-                style={{
-                  color: "#1a4c32",
-                  fontSize: "1.75rem",
-                  fontWeight: 600,
-                  marginBottom: "0.5rem",
-                  fontFamily: "Manrope, sans-serif",
-                }}
-              >
-                Proposed System Mapping
-              </h1>
-            </div>
+        <div className="py-3 px-4" style={{ width: "19rem" }}>
+          <div
+            className=""
+            style={{
+              color: "rgba(15, 42, 29, 0.8)",
+              fontSize: "1rem",
+              lineHeight: "1.6",
+            }}
+          >
+            Phase 1 output
           </div>
+          <h1
+            className="text-primary fw-bold display-6"
+            style={{
+              color: "#1a4c32",
+              fontSize: "1.75rem",
+              fontWeight: 600,
+              marginBottom: "0.5rem",
+              fontFamily: "Manrope, sans-serif",
+            }}
+          >
+            Proposed System Mapping
+          </h1>
         </div>
 
         <div className="container mt-5 h-100">
