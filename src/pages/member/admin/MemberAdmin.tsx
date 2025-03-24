@@ -197,7 +197,7 @@ export default function MemberAdmin() {
       settextareaShow(false);
       setdata(null);
       setactiveQuestion(0);
-      // getPhaseOutput();
+      getPhaseOutput();
     } catch (error: any) {
       seterror(error?.response?.data?.message || "Something Went Wrong");
     }
@@ -310,45 +310,22 @@ export default function MemberAdmin() {
     try {
       setshowPhaseOutputSummery(true);
 
-      const selectedPhase = phases?.find((d: any) => d.id == activephase) || [];
+      const questionAnswer = [];
+      console.log(`selectedPhase`,  output);
 
-      console.log(`selectedPhase`, selectedPhase, output);
+      for (let i = 0; i < output.length; i++) {
+        const element = output[i];
 
-      // for (let i = 0; i < output.length; i++) {
-      //   const element = output[i];
-      //   const blockId = element[0].blockId;
-      //   const user_details = getUserDetails();
+        for (let j = 0; j < element.length; j++) {
+          const el = element[j];
 
-      //   const page_list = `${API_URL}/user-ai-chat/userId/${user_details?.id}/blockId/${blockId}`;
-      //   const method = "put";
+          if (el.phaseId == activephase) {
+            questionAnswer.push(el);
+          }
+        }
+      }
 
-      //   const options = {
-      //     method,
-      //     headers: {
-      //       "content-type": "application/json",
-      //       Authorization: `Bearer ${token}`,
-      //     },
-      //   };
-
-      //   const { data } = await submitFormData(page_list, options);
-      //   console.log(`data`, data);
-      // }
-
-      // const page_list = `${API_URL}/user-ai-chat`;
-      // const method = "POST";
-
-      // delete data["yourMessage"];
-
-      // const options = {
-      //   method,
-      //   data: data,
-      //   headers: {
-      //     "content-type": "application/json",
-      //     Authorization: `Bearer ${token}`,
-      //   },
-      // };
-
-      // getPhaseOutput();
+      console.log(`questionAnswer`, questionAnswer);
     } catch (error: any) {
       seterror(error?.response?.data?.message || "Something Went Wrong");
     }

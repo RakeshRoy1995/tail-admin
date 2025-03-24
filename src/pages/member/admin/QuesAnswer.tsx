@@ -14,7 +14,6 @@ export default function QuesAnswer({
   output,
   setshowPhaseOutput
 }: any) {
-  console.log(`AiResponseAiResponseAiResponse`, output);
   return (
     <div className="__question-and-answer position-relative __margin-left __margin-right __height-full ">
       <div className="toggle_sidebar align-items-center justify-content-between px-3 w-100">
