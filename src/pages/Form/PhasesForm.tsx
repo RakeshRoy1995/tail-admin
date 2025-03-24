@@ -194,7 +194,7 @@ export default function PhasesForm({
               <div className="row ">
                 <h1>{phaseName}</h1>
 
-                {Allblocks.map((d: any) => (
+                {Allblocks?.map((d: any) => (
                   <>
                     {d.phaseId == activephase && (
                       <>

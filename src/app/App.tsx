@@ -11,6 +11,7 @@ import PhaseOverView from "@/pages/PhaseOverView/PhaseOverView";
 import PhaseOutput from "@/pages/PhaseOutput/PhaseOutput";
 import BlockOutput from "@/pages/BlockOutput/BlockOutput";
 import Admin from "./Admin";
+import BlockOverview from "@/pages/BlockOverview/BlockOverview";
 const Home = React.lazy(() => import("@/pages/Home/index"));
 const PrivateRoute = React.lazy(() => import("./PrivateRoute"));
 const Login = React.lazy(() => import("@/pages/Login/Login"));
@@ -50,11 +51,11 @@ const App: FC = () => {
           <Route path="/" element={<HomeEntryPage />}></Route>
 
           <Route path="/" element={<PrivateRoute />}>
-            
             <Route path="/" element={<Layout />}>
-            <Route path="/phase-overview" element={<PhaseOverView />} />
-            <Route path="/phase-output" element={<PhaseOutput />} />
-            <Route path="/block-output" element={<BlockOutput />} />
+              <Route path="/phase-overview" element={<PhaseOverView />} />
+              <Route path="/block-overview" element={<BlockOverview />} />
+              <Route path="/phase-output" element={<PhaseOutput />} />
+              <Route path="/block-output" element={<BlockOutput />} />
               {/* <Route path="/" element={<Home />} /> */}
               <Route path="/admin" element={<Admin />} />
               {/* <Route path="/pmu" element={<Pmu/>}/> */}

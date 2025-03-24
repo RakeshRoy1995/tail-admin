@@ -35,7 +35,7 @@ const PhaseOutput = () => {
   React.useEffect(() => {
     const fetchData = async () => {
       try {
-        const getAllUsersURL = "users";
+        const getAllUsersURL = "users/all-members";
         const { data: allUsersList }: any = await get_all_data(getAllUsersURL);
         setAllUsersList(allUsersList);
       } catch (error) {
