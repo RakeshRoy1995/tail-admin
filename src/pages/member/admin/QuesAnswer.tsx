@@ -1,7 +1,19 @@
+import AIOutputShow from "@/shared/showOutputFormat/AIOutputShow";
 import React from "react";
 
-export default function QuesAnswer({ data, AllQues, setdata, submit, onSubmit }: any) {
-  console.log(`AllQues`, AllQues, data);
+export default function QuesAnswer({
+  data,
+  AllQues,
+  setdata,
+  submit,
+  onSubmit,
+  AiResponse,
+  onSubmitAnswer,
+  showSavedQuestion,
+  setshowSavedQuestion,
+  output,
+}: any) {
+  console.log(`AiResponseAiResponseAiResponse`, output);
   return (
     <div className="__question-and-answer position-relative __margin-left __margin-right __height-full ">
       <div className="toggle_sidebar align-items-center justify-content-between px-3 w-100">
@@ -25,143 +37,147 @@ export default function QuesAnswer({ data, AllQues, setdata, submit, onSubmit }:
         <div className="__floating_question_text">
           <h4>
             {" "}
-            {AllQues.find((d: any) => d.id == data.question_id)?.question}{" "}
+            {AllQues.find((d: any) => d.id == data?.question_id)?.question}{" "}
           </h4>
         </div>
         <div className="chat-body">
-          {/* Bot Message */}
-          <div className="message">
-            <div className="bot-avatar">
-              <i className="fas fa-robot" />
-            </div>
-            <div className="message-content">
-              <div className="message-bubble">
-                Hello! How can I assist you today?
-              </div>
-            </div>
-          </div>
-          {/* User Message */}
-          <div className="message user-message">
-            <div className="user-avatar">
-              <i className="fas fa-user" />
-            </div>
-            <div className="message-content">
-              <div className="message-bubble">Can you tell me about AI?</div>
-            </div>
-          </div>
+          {AiResponse.map((ai_d: any) => (
+            <>
+              {ai_d.aiReply && (
+                <>
+                  <div className="message user-message">
+                    <div className="user-avatar">
+                      <i className="fas fa-user" />
+                    </div>
+                    <div className="message-content">
+                      <div className="message-bubble">{ai_d.yourMessage}</div>
+                    </div>
+                  </div>
+
+                  <div className="message">
+                    <div className="bot-avatar">
+                      <i className="fas fa-robot" />
+                    </div>
+                    <div className="message-content">
+                      <div className="message-bubble">
+                        {ai_d.aiReply && (
+                          <AIOutputShow messages={ai_d.aiReply} />
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </>
+              )}
+            </>
+          ))}
 
           {/* Typing Indicator */}
-          <div className="message">
-            <div className="bot-avatar">
-              <i className="fas fa-robot" />
+          {submit && (
+            <div className="message">
+              <div className="bot-avatar">
+                <i className="fas fa-robot" />
+              </div>
+              <div className="typing-indicator">
+                <span className="typing-dot" />
+                <span className="typing-dot" />
+                <span className="typing-dot" />
+              </div>
             </div>
-            <div className="typing-indicator">
-              <span className="typing-dot" />
-              <span className="typing-dot" />
-              <span className="typing-dot" />
+          )}
+        </div>
+        {AllQues.find((d: any) => d.id == data.question_id)?.question ? (
+          <div className="chat-footer">
+            <div className="input-wrapper">
+              <div className="input-actions">
+                <button className="action-btn">
+                  <i className="fas fa-paperclip" />
+                </button>
+                <button className="action-btn">
+                  <i className="fas fa-image" />
+                </button>
+              </div>
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Type your message..."
+                onChange={(e) =>
+                  setdata({
+                    ...data,
+                    ["message"]: e.target.value,
+                  })
+                }
+                value={data.message}
+              />
+              <button
+                className="btn-send"
+                disabled={submit}
+                onClick={(e) => onSubmit()}
+              >
+                <i className="fas fa-paper-plane text-white" />
+              </button>
             </div>
           </div>
-        </div>
-        <div className="chat-footer">
-          <div className="input-wrapper">
-            <div className="input-actions">
-              <button className="action-btn">
-                <i className="fas fa-paperclip" />
-              </button>
-              <button className="action-btn">
-                <i className="fas fa-image" />
-              </button>
-            </div>
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Type your message..."
-              onChange={(e) =>
-                setdata({
-                  ...data,
-                  ["message"]: e.target.value,
-                })
-              }
-            />
-            <button
-              className="btn-send"
-              disabled={submit}
-              onClick={(e) => onSubmit()}
-            >
-              <i className="fas fa-paper-plane text-white" />
-            </button>
-          </div>
-        </div>
+        ) : (
+          <p className="text-danger text-center">
+            please select a question to start conversation
+          </p>
+        )}
       </div>
       {/* Floating Buttons with Tooltips */}
       <div className="floating-buttons">
-        {/* Save Button */}
         <button
           className="floating-btn save_btn"
           id="saveBtn"
           title="Save"
+          disabled={submit}
+          onClick={(e) => onSubmitAnswer(AiResponse[AiResponse.length - 1])}
           data-bs-toggle="tooltip"
           data-bs-placement="left"
         >
           <i className="fas fa-save" />
         </button>
       </div>
-      <div className="overlay" id="overlay">
-        <div className="saved-sidebar" id="savedSidebar">
+      <div
+        className={showSavedQuestion ? "overlay active" : "overlay"}
+        id="overlay"
+      >
+        <div
+          className={
+            showSavedQuestion ? "saved-sidebar active" : "saved-sidebar"
+          }
+          id="savedSidebar"
+        >
           <div className="sidebar-header">
             <h2>Saved Questions</h2>
-            <button type="button" className="close-btn" id="closeBtn">
+            <button
+              type="button"
+              className="close-btn"
+              id="closeBtn"
+              onClick={(e) => setshowSavedQuestion(false)}
+            >
               <i className="fas fa-times" />
             </button>
           </div>
           <div className="saved-questions">
-            <div className="question-item">
-              <div className="question">
-                <i className="fas fa-question-circle" />
-                <span>
-                  What is the primary goal of user research in design thinking?
-                </span>
-              </div>
-              <div className="answer">
-                User research helps understand user needs, behaviors, and
-                motivations through systematic investigation, informing design
-                decisions with real data rather than assumptions.
-              </div>
-              <div className="meta">
-                <span className="tag">User Research</span>
-                <span>Saved 2 days ago</span>
-              </div>
-            </div>
-            <div className="question-item">
-              <div className="question">
-                <i className="fas fa-question-circle" />
-                <span>How do you identify core problems in a project?</span>
-              </div>
-              <div className="answer">
-                Core problems are identified through stakeholder interviews,
-                data analysis, user feedback, and systematic problem-solving
-                techniques that help uncover root causes rather than symptoms.
-              </div>
-              <div className="meta">
-                <span className="tag">Core Problems</span>
-                <span>Saved 1 week ago</span>
-              </div>
-            </div>
-            <div className="question-item">
-              <div className="question">
-                <i className="fas fa-question-circle" />
-                <span>What makes a solution design effective?</span>
-              </div>
-              <div className="answer">
-                An effective solution design addresses user needs, is
-                technically feasible, aligns with business goals, and provides a
-                seamless user experience while being scalable and maintainable.
-              </div>
-              <div className="meta">
-                <span className="tag">Solution Design</span>
-                <span>Saved today</span>
-              </div>
-            </div>
+            {output.map((d: any) => (
+              <>
+                {d.map((outPut_d: any) => (
+                  <div className="question-item">
+                    <div className="question">
+                      <i className="fas fa-question-circle" />
+                      <span>{outPut_d?.question}</span>
+                    </div>
+                    <div className="answer">
+                      <AIOutputShow messages={outPut_d?.aiReply} />
+                    </div>
+                    <div className="meta">
+                      <span className="tag">{outPut_d?.block_name}</span>
+                      {/* <span>Saved 2 days ago</span> */}
+                    </div>
+                  </div>
+                ))}
+              </>
+            ))}
           </div>
           <a
             className="phase-output text-decoration-none mt-4"

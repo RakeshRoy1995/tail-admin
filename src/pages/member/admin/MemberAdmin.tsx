@@ -22,7 +22,7 @@ import {
 
 import Swal from "sweetalert2";
 // import AiResponseForm from "./AiResponseForm";
-import { submitFormData } from "@/api/Reqest";
+import { submitAI, submitFormData } from "@/api/Reqest";
 import axiosInstance from "@/api/axios";
 const API_URL = import.meta.env.VITE_REACT_APP_API_URL;
 const token = localStorage.getItem("token");
@@ -37,6 +37,7 @@ export default function MemberAdmin() {
   const [showMode, setshowMode] = useState<any>("");
   const [outPutQues, setoutPutQues] = useState<any>([]);
   const [textareaShow, settextareaShow] = useState<any>(false);
+  const [showSavedQuestion, setshowSavedQuestion] = useState<any>(false);
 
   const [activephase, setactivephase] = useState(0);
   const [activeBlock, setactiveBlock] = useState(0);
@@ -138,6 +139,7 @@ export default function MemberAdmin() {
 
   const onSubmit = async () => {
     seterror("");
+    console.log(`1`, 1);
     setsubmit(true);
     try {
       const user_details = getUserDetails();
@@ -153,6 +155,7 @@ export default function MemberAdmin() {
       };
 
       AiResponse.push(obj);
+      console.log(`AiResponse`,AiResponse );
       setAiResponse(AiResponse);
       localStorage.setItem("ai_question_answer", JSON.stringify(AiResponse));
       setdata({ ...data, message: null });
@@ -270,7 +273,7 @@ export default function MemberAdmin() {
     getPhaseOutput(phases);
   }, [phases]);
 
-  console.log(`activephase`, activephase);
+  console.log(`activephase`, output);
 
   return (
     <>
@@ -299,13 +302,27 @@ export default function MemberAdmin() {
             settextareaShow={settextareaShow}
             setactiveQuestion={setactiveQuestion}
             data={data}
+            output={output}
+            
           />
         </div>
         {/*Question and answer section*/}
 
-        <QuesAnswer data={data} AllQues={AllQues} />
+        <QuesAnswer
+          data={data}
+          AllQues={AllQues}
+          AiResponse={AiResponse}
+          setdata={setdata}
+          submit={submit}
+          onSubmit={onSubmit}
+          onSubmitAnswer={onSubmitAnswer}
+          activeQuestion={activeQuestion}
+          showSavedQuestion={showSavedQuestion}
+          setshowSavedQuestion={setshowSavedQuestion}
+          output={output}
+        />
         {/*Right Sidebar with sections and question*/}
-        <Rightbar />
+        <Rightbar setshowSavedQuestion={setshowSavedQuestion} />
         {/* Phase Navigation */}
 
         {phases.length > 0 && (

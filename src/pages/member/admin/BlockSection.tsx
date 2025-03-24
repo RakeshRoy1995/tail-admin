@@ -1,3 +1,4 @@
+import { statusOfQuestion } from "@/utils";
 import React from "react";
 
 export default function BlockSection({
@@ -11,6 +12,7 @@ export default function BlockSection({
   setactiveQuestion,
   data,
   totalQues,
+  output,
 }: any) {
   console.log(`d`, d, totalQues);
   return (
@@ -27,7 +29,7 @@ export default function BlockSection({
           <>
             {qd.blockId == d.id && (
               <span
-                className={`question_item d-flex ${data.question_id == qd.id ? "active" : ""} gap-2`}
+                className={`question_item d-flex ${data?.question_id == qd.id || statusOfQuestion(output, qd.id) == 1 ? "active" : ""} gap-2`}
                 onClick={(e) => {
                   setdata({
                     ...data,
