@@ -46,6 +46,7 @@ export default function MemberAdmin() {
   const [phases, setphases] = useState([]);
   const [blocks, setblocks] = useState([]);
   const [Allblocks, setallblocks] = useState([]);
+  const [allPhasePromts, setallPhasePromts] = useState([]);
   const [AllQues, setAllQues] = useState([]);
   const [Ques, setQues] = useState([]);
 
@@ -139,23 +140,23 @@ export default function MemberAdmin() {
 
   const onSubmit = async () => {
     seterror("");
-    console.log(`1`, 1);
     setsubmit(true);
     try {
+      
       const user_details = getUserDetails();
       const response = await submitAI(data.message);
-
+      const chat_id = localStorage.getItem("chat_id");
       const obj = {
         userId: user_details.id,
         question_id: data?.question_id,
         yourMessage: data.message,
         aiReply: response.data?.response,
-        conversetion_id: "test",
+        conversetion_id: chat_id,
         status: 1,
       };
 
       AiResponse.push(obj);
-      console.log(`AiResponse`,AiResponse );
+      console.log(`AiResponse`, AiResponse);
       setAiResponse(AiResponse);
       localStorage.setItem("ai_question_answer", JSON.stringify(AiResponse));
       setdata({ ...data, message: null });
@@ -269,11 +270,88 @@ export default function MemberAdmin() {
     setsubmit(false);
   };
 
+  const getPhasePrompt = async (id: any) => {
+    seterror("");
+    setallPhasePromts([]);
+    try {
+      // const page_list = `${API_URL}/user-ai-chat/userId/${user_details?.id}/blockId/null?phaseId=${phaseId}`;
+
+      const page_list = `${API_URL}/phase-prompt/prompt/${id}`;
+      const method = "get";
+
+      const options = {
+        method,
+        headers: {
+          "content-type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      };
+
+      const { data } = await submitFormData(page_list, options);
+      setallPhasePromts(data);
+    } catch (error) {
+      // seterror("Something Went Wrong");
+    }
+    setsubmit(false);
+  };
+
   useEffect(() => {
-    getPhaseOutput(phases);
+    if (phases.length > 0) {
+      getPhasePrompt(phases[0].id);
+      getPhaseOutput(phases[0].id);
+    }
   }, [phases]);
 
-  console.log(`activephase`, output);
+
+  const onSubmitPhaseOutput = async () => {
+    setsubmit(true);
+    try {
+
+      const selectedPhase = phases?.find((d: any) => d.id == activephase) || [];
+
+      console.log(`selectedPhase`, selectedPhase , output);
+
+      // for (let i = 0; i < output.length; i++) {
+      //   const element = output[i];
+      //   const blockId = element[0].blockId;
+      //   const user_details = getUserDetails();
+
+      //   const page_list = `${API_URL}/user-ai-chat/userId/${user_details?.id}/blockId/${blockId}`;
+      //   const method = "put";
+
+      //   const options = {
+      //     method,
+      //     headers: {
+      //       "content-type": "application/json",
+      //       Authorization: `Bearer ${token}`,
+      //     },
+      //   };
+
+      //   const { data } = await submitFormData(page_list, options);
+      //   console.log(`data`, data);
+      // }
+
+      // const page_list = `${API_URL}/user-ai-chat`;
+      // const method = "POST";
+
+      // delete data["yourMessage"];
+
+      // const options = {
+      //   method,
+      //   data: data,
+      //   headers: {
+      //     "content-type": "application/json",
+      //     Authorization: `Bearer ${token}`,
+      //   },
+      // };
+
+     
+      // getPhaseOutput();
+    } catch (error: any) {
+      seterror(error?.response?.data?.message || "Something Went Wrong");
+    }
+    setsubmit(false);
+  };
 
   return (
     <>
@@ -303,7 +381,6 @@ export default function MemberAdmin() {
             setactiveQuestion={setactiveQuestion}
             data={data}
             output={output}
-            
           />
         </div>
         {/*Question and answer section*/}
@@ -322,7 +399,7 @@ export default function MemberAdmin() {
           output={output}
         />
         {/*Right Sidebar with sections and question*/}
-        <Rightbar setshowSavedQuestion={setshowSavedQuestion} />
+        <Rightbar setshowSavedQuestion={setshowSavedQuestion} onSubmitPhaseOutput={onSubmitPhaseOutput} />
         {/* Phase Navigation */}
 
         {phases.length > 0 && (

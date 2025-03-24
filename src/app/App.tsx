@@ -14,12 +14,12 @@ import Admin from "./Admin";
 import BlockOverview from "@/pages/BlockOverview/BlockOverview";
 const Home = React.lazy(() => import("@/pages/Home/index"));
 import MemberAdmin from "@/pages/member/admin/MemberAdmin";
-import PropsedSystemMappainig from "@/pages/PropsedSystemMappainig/PropsedSystemMappainig";
 import ProblemDefLayout from "@/pages/problemDefLayout/ProblemDefLayout";
 const PrivateRoute = React.lazy(() => import("./PrivateRoute"));
 const Login = React.lazy(() => import("@/pages/Login/Login"));
 
 const RegisterForm = React.lazy(() => import("@/pages/register/Index"));
+const PropsedSystemMappainig = React.lazy(() => import("@/pages/PropsedSystemMappainig/PropsedSystemMappainig"));
 
 const Role = React.lazy(() => import("@/pages/user/role/Role"));
 const MenuPage = React.lazy(() => import("@/pages/user/menu/MenuPage"));

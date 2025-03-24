@@ -1,6 +1,9 @@
 import React from "react";
 
-export default function Rightbar({setshowSavedQuestion}:any) {
+export default function Rightbar({
+  setshowSavedQuestion,
+  onSubmitPhaseOutput,
+}: any) {
   return (
     <div className=" __right-sidebar __height-half">
       <div>
@@ -34,7 +37,14 @@ export default function Rightbar({setshowSavedQuestion}:any) {
         <button className="active">Core Problems</button>
         <button className="btn-success">User Research</button>
         <button className="btn-info">Solution Design</button>
-        <button className="btn-danger">Implementation</button>
+        {/* <button className="btn-danger">Implementation</button> */}
+        <button
+          type="button"
+          onClick={(e) => onSubmitPhaseOutput()}
+          className="btn-warning"
+        >
+          Phase Output Summarize{" "}
+        </button>
       </div>
       <a
         className="phase-output text-decoration-none"
