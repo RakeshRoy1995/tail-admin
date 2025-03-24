@@ -3843,6 +3843,8 @@
     "yallist" "^3.0.2"
 
 "lucide-react@^0.427.0":
+  "integrity" "sha512-lv9s6c5BDF/ccuA0EgTdskTxIe11qpwBDmzRZHJAKtp8LTewAvDvOM+pTES9IpbBuTqkjiMhOmGpJ/CB+mKjFw=="
+  "resolved" "https://registry.npmjs.org/lucide-react/-/lucide-react-0.427.0.tgz"
   "version" "0.427.0"
 
 "luxon@^3.0.2", "luxon@^3.2.1":
