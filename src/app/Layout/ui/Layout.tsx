@@ -7,7 +7,7 @@ import Footer from "../Footer";
 const Layout: FC = () => {
   
   return (
-    <div className="w-full">
+    <div className="admin-panel">
       <Navbar />
 
       <LeftSideMenuBar />
