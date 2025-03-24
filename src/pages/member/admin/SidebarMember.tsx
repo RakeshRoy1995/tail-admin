@@ -10,7 +10,8 @@ export default function SidebarMember({
   settextareaShow,
   setactiveQuestion,
   data,
-  setactiveBlock
+  setactiveBlock,
+  output
 }: any) {
   return (
     <div className="section-list">
@@ -31,6 +32,7 @@ export default function SidebarMember({
                     data={data}
                     setactiveBlock={setactiveBlock}
                     totalQues={AllQues?.filter((dq:any)=> dq.blockId == d.id )}
+                    output={output}
                   />
                 </div>
               ) : (
@@ -44,6 +46,7 @@ export default function SidebarMember({
                   data={data}
                   setactiveBlock={setactiveBlock}
                   totalQues={AllQues?.filter((dq:any)=> dq.blockId == d.id )}
+                  output={output}
                 />
               )}
             </>

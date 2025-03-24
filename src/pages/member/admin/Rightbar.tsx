@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function Rightbar() {
+export default function Rightbar({setshowSavedQuestion}:any) {
   return (
     <div className=" __right-sidebar __height-half">
       <div>
@@ -40,6 +40,7 @@ export default function Rightbar() {
         className="phase-output text-decoration-none"
         id="showSavedBtn"
         href="#"
+        onClick={(e) => setshowSavedQuestion(true)}
       >
         <i className="fas fa-bookmark" />
         Show Saved
