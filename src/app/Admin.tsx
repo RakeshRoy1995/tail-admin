@@ -57,8 +57,19 @@ export default function Admin() {
             </Link>
           </div>
         </motion.div>
-
         <motion.div
+          className="col-md-3 col-sm-3 col-6"
+          {...childHoverAnimation}
+        >
+          <div className="icon-box">
+            <Link to="/block-overview">
+              <img src="asset/assets/img/img3.png" alt="" />
+              <p>BLOCK OVERVIEW</p>
+            </Link>
+          </div>
+        </motion.div>
+
+        {/* <motion.div
           className="col-md-3 col-sm-3 col-6"
           {...childHoverAnimation}
         >
@@ -68,7 +79,7 @@ export default function Admin() {
               <p>PROMPT LIBRARY</p>
             </a>
           </div>
-        </motion.div>
+        </motion.div> */}
       </div>
       <div className="row ">
         <motion.div

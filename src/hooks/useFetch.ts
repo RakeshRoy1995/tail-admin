@@ -4,7 +4,6 @@ import { useState } from "react";
 import Swal from "sweetalert2";
 
 const authToken = localStorage.getItem("customer_login_auth") || "";
-
 const token: any = authToken ? JSON.parse(authToken) : "";
 
 const useFetch = (url: any, options = {}) => {
@@ -138,6 +137,7 @@ const useFetch = (url: any, options = {}) => {
   //   }
   //   setLoading(false);
   // };
+  
   const fetchDataCommon = async (api: any, options = {}) => {
     setError(null);
     setLoading(true);

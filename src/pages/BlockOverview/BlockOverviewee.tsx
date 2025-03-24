@@ -1,22 +1,24 @@
 import { get_all_data, submitFormData } from "@/api/Reqest";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 const token = localStorage.getItem("token");
 const API_URL = import.meta.env.VITE_REACT_APP_API_URL;
 import { groupBy } from "@/utils";
 import ShowOutput from "@/shared/ShowOutput/ShowOutput";
-import useFetchMolel from "@/testcase/useTestFetch";
 
-const BlockOutput = () => {
+const BlockOverviewee = () => {
   const [allUsersList, setAllUsersList] = React.useState([]);
-  const [allAllBlockList, setAllBlocksList] = React.useState([]);
+  const [allPhaseList, setAllPhaseList] = React.useState([]);
   const [selectedUserId, setSelectedUserId] = React.useState<number | null>(
     null,
   );
-  const [blockID, setBlockID] = React.useState<number | null>(null);
-  const [expandedBlockId, setExpandedBlockId] = React.useState<number | null>(
+  const [phaseID, setPhaseID] = React.useState<number | null>(null);
+
+  const [expandedPhaseId, setExpandedPhaseId] = React.useState<number | null>(
     null,
   );
 
+  const [data, setdata] = useState<any>({});
+  const [AiResponse, setAiResponse] = useState<any>([]);
   const [render, setrender] = useState<any>(true);
   const [submit, setsubmit] = useState<any>(false);
   const [error, seterror] = useState<any>("");
@@ -25,31 +27,33 @@ const BlockOutput = () => {
   const [outPutQues, setoutPutQues] = useState<any>([]);
   const [textareaShow, settextareaShow] = useState<any>(false);
 
-  const toggleBlock = (blockID: number) => {
-    setBlockID(blockID);
-    setExpandedBlockId(expandedBlockId === blockID ? null : blockID);
-  };
+  //   const togglePhase = (phaseId: number) => {
+  //     setPhaseID(phaseId);
+  //     setExpandedPhaseId(expandedPhaseId === phaseId ? null : phaseId);
+  //   };
+
+  //   React.useEffect(() => {
+  //     const fetchData = async () => {
+  //       try {
+  //         const getAllUsersURL = "users/all-members";
+  //         const { data: allUsersList }: any = await get_all_data(getAllUsersURL);
+  //         setAllUsersList(allUsersList);
+  //       } catch (error) {
+  //         console.log(error);
+  //       }
+  //     };
+
+  //     fetchData();
+  //   }, []);
 
   React.useEffect(() => {
     const fetchData = async () => {
       try {
-        const getAllUsersURL = "users/all-members";
-        const { data: allUsersList }: any = await get_all_data(getAllUsersURL);
-        setAllUsersList(allUsersList);
-      } catch (error) {
-        console.log(error);
-      }
-    };
+        const getAllPhaseURL = "phases";
+        const { data: allPhaseList }: any = await get_all_data(getAllPhaseURL);
+        setAllPhaseList(allPhaseList);
 
-    fetchData();
-  }, []);
-
-  React.useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const url = "blocks";
-        const { data: allBlocksList }: any = await get_all_data(url);
-        setAllBlocksList(allBlocksList);
+        console.log("allPhaseList", allPhaseList);
       } catch (error) {
         console.log(error);
       }
@@ -58,50 +62,41 @@ const BlockOutput = () => {
     fetchData();
   }, [selectedUserId]);
 
-  const getBlockOutput = async () => {
-    seterror("");
-    setsubmit(true);
-    setoutput([]);
-    setoutPutQues([]);
-    try {
-      const page_list = `${API_URL}/user-ai-chat/userId/${selectedUserId}/blockId/${blockID}`;
-      const method = "PUT";
+  //   const getPhaseOutput = async (id = null) => {
+  //     seterror("");
+  //     setsubmit(true);
+  //     setoutput([]);
+  //     setoutPutQues([]);
+  //     try {
+  //       const page_list = `${API_URL}/user-ai-chat/userId-phaseId/${selectedUserId}/${phaseID}`;
+  //       const method = "post";
 
-      const options = {
-        method,
-        headers: {
-          "content-type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      };
+  //       const options = {
+  //         method,
+  //         headers: {
+  //           "content-type": "application/json",
+  //           Authorization: `Bearer ${token}`,
+  //         },
+  //       };
 
-      const { data } = await submitFormData(page_list, options);
-      const res = data.filter((d: any) => d.blockId == blockID);
+  //       const { data } = await submitFormData(page_list, options);
+  //       const res = data.filter((d: any) => d.phaseId == phaseID);
 
-      if (res.length) {
-        setoutput(Object.values(groupBy(res, "blockId")));
-      }
-      setrender(!render);
-    } catch (error) {
-      // seterror("Something Went Wrong");
-    }
-    setsubmit(false);
-  };
+  //       if (res.length) {
+  //         setoutput(Object.values(groupBy(res, "blockId")));
+  //       }
+  //       setrender(!render);
+  //     } catch (error) {
+  //       // seterror("Something Went Wrong");
+  //     }
+  //     setsubmit(false);
+  //   };
 
-  React.useEffect(() => {
-    if (blockID) {
-      getBlockOutput();
-    }
-  }, [blockID]);
-
-  const url = "https://jsonplaceholder.typicode.com/posts";
-
-  const { loading, fetchAllData, allData } = useFetchMolel(url);
-  console.log("allData", allData);
-
-  useEffect(() => {
-    fetchAllData();
-  }, []);
+  //   React.useEffect(() => {
+  //     if (phaseID) {
+  //       getPhaseOutput();
+  //     }
+  //   }, [phaseID]);
 
   return (
     <div className="container-fluid tab-panel">
@@ -109,11 +104,11 @@ const BlockOutput = () => {
         <div className="col-md-12 from-panel-wrap">
           <div className="row ">
             <div className="phase-wrapper">
-              <h3>Block Output</h3>
+              <h3>Block Overview</h3>
               <div className="forms-wrapper">
                 <div className="mb-3">
                   <label htmlFor="user-select" className="form-label">
-                    Select User
+                    Phase List
                   </label>
                   <select
                     id="user-select"
@@ -126,22 +121,22 @@ const BlockOutput = () => {
                     <option value="" disabled>
                       -- Select a User --
                     </option>
-                    {allUsersList?.map((user: any) => (
-                      <option key={user.id} value={user.id}>
-                        {user?.username}
+                    {allPhaseList?.map((item: any) => (
+                      <option key={item.id} value={item.id}>
+                        {item?.name}
                       </option>
                     ))}
                   </select>
                 </div>
 
-                {selectedUserId && (
+                {/* {selectedUserId && (
                   <div className="phase-list">
-                    <h4 style={{ marginBottom: "15px" }}>All Block List</h4>
-                    {allAllBlockList?.map((block: any) => (
-                      <div key={block.id} className="phase-item">
+                    <h4 style={{ marginBottom: "15px" }}>All Phase List</h4>
+                    {allPhaseList.map((phase: any) => (
+                      <div key={phase.id} className="phase-item">
                         <div
                           className="phase-header"
-                          onClick={() => toggleBlock(block.id)}
+                          onClick={() => togglePhase(phase.id)}
                           style={{
                             cursor: "pointer",
                             fontWeight: "bold",
@@ -151,9 +146,9 @@ const BlockOutput = () => {
                             marginBottom: "5px",
                           }}
                         >
-                          {block.name}
+                          {phase.name}
                         </div>
-                        {expandedBlockId === block.id && (
+                        {expandedPhaseId === phase.id && (
                           <div
                             className="phase-description"
                             style={{
@@ -163,7 +158,7 @@ const BlockOutput = () => {
                               backgroundColor: "",
                             }}
                           >
-                            {/* {phase?.discription} */}
+                           
                             <ShowOutput
                               setoutPutQues={setoutPutQues}
                               output={output}
@@ -174,7 +169,7 @@ const BlockOutput = () => {
                       </div>
                     ))}
                   </div>
-                )}
+                )} */}
               </div>
             </div>
           </div>
@@ -184,4 +179,4 @@ const BlockOutput = () => {
   );
 };
 
-export default BlockOutput;
+export default BlockOverviewee;

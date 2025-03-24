@@ -1,5 +1,9 @@
-import { get_all_data } from "@/api/Reqest";
-import React from "react";
+import { get_all_data, submitFormData } from "@/api/Reqest";
+import React, { useState } from "react";
+const token = localStorage.getItem("token");
+const API_URL = import.meta.env.VITE_REACT_APP_API_URL;
+import { groupBy } from "@/utils";
+import ShowOutput from "@/shared/ShowOutput/ShowOutput";
 
 const PhaseOutput = () => {
   const [allUsersList, setAllUsersList] = React.useState([]);
@@ -7,16 +11,31 @@ const PhaseOutput = () => {
   const [selectedUserId, setSelectedUserId] = React.useState<number | null>(
     null,
   );
-  const [expandedPhaseId, setExpandedPhaseId] = React.useState<number | null>(null);
+  const [phaseID, setPhaseID] = React.useState<number | null>(null);
+
+  const [expandedPhaseId, setExpandedPhaseId] = React.useState<number | null>(
+    null,
+  );
+
+  const [data, setdata] = useState<any>({});
+  const [AiResponse, setAiResponse] = useState<any>([]);
+  const [render, setrender] = useState<any>(true);
+  const [submit, setsubmit] = useState<any>(false);
+  const [error, seterror] = useState<any>("");
+  const [output, setoutput] = useState<any>([]);
+  const [showMode, setshowMode] = useState<any>("");
+  const [outPutQues, setoutPutQues] = useState<any>([]);
+  const [textareaShow, settextareaShow] = useState<any>(false);
 
   const togglePhase = (phaseId: number) => {
+    setPhaseID(phaseId);
     setExpandedPhaseId(expandedPhaseId === phaseId ? null : phaseId);
   };
 
   React.useEffect(() => {
     const fetchData = async () => {
       try {
-        const getAllUsersURL = "users";
+        const getAllUsersURL = "users/all-members";
         const { data: allUsersList }: any = await get_all_data(getAllUsersURL);
         setAllUsersList(allUsersList);
       } catch (error) {
@@ -42,6 +61,43 @@ const PhaseOutput = () => {
 
     fetchData();
   }, [selectedUserId]);
+
+  const getPhaseOutput = async (id = null) => {
+    seterror("");
+    setsubmit(true);
+    setoutput([]);
+    setoutPutQues([]);
+    try {
+     
+      const page_list = `${API_URL}/user-ai-chat/userId-phaseId/${selectedUserId}/${phaseID}`;
+      const method = "post";
+
+      const options = {
+        method,
+        headers: {
+          "content-type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      };
+
+      const { data } = await submitFormData(page_list, options);
+      const res = data.filter((d: any) => d.phaseId == phaseID);
+
+      if (res.length) {
+        setoutput(Object.values(groupBy(res, "blockId")));
+      }
+      setrender(!render);
+    } catch (error) {
+      // seterror("Something Went Wrong");
+    }
+    setsubmit(false);
+  };
+
+  React.useEffect(() => {
+    if (phaseID) {
+      getPhaseOutput();
+    }
+  }, [phaseID]);
 
   return (
     <div className="container-fluid tab-panel">
@@ -72,9 +128,8 @@ const PhaseOutput = () => {
                       </option>
                     ))}
                   </select>
-                              </div>
-                              
-                              
+                </div>
+
                 {selectedUserId && (
                   <div className="phase-list">
                     <h4 style={{ marginBottom: "15px" }}>All Phase List</h4>
@@ -104,7 +159,12 @@ const PhaseOutput = () => {
                               backgroundColor: "",
                             }}
                           >
-                            {phase?.discription}
+                            {/* {phase?.discription} */}
+                            <ShowOutput
+                              setoutPutQues={setoutPutQues}
+                              output={output}
+                              outPutQues={outPutQues}
+                            />
                           </div>
                         )}
                       </div>
