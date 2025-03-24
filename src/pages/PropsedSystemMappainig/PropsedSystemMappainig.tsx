@@ -290,7 +290,7 @@ const PropsedSystemMappainig = () => {
               }}
               >
               <Bookmark size={16} />
-              <span>Save output Saved</span>
+              <span>Save output</span>
               </motion.button>
             </div>
           </motion.div>
