@@ -45,10 +45,7 @@ const App: FC = () => {
           <Route path="/" element={<HomeEntryPage />}></Route>
 
           <Route path="/" element={<PrivateRoute />}>
-            <Route
-              path="/propsed-system-mapping"
-              element={<PropsedSystemMappainig />}
-            />
+           
             <Route path="/admin" element={<MemberAdmin />} />
             <Route path="/problem-def" element={<ProblemDefLayout />} />
             <Route path="/" element={<Layout />}>

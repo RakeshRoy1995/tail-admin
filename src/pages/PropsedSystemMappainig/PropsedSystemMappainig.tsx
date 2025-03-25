@@ -270,7 +270,7 @@ const PropsedSystemMappainig = ({
                 </div>
                 <div
                   className="card-body"
-                  style={{ ...cardBodyStyle, ...customScrollbarStyle }}
+                  style={{ ...cardBodyStyle, ...customScrollbarStyle } as React.CSSProperties}
                 >
                   <p className="text-muted">
                     {output.length > 0 && (
@@ -308,7 +308,7 @@ const PropsedSystemMappainig = ({
                 </div>
                 <div
                   className="card-body"
-                  style={{ ...cardBodyStyle, ...customScrollbarStyle }}
+                  style={{ ...cardBodyStyle, ...customScrollbarStyle }  as React.CSSProperties}
                 >
                   <p className="text-muted">
                     {output.length > 0 && (
@@ -343,7 +343,7 @@ const PropsedSystemMappainig = ({
                 </div>
                 <div
                   className="card-body"
-                  style={{ ...cardBodyStyle, ...customScrollbarStyle }}
+                  style={{ ...cardBodyStyle, ...customScrollbarStyle }  as React.CSSProperties}
                 >
                   <p className="text-muted">
                     {output.length > 0 && (
@@ -381,7 +381,7 @@ const PropsedSystemMappainig = ({
                 </div>
                 <div
                   className="card-body"
-                  style={{ ...cardBodyStyle, ...customScrollbarStyle }}
+                  style={{ ...cardBodyStyle, ...customScrollbarStyle }  as React.CSSProperties}
                 >
                   <p className="text-muted">
                     {output.length > 0 && (
@@ -428,7 +428,7 @@ const PropsedSystemMappainig = ({
                 {/* Content */}
                 <div
                   className="card-body"
-                  style={{ ...cardBodyStyle, ...customScrollbarStyle }}
+                  style={{ ...cardBodyStyle, ...customScrollbarStyle }  as React.CSSProperties}
                 >
                   {output.length > 0 && (
                     <AIOutputShow messages={output[4]?.output} />
