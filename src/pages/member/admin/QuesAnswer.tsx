@@ -160,6 +160,7 @@ export default function QuesAnswer({
               <i className="fas fa-times" />
             </button>
           </div>
+          
           <div className="saved-questions">
             {output.map((d: any) => (
               <>

@@ -13024,7 +13024,29 @@ header nav {
 .overlay .phase-output i {
   font-size: 1.25rem;
 }
-
+ .phase-output-btn {
+  margin-top: auto;
+  padding: 1rem;
+  background: #1a4c32;
+  border: none;
+  border-radius: 12px;
+  color: white;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+ .phase-output-btn:hover {
+  background: #2e7d57;
+  transform: translateY(-2px);
+}
+ .phase-output-btn i {
+  font-size: 1.25rem;
+}
 .saved-sidebar {
   position: fixed;
   top: 0;
