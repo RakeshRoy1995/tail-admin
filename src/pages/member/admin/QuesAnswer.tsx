@@ -85,7 +85,7 @@ export default function QuesAnswer({
             </div>
           )}
         </div>
-        {AllQues.find((d: any) => d.id == data.question_id)?.question ? (
+        {AllQues.find((d: any) => d.id == data?.question_id)?.question ? (
           <div className="chat-footer">
             <div className="input-wrapper">
               <div className="input-actions">

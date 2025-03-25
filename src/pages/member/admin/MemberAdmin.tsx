@@ -36,6 +36,7 @@ export default function MemberAdmin() {
   const [submit, setsubmit] = useState<any>(false);
   const [error, seterror] = useState<any>("");
   const [output, setoutput] = useState<any>([]);
+  const [questionAnswer, setquestionAnswer] = useState<any>([]);
   const [showMode, setshowMode] = useState<any>("");
   const [outPutQues, setoutPutQues] = useState<any>([]);
   const [textareaShow, settextareaShow] = useState<any>(false);
@@ -54,8 +55,6 @@ export default function MemberAdmin() {
   const [allPhasePromts, setallPhasePromts] = useState([]);
   const [AllQues, setAllQues] = useState([]);
   const [Ques, setQues] = useState([]);
-
-  console.log(`phases phases`, phases);
 
   // get phases
   useEffect(() => {
@@ -204,39 +203,6 @@ export default function MemberAdmin() {
     setsubmit(false);
   };
 
-  const getBlockOutput = async (blockId: any) => {
-    setoutput([]);
-    setoutPutQues([]);
-    seterror("");
-    setsubmit(true);
-    setshowMode("block");
-    try {
-      const user_details = getUserDetails();
-
-      const selectedBlock = Allblocks.find((d) => d.id == blockId);
-
-      const txt = "Block : " + selectedBlock.name;
-      setshowMode(txt);
-
-      const page_list = `${API_URL}/user-ai-chat/userId/${user_details?.id}/blockId/${blockId}`;
-      const method = "put";
-
-      const options = {
-        method,
-        headers: {
-          "content-type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      };
-
-      const { data } = await submitFormData(page_list, options);
-      setoutput(Object.values(groupBy(data, "blockId")));
-    } catch (error) {
-      seterror("Something Went Wrong");
-    }
-    setsubmit(false);
-  };
-
   const getPhaseOutput = async (id = null) => {
     seterror("");
     setsubmit(true);
@@ -311,8 +277,6 @@ export default function MemberAdmin() {
       setshowPhaseOutputSummery(true);
 
       const questionAnswer = [];
-      console.log(`selectedPhase`,  output);
-
       for (let i = 0; i < output.length; i++) {
         const element = output[i];
 
@@ -325,7 +289,7 @@ export default function MemberAdmin() {
         }
       }
 
-      console.log(`questionAnswer`, questionAnswer);
+      setquestionAnswer(questionAnswer);
     } catch (error: any) {
       seterror(error?.response?.data?.message || "Something Went Wrong");
     }
@@ -408,7 +372,11 @@ export default function MemberAdmin() {
         </main>
       ) : (
         <main>
-          <PropsedSystemMappainig />
+          <PropsedSystemMappainig
+            questionAnswer={questionAnswer}
+            allPhasePromts={allPhasePromts}
+            activephase={activephase}
+          />
         </main>
       )}
     </>

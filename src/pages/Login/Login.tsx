@@ -72,107 +72,112 @@ const Login = () => {
   };
 
   return (
-    <div className="wrapper">
-      <div className="section-two" />
-      <div className="section-one">
-        <div className="container">
-          <div className="row login-wrapper">
-            <div className="col-lg-7 col-12">
-              <div className="welcome">
-                <h3>Welcome to</h3>
-                <h1>Institutional Innovation &amp; Design Tool</h1>
-              </div>
-            </div>
-            <div className="col-lg-5 col-12">
-              <div className="login-form">
-                <p>
-                  <a href="#">
-                    <i className="fa fa-chevron-left" aria-hidden="true" />{" "}
-                    Cancel{" "}
-                  </a>
-                </p>
-                <div className="inner-logo">
-                  <a className="center-img" href="#">
-                    {/* <img src="asset/assets/img/form-logo.png" alt="" /> */}
-                    <img src="/public/asset/assets/img/logo-coinnovator301209.jpg" alt="" />
-                  </a>
+    <div className="admin-panel">
+      <div className=" wrapper">
+        <div className="section-two" />
+        <div className="section-one">
+          <div className="container">
+            <div className="row login-wrapper">
+              <div className="col-lg-7 col-12">
+                <div className="welcome">
+                  <h3>Welcome to</h3>
+                  <h1>Institutional Innovation &amp; Design Tool</h1>
                 </div>
-                <div className="inner-form">
-                  <h4>Login</h4>
-                  <hr />
-                  <p>Enter your Email and Password for sign up/login.</p>
+              </div>
+              <div className="col-lg-5 col-12">
+                <div className="login-form">
+                  <p>
+                    <a href="#">
+                      <i className="fa fa-chevron-left" aria-hidden="true" />{" "}
+                      Cancel{" "}
+                    </a>
+                  </p>
+                  <div className="inner-logo">
+                    <a className="center-img" href="#">
+                      {/* <img src="asset/assets/img/form-logo.png" alt="" /> */}
+                      <img
+                        src="/public/asset/assets/img/logo-coinnovator301209.jpg"
+                        alt=""
+                      />
+                    </a>
+                  </div>
+                  <div className="inner-form">
+                    <h4>Login</h4>
+                    <hr />
+                    <p>Enter your Email and Password for sign up/login.</p>
+                  </div>
+                  <form onSubmit={handleSubmit(onSubmit)}>
+                    <div className="form-group">
+                      <label htmlFor="exampleInputEmail1">Email address</label>
+                      <input
+                        type="email"
+                        maxLength={50}
+                        {...register("username", {
+                          required: "Username is required",
+                        })}
+                        className="form-control"
+                        id="exampleInputEmail1"
+                        aria-describedby="emailHelp"
+                        placeholder="Enter Email Address"
+                      />
+                      {errors?.username && (
+                        <p className="text-white font-semibold">
+                          {errors?.username?.message}
+                        </p>
+                      )}
+                    </div>
+                    <div className="form-group">
+                      <label htmlFor="exampleInputPassword1">Password</label>
+                      <input
+                        {...register("password", {
+                          required: "Password is required",
+                        })}
+                        type={showPassword ? "text" : "password"}
+                        className="form-control"
+                        id="exampleInputPassword1"
+                        placeholder="Enter Password"
+                      />
+                    </div>
+                    <button type="submit" className="btn">
+                      Continue
+                    </button>
+                  </form>
                 </div>
-                <form onSubmit={handleSubmit(onSubmit)}>
-                  <div className="form-group">
-                    <label htmlFor="exampleInputEmail1">Email address</label>
-                    <input
-                      type="email"
-                      maxLength={50}
-                      {...register("username", {
-                        required: "Username is required",
-                      })}
-                      className="form-control"
-                      id="exampleInputEmail1"
-                      aria-describedby="emailHelp"
-                      placeholder="Enter Email Address"
-                    />
-                    {errors?.username && (
-                      <p className="text-white font-semibold">
-                        {errors?.username?.message}
-                      </p>
-                    )}
-                  </div>
-                  <div className="form-group">
-                    <label htmlFor="exampleInputPassword1">Password</label>
-                    <input
-                      {...register("password", {
-                        required: "Password is required",
-                      })}
-                      type={showPassword ? "text" : "password"}
-                      className="form-control"
-                      id="exampleInputPassword1"
-                      placeholder="Enter Password"
-                    />
-                  </div>
-                  <button type="submit" className="btn">
-                    Continue
-                  </button>
-                </form>
               </div>
             </div>
           </div>
         </div>
+        <div className="section-three">
+          <div className="container">
+            <div className="row">
+              <div className="image-wrap">
+                <img src="asset/assets/img/l-img1.png" alt="" />
+                <img src="asset/assets/img/l-img2.png" alt="" />
+                <img src="asset/assets/img/l-img3.png" alt="" />
+                <img src="asset/assets/img/l-img4.png" alt="" />
+                <img src="asset/assets/img/l-img5.png" alt="" />
+              </div>
+            </div>
+          </div>
+        </div>
+        <footer className="footer text-center">
+          <div className="container">
+            <div className="row">
+              {/* Footer Location*/}
+              <div className="col-lg-6 col-md-6 col-4">
+                <div className="footer-logo ">
+                  <img src="asset/assets/img/footer-logo.png" alt="" />
+                </div>
+              </div>
+              <div className="col-lg-6 col-md-6 col-8">
+                <div className="copyright text-right text-white">
+                  <p>All rights reserved © 2025</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </footer>
       </div>
-      <div className="section-three">
-        <div className="container">
-          <div className="row">
-            <div className="image-wrap">
-              <img src="asset/assets/img/l-img1.png" alt="" />
-              <img src="asset/assets/img/l-img2.png" alt="" />
-              <img src="asset/assets/img/l-img3.png" alt="" />
-              <img src="asset/assets/img/l-img4.png" alt="" />
-              <img src="asset/assets/img/l-img5.png" alt="" />
-            </div>
-          </div>
-        </div>
-      </div>
-      <footer className="footer text-center">
-        <div className="container">
-          <div className="row">
-            {/* Footer Location*/}
-            <div className="col-lg-6 col-md-6 col-4">
-              <div className="footer-logo ">
-                <img src="asset/assets/img/footer-logo.png" alt="" />
-              </div>
-            </div>
-            <div className="col-lg-6 col-md-6 col-8">
-              <div className="copyright text-right text-white">
-                <p>All rights reserved © 2025</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 };
