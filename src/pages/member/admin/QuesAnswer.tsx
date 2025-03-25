@@ -15,7 +15,7 @@ export default function QuesAnswer({
   setshowPhaseOutput
 }: any) {
   return (
-    <div className="__question-and-answer position-relative __margin-left __margin-right __height-full ">
+    <div className="__question-and-answer position-relative __margin-left __margin-right __height-full">
       <div className="toggle_sidebar align-items-center justify-content-between px-3 w-100">
         <div className="toggle_left_sidebar">
           <i className="fa fa-bars fs-3" aria-hidden="true" />
