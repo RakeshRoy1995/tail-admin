@@ -265,8 +265,12 @@ const PropsedSystemMappainig = ({
                 <div
                   className="card-body"
                   style={{
-                    ...cardBodyStyleCard1andCard3,
-                    ...customScrollbarStyle,
+                    overflowY: "auto",
+                    maxHeight: "600px", // Adjust height as needed
+                    paddingRight: "10px",
+                    scrollbarWidth: "thin",
+                    scrollbarColor: "#6c757d #f8f9fa",
+                    
                   }}
                 >
                   <p className="text-muted">
@@ -305,7 +309,10 @@ const PropsedSystemMappainig = ({
                 </div>
                 <div
                   className="card-body"
-                  style={{ ...cardBodyStyle, ...customScrollbarStyle }}
+                  style={{   overflowY: "auto",
+                    maxHeight: "300px", // Adjust height as needed
+                    paddingRight: "10px",   scrollbarWidth: "thin",
+                    scrollbarColor: "#6c757d #f8f9fa", }}
                 >
                   <p className="text-muted">
                     {output.length > 0 && (
@@ -340,7 +347,10 @@ const PropsedSystemMappainig = ({
                 </div>
                 <div
                   className="card-body"
-                  style={{ ...cardBodyStyle, ...customScrollbarStyle }}
+                  style={{ overflowY: "auto",
+                    maxHeight: "300px", // Adjust height as needed
+                    paddingRight: "10px",   scrollbarWidth: "thin",
+                    scrollbarColor: "#6c757d #f8f9fa", }}
                 >
                   <p className="text-muted">
                     {output.length > 0 && (
@@ -379,8 +389,11 @@ const PropsedSystemMappainig = ({
                 <div
                   className="card-body"
                   style={{
-                    ...cardBodyStyleCard1andCard3,
-                    ...customScrollbarStyle,
+                    overflowY: "auto",
+                    maxHeight: "600px", // Adjust height as needed
+                    paddingRight: "10px",
+                    scrollbarWidth: "thin",
+                    scrollbarColor: "#6c757d #f8f9fa",
                   }}
                 >
                   <p className="text-muted">
@@ -428,7 +441,10 @@ const PropsedSystemMappainig = ({
                 {/* Content */}
                 <div
                   className="card-body"
-                  style={{ ...cardBodyStyle, ...customScrollbarStyle }}
+                  style={{ overflowY: "auto",
+                    maxHeight: "300px", // Adjust height as needed
+                    paddingRight: "10px",  scrollbarWidth: "thin",
+                    scrollbarColor: "#6c757d #f8f9fa", }}
                 >
                   {output.length > 0 && (
                     <AIOutputShow messages={output[4]?.output} />
