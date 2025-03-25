@@ -1,6 +1,9 @@
 import React from "react";
 
-export default function ProfileSection() {
+export default function ProfileSection({phases, activephase}:any) {
+
+  const phaseDetails = phases?.find((d: any) => d.id == activephase);
+
   return (
     <div className="profile-card">
       <div className="d-flex align-items-center gap-3 mb-3">
@@ -10,8 +13,8 @@ export default function ProfileSection() {
           className="profile-image"
         />
         <div>
-          <h5 className="mb-1">AI Questionnaire</h5>
-          <small className="opacity-75">Manage Sections</small>
+          <h5 className="mb-1">Phase {phaseDetails?.id}</h5>
+          <small className="opacity-75">{phaseDetails?.name}</small>
         </div>
       </div>
       <div className="d-flex justify-content-between">
