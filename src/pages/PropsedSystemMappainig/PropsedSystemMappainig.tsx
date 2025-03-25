@@ -20,7 +20,7 @@ const cards = [
     content:
       'Summarize the problem statement from the user data and documents provided. Create multiple different summaries to frame the problem from different view points. Let\'s call these summaries "Problem Framings". List them chronologically like "Problem Framing 1: (A short Title)" and then provide under 200 Words summary. The summaries should elaborate on the need of a new or redesigned institution to tackle the problem. Each framing can have different institutional need mentioned. do not exceed 1000 words on the overall output.',
     footer:
-      '##### Remember this output as "List of possible problem framings" for future reference.',
+      'Remember this output as "List of possible problem framings" for future reference.',
   },
   {
     title: "List of affected people",
@@ -28,7 +28,7 @@ const cards = [
     content:
       "based on the given data and problem statement find out who are the affected people or groups for that particular problem. List them chronologically from most affected to the least affected. Give a two to three sentence overview on how each of the group gets affected. Do not exceed 5 groups.",
     footer:
-      '##### Remember this output as "List of affected people" for future reference and use',
+      'Remember this output as "List of affected people" for future reference and use',
   },
   {
     title: "List of Institutional Gaps",
@@ -36,7 +36,7 @@ const cards = [
     content:
       "List the institutional gaps from the problem statement. The gaps can be either the lack of institutions responsible for tackling the problem, or lack of existing models or role within the institution in question. Please list the institutional gaps chronologically in a numbered format. put short descriptions on each gap. Do not exceed 500 words for this analysis.",
     footer:
-      '### Remember this output as "list of institutional gaps" for future reference and use.',
+      'Remember this output as "list of institutional gaps" for future reference and use.',
   },
   {
     title: "List of Institutions Mapped",
@@ -44,7 +44,7 @@ const cards = [
     content:
       "Based on the data given to you previously and on the current problem statement, list the institutions that are relevant or have stakes in the problem statement. List the institutions by their name, mandate, brief description, sector. List them chronologically. do not go beyond 10 institutions. You may group them by type, for example government institutions or NGO or International Development agencies or private sector companies. if there are more than 10 institutions or such groupings, you do not need to list them further, just mention that there are more.",
     footer:
-      '##### Remember this output as "List of institutions mapped" for future reference and use.',
+      'Remember this output as "List of institutions mapped" for future reference and use.',
   },
 ];
 

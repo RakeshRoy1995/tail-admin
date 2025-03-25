@@ -322,7 +322,7 @@ export default function MemberAdmin() {
                   close
                 </button>
                 {/* Profile Section */}
-                <ProfileSection />
+                <ProfileSection phases={phases} activephase={activephase} />
                 {/* sidebar Section */}
                 <SidebarMember
                   Allblocks={Allblocks}

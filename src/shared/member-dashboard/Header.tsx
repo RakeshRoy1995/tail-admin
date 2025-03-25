@@ -87,7 +87,7 @@ export default function Header() {
     setName(value);
   };
 
-  const modelName = name || localStorage.getItem("AI_model")
+  const modelName = name || localStorage.getItem("AI_model");
 
   return (
     <header>
@@ -96,10 +96,11 @@ export default function Header() {
           <div className="d-flex w-100 justify-content-between align-items-center">
             <a className="navbar-brand" href="#">
               <img
+                style={{ paddingLeft: "1.5rem" }}
                 src="asset/member/images/logo.png"
                 alt=""
                 className="img-fluid"
-                width={120}
+                width={170}
               />
             </a>
             <div className=" d-flex align-items-center gap-4">
