@@ -164,8 +164,6 @@ const PropsedSystemMappainig = ({
     setsubmit(false);
   };
 
-
-
   const onSaveSummerySubmit = async () => {
     seterror("");
     setsubmit(true);
@@ -197,10 +195,21 @@ const PropsedSystemMappainig = ({
   console.log(`outpddddddddddut`, output, allPhasePromts, payloadArr);
   return (
     <>
-      <div>
-        <div className="py-3 px-4" style={{ width: "19rem" }}>
+      <div className="pt-5">
+        <div className="container mt-4">
+            <button
+            className="btn btn-outline-secondary mb-3"
+            style={{
+              borderRadius: "50px",
+              padding: "10px 20px",
+              fontSize: "0.9rem",
+              boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+            }}
+            onClick={() => (window.location.href = "/admin")}
+            >
+            ← Back
+            </button>
           <div
-            className=""
             style={{
               color: "rgba(15, 42, 29, 0.8)",
               fontSize: "1rem",

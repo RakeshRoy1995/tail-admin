@@ -73,7 +73,7 @@ const Login = () => {
 
   return (
     <div className="admin-panel">
-      <div className=" wrapper">
+      <div className="wrapper">
         <div className="section-two" />
         <div className="section-one">
           <div className="container">
@@ -94,7 +94,7 @@ const Login = () => {
                   </p>
                   <div className="inner-logo">
                     <a className="center-img" href="#">
-                      {/* <img src="asset/assets/img/form-logo.png" alt="" /> */}
+           
                       <img
                         src="/public/asset/assets/img/logo-coinnovator301209.jpg"
                         alt=""

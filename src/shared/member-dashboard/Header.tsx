@@ -91,7 +91,7 @@ export default function Header() {
 
   return (
     <header>
-      <nav className="navbar navbar-light bg-white border-bottom border-light ">
+      <nav className="navbar navbar-light bg-white border-bottom border-light fixed">
         <div className="container-fluid">
           <div className="d-flex w-100 justify-content-between align-items-center">
             <a className="navbar-brand" href="#">
