@@ -16,20 +16,20 @@ export default function Rightbar({
         </button>
       </div>
       <div className="suggestions-grid">
-        <div className="suggestion-item">
+        <div className="suggestion-item text-center">
           {/* <i className="fas fa-question-circle" /> */}
           <span>Business model canvas</span>
         </div>
-        <div className="suggestion-item">
+        <div className="suggestion-item text-center">
           {/* <i className="fas fa-comments" /> */}
           <span>Causes Diagram</span>
         </div>
-        <div className="suggestion-item">
+        <div className="suggestion-item text-center">
           {/* <i className="fas fa-file-alt" /> */}
           <span>Portfolio Sense making</span>
         </div>
-        <div className="suggestion-item">
-          <i className="fas fa-lightbulb" />
+        <div className="suggestion-item text-center">
+          {/* <i className="fas fa-lightbulb" /> */}
           <span>Inversion</span>
         </div>
       </div>
