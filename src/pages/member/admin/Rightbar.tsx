@@ -17,26 +17,26 @@ export default function Rightbar({
       </div>
       <div className="suggestions-grid">
         <div className="suggestion-item">
-          <i className="fas fa-question-circle" />
-          <span>Questions</span>
+          {/* <i className="fas fa-question-circle" /> */}
+          <span>Business model canvas</span>
         </div>
         <div className="suggestion-item">
-          <i className="fas fa-comments" />
-          <span>Discussion</span>
+          {/* <i className="fas fa-comments" /> */}
+          <span>Causes Diagram</span>
         </div>
         <div className="suggestion-item">
-          <i className="fas fa-file-alt" />
-          <span>Resources</span>
+          {/* <i className="fas fa-file-alt" /> */}
+          <span>Portfolio Sense making</span>
         </div>
         <div className="suggestion-item">
           <i className="fas fa-lightbulb" />
-          <span>Ideas</span>
+          <span>Inversion</span>
         </div>
       </div>
       <div className="button-group __custom-group-btn">
-        <button className="active">Core Problems</button>
-        <button className="btn-success">User Research</button>
-        <button className="btn-info">Solution Design</button>
+        <button className="active">Relevant case studies</button>
+        <button className="btn-success">Show Saved Responses</button>
+        <button className="btn-info">Institutional Structure</button>
         {/* <button className="btn-danger">Implementation</button> */}
         <button
           type="button"
@@ -53,7 +53,7 @@ export default function Rightbar({
         onClick={(e) => setshowSavedQuestion(true)}
       >
         <i className="fas fa-bookmark" />
-        Show Saved
+        Show Phase output
       </a>
     </div>
   );
