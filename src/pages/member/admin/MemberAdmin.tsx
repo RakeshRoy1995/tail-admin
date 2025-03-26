@@ -11,6 +11,7 @@ import {
   getPreviousQuestion,
   getUserDetails,
   groupBy,
+  phasepromptdata,
   statusOfQuestion,
 } from "@/utils";
 import {
@@ -258,7 +259,12 @@ export default function MemberAdmin() {
       };
 
       const { data } = await submitFormData(page_list, options);
-      setallPhasePromts(data);
+
+      if (data.length) {
+        setallPhasePromts(data);
+      }else{
+        setallPhasePromts(phasepromptdata);
+      }
     } catch (error) {
       // seterror("Something Went Wrong");
     }
@@ -309,6 +315,7 @@ export default function MemberAdmin() {
               setoutPutQues={setoutPutQues}
               outPutQues={outPutQues}
               setshowPhaseOutput={setshowPhaseOutput}
+              onSubmitPhaseOutput={onSubmitPhaseOutput}
             />
           ) : (
             <>
@@ -353,6 +360,7 @@ export default function MemberAdmin() {
                 setshowSavedQuestion={setshowSavedQuestion}
                 output={output}
                 setshowPhaseOutput={setshowPhaseOutput}
+                onSubmitPhaseOutput={onSubmitPhaseOutput}
               />
               {/*Right Sidebar with sections and question*/}
               <Rightbar

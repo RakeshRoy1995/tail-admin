@@ -173,6 +173,8 @@ const PropsedSystemMappainig = ({
   activephase,
   phaseName,
 }) => {
+
+  console.log(`allPhasePromts`, allPhasePromts);
   const [submit, setsubmit] = useState<any>(false);
   const [error, seterror] = useState<any>("");
   const [output, setoutput] = useState<any>([]);
@@ -241,10 +243,13 @@ const PropsedSystemMappainig = ({
       const reply = questionAnswer.map((d: any) => d.aiReply);
       const result = [reply.join("\n\n")];
 
+      console.log(`resuggggglt`, result, allPhasePromts);
+
       for (let index = 0; index < allPhasePromts.length; index++) {
         const element = allPhasePromts[index];
         const array = [element.prompt, result];
 
+        console.log(`cdcsdvv`, array, array.join("\n\n") );
         const { data } = await submitAISummery(array.join("\n\n"));
 
         const obj = {
@@ -256,6 +261,8 @@ const PropsedSystemMappainig = ({
 
         payloadArr.push(obj);
       }
+
+      console.log(`result`, payloadArr);
       setpayloadArr(payloadArr);
       setoutput(payloadArr);
 
@@ -585,7 +592,7 @@ const PropsedSystemMappainig = ({
 
             <div className="col-md-3 d-flex flex-column gap-2">
               <motion.button
-                disabled={submit}
+                // disabled={submit}
                 type="button"
                 className="btn btn-secondary w-100 d-flex align-items-center justify-content-center gap-2"
                 onClick={(e) => onSubmit()}

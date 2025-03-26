@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 const HomeEntryPage = () => {
     return (
       <>
-        {/* <div className="container slider-wrapper position-relative">
+        <div className="container slider-wrapper1 position-relative">
           <Link
             to="/login"
             className="btn btn-primary position-absolute top-0 end-0 m-3"
@@ -19,23 +19,43 @@ const HomeEntryPage = () => {
               data-bs-ride="carousel"
               data-bs-interval="3000"
             >
-              <div className="carousel-inner">
-                <div className="carousel-item active">
-                  <img src="asset/assets/img/slide1.png" alt="" />
+                <div className="carousel-inner" style={{ height: '100vh' }}>
+                <div className="carousel-item active" style={{ height: '100%' }}>
+                  <img
+                  src="asset/assets/img/slide1.png"
+                  alt=""
+                  style={{ objectFit: 'cover', width: '100%', height: '100%' }}
+                  />
                 </div>
-                <div className="carousel-item">
-                  <img src="asset/assets/img/slide2.png" alt="" />
+                <div className="carousel-item" style={{ height: '100%' }}>
+                  <img
+                  src="asset/assets/img/slide2.png"
+                  alt=""
+                  style={{ objectFit: 'cover', width: '100%', height: '100%' }}
+                  />
                 </div>
-                <div className="carousel-item">
-                  <img src="asset/assets/img/slide3.png" alt="" />
+                <div className="carousel-item" style={{ height: '100%' }}>
+                  <img
+                  src="asset/assets/img/slide3.png"
+                  alt=""
+                  style={{ objectFit: 'cover', width: '100%', height: '100%' }}
+                  />
                 </div>
-                <div className="carousel-item">
-                  <img src="asset/assets/img/slide4.png" alt="" />
+                <div className="carousel-item" style={{ height: '100%' }}>
+                  <img
+                  src="asset/assets/img/slide4.png"
+                  alt=""
+                  style={{ objectFit: 'cover', width: '100%', height: '100%' }}
+                  />
                 </div>
-                <div className="carousel-item">
-                  <img src="asset/assets/img/slide4.png" alt="" />
+                <div className="carousel-item" style={{ height: '100%' }}>
+                  <img
+                  src="asset/assets/img/slide4.png"
+                  alt=""
+                  style={{ objectFit: 'cover', width: '100%', height: '100%' }}
+                  />
                 </div>
-              </div>
+                </div>
               <button
                 className="carousel-control-prev"
                 type="button"
@@ -62,16 +82,16 @@ const HomeEntryPage = () => {
               </button>
             </div>
           </div>
-        </div> */}
+        </div>
 
-        <div className="admin-panel">
+        {/* <div className="admin-panel">
           <div className="wrapper">
             <div className="section-two" />
             <div className="section-one">
               <div className="container"></div>
             </div>
           </div>
-        </div>
+        </div> */}
       </>
     );
 };

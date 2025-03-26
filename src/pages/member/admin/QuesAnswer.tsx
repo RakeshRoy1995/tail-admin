@@ -1,4 +1,7 @@
+import AiResponseForm from "@/pages/Form/AiResponseForm";
+import AiResponseFormMember from "@/pages/Form/AiResponseFormMember";
 import AIOutputShow from "@/shared/showOutputFormat/AIOutputShow";
+import { getPreviousQuestion } from "@/utils";
 import React from "react";
 
 export default function QuesAnswer({
@@ -41,18 +44,29 @@ export default function QuesAnswer({
           </h4>
         </div>
         <div className="chat-body">
+          {getPreviousQuestion(output, data?.question_id) && (
+            <AiResponseFormMember
+              ai_d={getPreviousQuestion(output, data?.question_id)}
+              onSubmitAnswer={onSubmitAnswer}
+              submit={submit}
+              type="edit"
+            />
+          )}
+
           {AiResponse.map((ai_d: any) => (
             <>
               {ai_d.aiReply && (
                 <>
-                  <div className="message user-message">
-                    <div className="user-avatar">
-                      <i className="fas fa-user" />
+                  {ai_d.yourMessage && (
+                    <div className="message user-message">
+                      <div className="user-avatar">
+                        <i className="fas fa-user" />
+                      </div>
+                      <div className="message-content">
+                        <div className="message-bubble">{ai_d.yourMessage}</div>
+                      </div>
                     </div>
-                    <div className="message-content">
-                      <div className="message-bubble">{ai_d.yourMessage}</div>
-                    </div>
-                  </div>
+                  )}
 
                   <div className="message">
                     <div className="bot-avatar">
@@ -126,16 +140,23 @@ export default function QuesAnswer({
       {/* Floating Buttons with Tooltips */}
       <div className="floating-buttons">
         <button
-          className="floating-btn save_btn"
+          className={`floating-btn save_btn ${AiResponse.length === 0 ? "no-hover" : ""}`}
           id="saveBtn"
           title="Save"
-          disabled={submit}
+          disabled={submit || AiResponse.length === 0}
           onClick={(e) => onSubmitAnswer(AiResponse[AiResponse.length - 1])}
           data-bs-toggle="tooltip"
           data-bs-placement="left"
         >
           <i className="fas fa-save" />
         </button>
+        <style>
+          {`
+            .no-hover:hover {
+              pointer-events: none;
+            }
+          `}
+        </style>
       </div>
       <div
         className={showSavedQuestion ? "overlay active" : "overlay"}

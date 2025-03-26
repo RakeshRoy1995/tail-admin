@@ -4,77 +4,16 @@ import "../../../public/asset/member/css/bootstrap.min.css";
 
 import "../../../public/asset/member/css/style.css";
 import "../../../public/asset/member/css/responsive.css";
+import AIOutputShow from "@/shared/showOutputFormat/AIOutputShow";
 
 const ProblemDefLayout = ({
   output,
   setoutPutQues,
   outPutQues,
   setshowPhaseOutput,
+  onSubmitPhaseOutput
 }: any) => {
   // Sample Data for the sections
-
-  const sections = [
-    {
-      id: "problem-scope",
-      title: "Problem Scope",
-      count: "5 questions",
-      description:
-        "Define the boundaries and scope of the problem we are trying to solve.",
-      faqs: [
-        {
-          question: "What is the core problem we are trying to solve?",
-          answer:
-            "The core problem should be clearly articulated and understood by all stakeholders.",
-        },
-        {
-          question: "Who are the key stakeholders affected by this problem?",
-          answer:
-            "Identify all parties who are directly or indirectly impacted by the problem.",
-        },
-        {
-          question: "What are the current limitations and constraints?",
-          answer:
-            "Document technical, business, and user constraints that might impact the solution.",
-        },
-      ],
-    },
-    {
-      id: "success-criteria",
-      title: "Success Criteria",
-      count: "4 questions",
-      description:
-        "Establish clear metrics and criteria for measuring success.",
-      faqs: [
-        {
-          question: "How will we measure success?",
-          answer:
-            "Define specific, measurable metrics that will indicate success.",
-        },
-        {
-          question: "What are the key performance indicators (KPIs)?",
-          answer:
-            "Identify the most important metrics to track progress and success.",
-        },
-      ],
-    },
-    {
-      id: "assumptions",
-      title: "Assumptions & Risks",
-      count: "6 questions",
-      description: "Document key assumptions and potential risks.",
-      faqs: [
-        {
-          question: "What are our key assumptions?",
-          answer:
-            "List all assumptions made about users, technology, business context, and market conditions.",
-        },
-        {
-          question: "What are the potential risks?",
-          answer: "Identify technical, business, and user-related risks.",
-        },
-      ],
-    },
-  ];
 
   const [activeSectionIndex, setActiveSectionIndex] = useState(0);
   const [activeFaqs, setActiveFaqs] = useState({});
@@ -133,7 +72,7 @@ const ProblemDefLayout = ({
         <a
           className="phase-output-btn text-decoration-none mt-4"
           href="#"
-          onClick={(e) => setshowPhaseOutput(true)}
+          onClick={(e) => onSubmitPhaseOutput()}
         >
           <i className="fas fa-arrow-circle-right" />
           Phase Output Summarize
@@ -184,7 +123,7 @@ const ProblemDefLayout = ({
                           : ""
                       }`}
                     >
-                      <p>{faq.aiReply}</p>
+                      <p> <AIOutputShow messages={faq.aiReply} /> </p>
                     </div>
                   </div>
                 ))}
