@@ -140,16 +140,23 @@ export default function QuesAnswer({
       {/* Floating Buttons with Tooltips */}
       <div className="floating-buttons">
         <button
-          className="floating-btn save_btn"
+          className={`floating-btn save_btn ${AiResponse.length === 0 ? "no-hover" : ""}`}
           id="saveBtn"
           title="Save"
-          disabled={submit}
+          disabled={submit || AiResponse.length === 0}
           onClick={(e) => onSubmitAnswer(AiResponse[AiResponse.length - 1])}
           data-bs-toggle="tooltip"
           data-bs-placement="left"
         >
           <i className="fas fa-save" />
         </button>
+        <style>
+          {`
+            .no-hover:hover {
+              pointer-events: none;
+            }
+          `}
+        </style>
       </div>
       <div
         className={showSavedQuestion ? "overlay active" : "overlay"}
