@@ -617,3 +617,51 @@ export const getPreviousQuestion = (output: any, question_id: number) => {
 
   return null;
 };
+
+export const phasepromptdata = [
+  {
+      "id": 1,
+      "question": "List of possible problem framings",
+      "blockId": null,
+      "phaseId": 1,
+      "prompt": "Summarize the problem statement from the user data and documents provided. Create multiple different summaries to frame the problems from different view points. Let's call these summaries \"Problame Framings\" . List them chronologically like \"Problem Framing 1: (A short Title)\" and then provide under 200 Words summary. The summaries should elaborate on the need of a new or redesigned institution to tackle the problem. Each framing can have different institutioal need mentioned. do not exceed 1000 words on the overall output.",
+      "sort": 1,
+      "status": 1
+  },
+  {
+      "id": 2,
+      "question": "List of affected people",
+      "blockId": null,
+      "phaseId": 1,
+      "prompt": "based on the given data and problem statement find out who are the affected people or groups for that particular problem. List them chronologically from most affected to the least affected. Give a two to three sentence overview on how each of the group gets affected. Do not exceed 5 groups.",
+      "sort": 1,
+      "status": 1
+  },
+  {
+      "id": 3,
+      "question": "List of Institutions Mapped",
+      "blockId": null,
+      "phaseId": 1,
+      "prompt": "Based on the data given to you previously and on the current problem statement, list the institutions that are relevant or have stakes in the problem statement. List the institutions by their name, mandate, brief description, sector. List them chronologically. do not go beyond 10 institutions. You may group them by type, for example government institutions or NGO or International Development agencies or private sector companies. If there are more than 10 institutions or such groupings, you do not need to list them further, just mention that there are more.",
+      "sort": 1,
+      "status": 1
+  },
+  {
+      "id": 4,
+      "question": "List of Institutional Gaps",
+      "blockId": null,
+      "phaseId": 1,
+      "prompt": "List the institutional gaps from the problem statement. The gaps can be either the lack of institutions responsible for tackling the problem, or lack of existing models or role within the institution in question. Please list the institutional gaps chronologically in a numbered format. put short descriptions on each gap. Do not exceed 500 words for this analysis. ",
+      "sort": 1,
+      "status": 1
+  },
+  {
+      "id": 9,
+      "question": "Proposed system mapping",
+      "blockId": null,
+      "phaseId": 1,
+      "prompt": "\r\nTake into account <List of Possible problem framings>, <list of affected people>, <list of institutions Mapped> and <list of institutional gaps>. Now based on the problem statement and those findings, create a summary report titled \"Proposed System Mapping :\" with a single line as a title for the problem statement.\r\n\r\nThe report should contain the summary of the problem statement, the affected people or groups, the institutional gaps and the institutions mapped for the problem statement. Then provide a very brief outline on what needs to be solved to create an institution of modify the existing institution to tackle the problem. Please take into account the TIAL's institutional design model and suggest what needs to be excersized in phase 2 of the model. The summary should contain these themes.\r\n\r\na. Map the landscape of existing institutions, systems, or initiatives relevant to the core problems. Include both direct service providers and indirect actors, such as advocacy organizations, policy-making bodies, and community groups. Analyze their mandates, key tasks, and historical effectiveness. Identify gaps or voids where new institutions, partnerships, or approaches might be needed.\r\n\r\nb.  Define the initial purpose of the institution or initiative. Take into consideration how it will address the identified core problems and goals in relation to the groups it intends to serve\r\n\r\nc. Evaluate the constraints—political, social, operational, or financial—that could affect the creation of a new institution. Rank these constraints by their potential impact and consider any interdependencies that could exacerbate challenges. Identify opportunities that can help materialize the initial purpose based on insights from the other outputs. Highlight collaborative possibilities and leverage points to push the boundaries of imagination while staying grounded in the initiative’s context.\r\n\r\nd.  Identify the key stakeholders who could form the guiding coalition. Specify their potential roles and contributions in overcoming constraints and leveraging opportunities. Clarify who owns the problem being addressed and outline mechanisms for coordination and shared accountability within the coalition.\r\n\r\nThe summary should not me larger than 2000 words\r\n",
+      "sort": 1,
+      "status": 1
+  }
+]

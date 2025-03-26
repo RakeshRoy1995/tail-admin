@@ -39,6 +39,7 @@ const Login = () => {
       setError("");
       const response: any = await loginPassword({ username, password });
       if (response?.data?.access_token) {
+        localStorage.setItem("AI_model", 'gpt-4');
         const token = response?.data?.access_token;
         toast.success("Login successful!");
         localStorage.setItem(
