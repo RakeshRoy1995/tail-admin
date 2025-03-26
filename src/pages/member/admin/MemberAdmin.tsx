@@ -314,6 +314,7 @@ export default function MemberAdmin() {
               setoutPutQues={setoutPutQues}
               outPutQues={outPutQues}
               setshowPhaseOutput={setshowPhaseOutput}
+              onSubmitPhaseOutput={onSubmitPhaseOutput}
             />
           ) : (
             <>
@@ -358,6 +359,7 @@ export default function MemberAdmin() {
                 setshowSavedQuestion={setshowSavedQuestion}
                 output={output}
                 setshowPhaseOutput={setshowPhaseOutput}
+                onSubmitPhaseOutput={onSubmitPhaseOutput}
               />
               {/*Right Sidebar with sections and question*/}
               <Rightbar

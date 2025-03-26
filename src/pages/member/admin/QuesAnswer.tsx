@@ -1,4 +1,7 @@
+import AiResponseForm from "@/pages/Form/AiResponseForm";
+import AiResponseFormMember from "@/pages/Form/AiResponseFormMember";
 import AIOutputShow from "@/shared/showOutputFormat/AIOutputShow";
+import { getPreviousQuestion } from "@/utils";
 import React from "react";
 
 export default function QuesAnswer({
@@ -12,7 +15,7 @@ export default function QuesAnswer({
   showSavedQuestion,
   setshowSavedQuestion,
   output,
-  setshowPhaseOutput
+  setshowPhaseOutput,
 }: any) {
   return (
     <div className="__question-and-answer position-relative __margin-left __margin-right __height-full">
@@ -41,18 +44,29 @@ export default function QuesAnswer({
           </h4>
         </div>
         <div className="chat-body">
+          {getPreviousQuestion(output, data?.question_id) && (
+            <AiResponseFormMember
+              ai_d={getPreviousQuestion(output, data?.question_id)}
+              onSubmitAnswer={onSubmitAnswer}
+              submit={submit}
+              type="edit"
+            />
+          )}
+
           {AiResponse.map((ai_d: any) => (
             <>
               {ai_d.aiReply && (
                 <>
-                  <div className="message user-message">
-                    <div className="user-avatar">
-                      <i className="fas fa-user" />
+                  {ai_d.yourMessage && (
+                    <div className="message user-message">
+                      <div className="user-avatar">
+                        <i className="fas fa-user" />
+                      </div>
+                      <div className="message-content">
+                        <div className="message-bubble">{ai_d.yourMessage}</div>
+                      </div>
                     </div>
-                    <div className="message-content">
-                      <div className="message-bubble">{ai_d.yourMessage}</div>
-                    </div>
-                  </div>
+                  )}
 
                   <div className="message">
                     <div className="bot-avatar">
@@ -100,14 +114,12 @@ export default function QuesAnswer({
                 type="text"
                 className="form-control"
                 placeholder="Type your message..."
-                onChange={(e) =>
-                {
+                onChange={(e) => {
                   setdata({
                     ...data,
                     ["message"]: e.target.value,
-                  })
-                }
-                }
+                  });
+                }}
                 value={data.message}
               />
               <button
@@ -160,7 +172,7 @@ export default function QuesAnswer({
               <i className="fas fa-times" />
             </button>
           </div>
-          
+
           <div className="saved-questions">
             {output.map((d: any) => (
               <>
