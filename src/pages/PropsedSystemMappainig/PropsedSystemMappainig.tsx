@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
   },
 
   common_header_for_all_page: {
-    paddingBottom: 20, // Space for A4 size header
+    paddingBottom: 20,
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
@@ -124,6 +124,20 @@ const styles = StyleSheet.create({
     fontSize: 10,
     color: "gray",
   },
+  pageNumber: {
+    position: "absolute",
+    bottom: 20,
+    right: 43,
+    fontSize: 10,
+    color: "gray",
+  },
+  printDate: {
+    position: "absolute",
+    bottom: 20,
+    left: 43,
+    fontSize: 10,
+    color: "gray",
+  },
 });
 
 const PDFDocument = ({ cards, output, activephase, phaseName }) => (
@@ -139,12 +153,12 @@ const PDFDocument = ({ cards, output, activephase, phaseName }) => (
           <Text
             style={{
               ...styles.phaseNamestyle,
-              fontWeight: 900,
-              color: "green",
+              fontWeight: "bold",
+              color: "#1a472a",
             }}
           >
             Phase {""}
-            {activephase}: {phaseName}
+            {activephase}: {phaseName.toUpperCase()}
             {""}
           </Text>
         </View>
@@ -157,10 +171,20 @@ const PDFDocument = ({ cards, output, activephase, phaseName }) => (
             {output[index]?.output || card.content || "No content available"}
           </Text>
         </View>
+
         {/* Footer */}
-        <Text fixed style={styles.footer}>
-          <Copyright size={10} />©{"\u00A9"}
-          {new Date().getFullYear()} Coinnovator. All rights reserved.
+        <Text fixed style={styles.printDate}>
+          Print Date:{" "}
+          {new Date().toLocaleDateString("en-GB").replace(/\//g, "-")}
+        </Text>
+
+        <Text fixed style={{ ...styles.footer, fontFamily: "Helvetica" }}>
+          {"\u00A9"} Coinnovator. All all rights reserved @
+          {new Date().getFullYear()}
+        </Text>
+
+        <Text fixed style={styles.pageNumber}>
+          Page {index + 1} of {cards.length}
         </Text>
       </Page>
     ))}
@@ -173,7 +197,6 @@ const PropsedSystemMappainig = ({
   activephase,
   phaseName,
 }) => {
-
   console.log(`allPhasePromts`, allPhasePromts);
   const [submit, setsubmit] = useState<any>(false);
   const [error, seterror] = useState<any>("");
@@ -249,7 +272,7 @@ const PropsedSystemMappainig = ({
         const element = allPhasePromts[index];
         const array = [element.prompt, result];
 
-        console.log(`cdcsdvv`, array, array.join("\n\n") );
+        console.log(`cdcsdvv`, array, array.join("\n\n"));
         const { data } = await submitAISummery(array.join("\n\n"));
 
         const obj = {
@@ -325,6 +348,7 @@ const PropsedSystemMappainig = ({
   console.log(`cards`, cards);
   console.log(`phaseName`, phaseName);
   console.log(`activephase`, activephase);
+
   return (
     <>
       <div className="pt-5">
@@ -655,7 +679,7 @@ const PropsedSystemMappainig = ({
                     ) : (
                       <>
                         <FileText size={16} />
-                        <span>Generate PDF</span>
+                        <span>Export Summerize</span>
                       </>
                     )
                   }
