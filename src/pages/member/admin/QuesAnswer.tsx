@@ -12,7 +12,7 @@ export default function QuesAnswer({
   showSavedQuestion,
   setshowSavedQuestion,
   output,
-  setshowPhaseOutput
+  setshowPhaseOutput,
 }: any) {
   return (
     <div className="__question-and-answer position-relative __margin-left __margin-right __height-full">
@@ -100,14 +100,12 @@ export default function QuesAnswer({
                 type="text"
                 className="form-control"
                 placeholder="Type your message..."
-                onChange={(e) =>
-                {
+                onChange={(e) => {
                   setdata({
                     ...data,
                     ["message"]: e.target.value,
-                  })
-                }
-                }
+                  });
+                }}
                 value={data.message}
               />
               <button
@@ -160,7 +158,7 @@ export default function QuesAnswer({
               <i className="fas fa-times" />
             </button>
           </div>
-          
+
           <div className="saved-questions">
             {output.map((d: any) => (
               <>

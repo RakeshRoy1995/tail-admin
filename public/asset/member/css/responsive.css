@@ -42,9 +42,9 @@
     transform: translateX(0);
   }
 
-  .__question-and-answer .chat-body {
-    /* height: 480px; */
-  }
+  /* .__question-and-answer .chat-body {
+    height: 480px;
+  } */
 
   .close_right_sidebar,
   .close_left_sidebar {
