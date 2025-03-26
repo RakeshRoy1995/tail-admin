@@ -10,7 +10,7 @@ const ProblemDefLayout = ({
   setoutPutQues,
   outPutQues,
   setshowPhaseOutput,
-}:any) => {
+}: any) => {
   // Sample Data for the sections
 
   const sections = [
@@ -94,7 +94,7 @@ const ProblemDefLayout = ({
     setoutPutQues(output[index]);
   };
 
-  console.log(`output`, output , outPutQues);
+  console.log(`output`, output, outPutQues);
 
   return (
     <div>
@@ -117,11 +117,7 @@ const ProblemDefLayout = ({
         </a>
         <div className="phase-sections mt-4">
           <div className="section-list" id="sectionList">
-        
-
-
-
-{output?.map((section:any, index:any) => (
+            {output?.map((section: any, index: any) => (
               <div
                 key={index}
                 className={`section-item ${index === activeSectionIndex ? "active" : ""}`}
@@ -131,10 +127,17 @@ const ProblemDefLayout = ({
                 <div className="section-count">{section.length} questions</div>
               </div>
             ))}
-
-
           </div>
         </div>
+
+        <a
+          className="phase-output-btn text-decoration-none mt-4"
+          href="#"
+          onClick={(e) => setshowPhaseOutput(true)}
+        >
+          <i className="fas fa-arrow-circle-right" />
+          Phase Output Summarize
+        </a>
       </div>
 
       <div className="__question-and-answer phase__description position-relative __margin-left bg-light min-vh-100">
@@ -154,7 +157,7 @@ const ProblemDefLayout = ({
           <div id="sectionContents">
             <div className="section-content">
               <div className="faq-list">
-                {outPutQues.map((faq:any, faqIndex:number) => (
+                {outPutQues.map((faq: any, faqIndex: number) => (
                   <div
                     className={`faq-item ${
                       activeFaqs[`${activeSectionIndex}-${faqIndex}`]

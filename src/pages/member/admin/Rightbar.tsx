@@ -17,9 +17,6 @@ export default function Rightbar({
       </div>
       <h5>AI Tools and aids</h5>
       <div className="suggestions-grid">
-
-        
-        
         <div className="suggestion-item text-center">
           {/* <i className="fas fa-question-circle" /> */}
           <span>Business model canvas</span>
