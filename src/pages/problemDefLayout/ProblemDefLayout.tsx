@@ -72,7 +72,7 @@ const ProblemDefLayout = ({
         <a
           className="phase-output-btn text-decoration-none mt-4"
           href="#"
-          onClick={(e) => onSubmitPhaseOutput}
+          onClick={(e) => onSubmitPhaseOutput()}
         >
           <i className="fas fa-arrow-circle-right" />
           Phase Output Summarize

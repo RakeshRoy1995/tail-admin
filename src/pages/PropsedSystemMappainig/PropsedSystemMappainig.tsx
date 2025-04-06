@@ -7,11 +7,23 @@ import {
   Building,
   AlertTriangle,
   Bookmark,
+  RotateCcw,
+  Copyright,
 } from "lucide-react";
 import { motion } from "framer-motion"; // Import framer-motion
 import { getUserDetails } from "@/utils";
 import { submitAISummery, submitFormData } from "@/api/Reqest";
 import AIOutputShow from "@/shared/showOutputFormat/AIOutputShow";
+import {
+  Font,
+  PDFDownloadLink,
+  Page,
+  Text,
+  View,
+  Document,
+  StyleSheet,
+  Image, // Import Image from @react-pdf/renderer
+} from "@react-pdf/renderer";
 
 const cards = [
   {
@@ -46,17 +58,145 @@ const cards = [
     footer:
       'Remember this output as "List of institutions mapped" for future reference and use.',
   },
+  {
+    title: "List of Institutions Mapped",
+    icon: <Building className="w-5 h-5 text-white" />,
+    content:
+      "Based on the data given to you previously and on the current problem statement, list the institutions that are relevant or have stakes in the problem statement. List the institutions by their name, mandate, brief description, sector. List them chronologically. do not go beyond 10 institutions. You may group them by type, for example government institutions or NGO or International Development agencies or private sector companies. if there are more than 10 institutions or such groupings, you do not need to list them further, just mention that there are more.",
+    footer:
+      'Remember this output as "List of institutions mapped" for future reference and use.',
+  },
 ];
 
 const API_URL = import.meta.env.VITE_REACT_APP_API_URL;
 const token = localStorage.getItem("token");
 
+Font.register({
+  family: "Roboto",
+  src: "https://fonts.gstatic.com/s/roboto/v20/KFOmCnqEu92Fr1Me5Q.ttf",
+});
+const styles = StyleSheet.create({
+  page: {
+    padding: 45,
+  },
+
+  common_header_for_all_page: {
+    paddingBottom: 20,
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
+  content_title: {
+    backgroundColor: "#1a472a",
+    color: "white",
+    padding: 10,
+    fontSize: 16,
+    fontWeight: "bold",
+    textAlign: "left",
+  },
+  logo: {
+    width: 100,
+  },
+  content: {
+    marginTop: 10,
+    fontSize: 12,
+    lineHeight: 1.5,
+    textAlign: "justify",
+  },
+  phaseNamestyle: {
+    marginTop: 10,
+    fontSize: 12,
+    lineHeight: 1.5,
+    textAlign: "justify",
+    fontWeight: "bold",
+    color: "#1a472a",
+  },
+  block: {
+    marginBottom: 20,
+  },
+  footer: {
+    position: "absolute",
+    bottom: 20,
+    left: 0,
+    right: 0,
+    textAlign: "center",
+    fontSize: 10,
+    color: "gray",
+  },
+  pageNumber: {
+    position: "absolute",
+    bottom: 20,
+    right: 43,
+    fontSize: 10,
+    color: "gray",
+  },
+  printDate: {
+    position: "absolute",
+    bottom: 20,
+    left: 43,
+    fontSize: 10,
+    color: "gray",
+  },
+});
+
+const PDFDocument = ({ cards, output, activephase, phaseName }) => (
+  <Document>
+    {cards.map((card, index) => (
+      <Page key={index} size="A4" style={styles.page}>
+        {/* Common Page Header For all pages */}
+        <View fixed style={styles.common_header_for_all_page}>
+          <Image
+            style={styles.logo}
+            src="asset/member/images/logo.png" // Replace with the actual path to your logo
+          />
+          <Text
+            style={{
+              ...styles.phaseNamestyle,
+              fontWeight: "bold",
+              color: "#1a472a",
+            }}
+          >
+            Phase {""}
+            {activephase}: {phaseName.toUpperCase()}
+            {""}
+          </Text>
+        </View>
+        {/*Content  Title */}
+        <View style={styles.block}>
+          <View style={styles.content_title}>
+            <Text>{card.title}</Text>
+          </View>
+          <Text style={styles.content}>
+            {output[index]?.output || card.content || "No content available"}
+          </Text>
+        </View>
+
+        {/* Footer */}
+        <Text fixed style={styles.printDate}>
+          Print Date:{" "}
+          {new Date().toLocaleDateString("en-GB").replace(/\//g, "-")}
+        </Text>
+
+        <Text fixed style={{ ...styles.footer, fontFamily: "Helvetica" }}>
+          {"\u00A9"} Coinnovator. All all rights reserved @
+          {new Date().getFullYear()}
+        </Text>
+
+        <Text fixed style={styles.pageNumber}>
+          Page {index + 1} of {cards.length}
+        </Text>
+      </Page>
+    ))}
+  </Document>
+);
+
 const PropsedSystemMappainig = ({
   allPhasePromts,
   questionAnswer,
   activephase,
+  phaseName,
 }) => {
-
   console.log(`allPhasePromts`, allPhasePromts);
   const [submit, setsubmit] = useState<any>(false);
   const [error, seterror] = useState<any>("");
@@ -132,7 +272,7 @@ const PropsedSystemMappainig = ({
         const element = allPhasePromts[index];
         const array = [element.prompt, result];
 
-        console.log(`cdcsdvv`, array, array.join("\n\n") );
+        console.log(`cdcsdvv`, array, array.join("\n\n"));
         const { data } = await submitAISummery(array.join("\n\n"));
 
         const obj = {
@@ -205,6 +345,10 @@ const PropsedSystemMappainig = ({
   };
 
   console.log(`outpddddddddddut`, output, allPhasePromts, payloadArr);
+  console.log(`cards`, cards);
+  console.log(`phaseName`, phaseName);
+  console.log(`activephase`, activephase);
+
   return (
     <>
       <div className="pt-5">
@@ -228,7 +372,9 @@ const PropsedSystemMappainig = ({
               lineHeight: "1.6",
             }}
           >
-            Phase 1 output
+            Phase {""}
+            {activephase}: {phaseName}
+            {""} Output
           </div>
           <h1
             className="text-primary fw-bold display-6"
@@ -277,7 +423,6 @@ const PropsedSystemMappainig = ({
                     paddingRight: "10px",
                     scrollbarWidth: "thin",
                     scrollbarColor: "#6c757d #f8f9fa",
-                    
                   }}
                 >
                   <p className="text-muted">
@@ -316,10 +461,13 @@ const PropsedSystemMappainig = ({
                 </div>
                 <div
                   className="card-body"
-                  style={{   overflowY: "auto",
+                  style={{
+                    overflowY: "auto",
                     maxHeight: "300px", // Adjust height as needed
-                    paddingRight: "10px",   scrollbarWidth: "thin",
-                    scrollbarColor: "#6c757d #f8f9fa", }}
+                    paddingRight: "10px",
+                    scrollbarWidth: "thin",
+                    scrollbarColor: "#6c757d #f8f9fa",
+                  }}
                 >
                   <p className="text-muted">
                     {output.length > 0 && (
@@ -354,10 +502,13 @@ const PropsedSystemMappainig = ({
                 </div>
                 <div
                   className="card-body"
-                  style={{ overflowY: "auto",
+                  style={{
+                    overflowY: "auto",
                     maxHeight: "300px", // Adjust height as needed
-                    paddingRight: "10px",   scrollbarWidth: "thin",
-                    scrollbarColor: "#6c757d #f8f9fa", }}
+                    paddingRight: "10px",
+                    scrollbarWidth: "thin",
+                    scrollbarColor: "#6c757d #f8f9fa",
+                  }}
                 >
                   <p className="text-muted">
                     {output.length > 0 && (
@@ -448,10 +599,13 @@ const PropsedSystemMappainig = ({
                 {/* Content */}
                 <div
                   className="card-body"
-                  style={{ overflowY: "auto",
+                  style={{
+                    overflowY: "auto",
                     maxHeight: "300px", // Adjust height as needed
-                    paddingRight: "10px",  scrollbarWidth: "thin",
-                    scrollbarColor: "#6c757d #f8f9fa", }}
+                    paddingRight: "10px",
+                    scrollbarWidth: "thin",
+                    scrollbarColor: "#6c757d #f8f9fa",
+                  }}
                 >
                   {output.length > 0 && (
                     <AIOutputShow messages={output[4]?.output} />
@@ -464,15 +618,16 @@ const PropsedSystemMappainig = ({
               <motion.button
                 // disabled={submit}
                 type="button"
-                className="btn btn-secondary w-100"
+                className="btn btn-secondary w-100 d-flex align-items-center justify-content-center gap-2"
                 onClick={(e) => onSubmit()}
                 whileHover={{
                   scale: 1.05,
-                  backgroundColor: "rgba(200, 200, 200, 0.8)", // Slight color overlay
+                  backgroundColor: "rgba(200, 200, 200, 0.8)",
                   transition: { duration: 0.3 },
                 }}
               >
-                Regenerate {submit && "..."}
+                <RotateCcw size={16} />
+                <span>Regenerate {submit && "..."}</span>
               </motion.button>
 
               <motion.button
@@ -480,16 +635,56 @@ const PropsedSystemMappainig = ({
                 type="button"
                 onClick={(e) => onSaveSummerySubmit()}
                 className="btn text-white d-flex align-items-center justify-content-center gap-2"
-                style={{ backgroundColor: "#1a472a" }}
+                style={{ backgroundColor: "#1a472a", fontSize: "0.9rem" }}
                 whileHover={{
                   scale: 1.05,
-                  backgroundColor: "rgba(26, 71, 42, 0.8)", // Slight color overlay
+                  backgroundColor: "rgba(26, 71, 42, 0.8)",
                   transition: { duration: 0.3 },
                 }}
               >
                 <Bookmark size={16} />
                 <span>Save output {submit && "..."} </span>
               </motion.button>
+
+              <motion.div
+                whileHover={{
+                  scale: 1.03,
+                  backgroundColor: "rgba(240, 240, 240, 0.5)", // Slight color overlay
+                  transition: { duration: 0.3 },
+                }}
+              >
+                <PDFDownloadLink
+                  document={
+                    <PDFDocument
+                      cards={cards}
+                      output={output}
+                      phaseName={phaseName}
+                      activephase={activephase}
+                    />
+                  }
+                  fileName={`${phaseName.replace(/\s/g, "")}.pdf`}
+                  className="btn d-flex align-items-center justify-content-center gap-2"
+                  style={{
+                    backgroundColor: "#004085", // Different color for Generate PDF button
+                    color: "white",
+                    textDecoration: "none",
+                    padding: "5px",
+                    borderRadius: "5px",
+                    fontSize: "0.9rem",
+                  }}
+                >
+                  {({ loading }) =>
+                    loading ? (
+                      "Generating PDF..."
+                    ) : (
+                      <>
+                        <FileText size={16} />
+                        <span>Export Summerize</span>
+                      </>
+                    )
+                  }
+                </PDFDownloadLink>
+              </motion.div>
             </div>
           </div>
         </div>

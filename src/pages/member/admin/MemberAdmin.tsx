@@ -306,6 +306,7 @@ export default function MemberAdmin() {
   return (
     <>
       <Header />
+
       {!showPhaseOutputSummery ? (
         <main>
           {showPhaseOutput ? (
@@ -383,6 +384,8 @@ export default function MemberAdmin() {
           <PropsedSystemMappainig
             questionAnswer={questionAnswer}
             allPhasePromts={allPhasePromts}
+            activephase={activephase}
+            phaseName={phaseName}
             activephase={activephase}
           />
         </main>
