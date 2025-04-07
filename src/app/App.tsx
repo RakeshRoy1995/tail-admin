@@ -6,7 +6,9 @@ import ForgotPassword from "@/pages/Login/ForgotPassword";
 
 import LoanRepaymentForm from "@/LoanRepaymentForm";
 import PhasesForm from "@/pages/Form/PhasesForm";
-import HomeEntryPage from "@/pages/HomeEntryPage/HomeEntryPage";
+const HomeEntryPage = React.lazy(
+  () => import("@/pages/HomeEntryPage/HomeEntryPage"),
+);
 import PhaseOverView from "@/pages/PhaseOverView/PhaseOverView";
 import PhaseOutput from "@/pages/PhaseOutput/PhaseOutput";
 import BlockOutput from "@/pages/BlockOutput/BlockOutput";
@@ -15,11 +17,14 @@ import BlockOverview from "@/pages/BlockOverview/BlockOverview";
 const Home = React.lazy(() => import("@/pages/Home/index"));
 import MemberAdmin from "@/pages/member/admin/MemberAdmin";
 import ProblemDefLayout from "@/pages/problemDefLayout/ProblemDefLayout";
+import LeftSideMenuBar from "./Layout/LeftSideMenuBar";
 const PrivateRoute = React.lazy(() => import("./PrivateRoute"));
 const Login = React.lazy(() => import("@/pages/Login/Login"));
 
 const RegisterForm = React.lazy(() => import("@/pages/register/Index"));
-const PropsedSystemMappainig = React.lazy(() => import("@/pages/PropsedSystemMappainig/PropsedSystemMappainig"));
+const PropsedSystemMappainig = React.lazy(
+  () => import("@/pages/PropsedSystemMappainig/PropsedSystemMappainig"),
+);
 
 const Role = React.lazy(() => import("@/pages/user/role/Role"));
 const MenuPage = React.lazy(() => import("@/pages/user/menu/MenuPage"));
@@ -45,10 +50,9 @@ const App: FC = () => {
           <Route path="/" element={<HomeEntryPage />}></Route>
 
           <Route path="/" element={<PrivateRoute />}>
-           
-            <Route path="/admin" element={<MemberAdmin />} />
             <Route path="/problem-def" element={<ProblemDefLayout />} />
             <Route path="/" element={<Layout />}>
+              <Route path="/admin" element={<Admin />} />
               <Route path="/phase-overview" element={<PhaseOverView />} />
               <Route path="/block-overview" element={<BlockOverview />} />
               <Route path="/phase-output" element={<PhaseOutput />} />
