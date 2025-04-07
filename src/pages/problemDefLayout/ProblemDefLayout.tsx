@@ -1,25 +1,36 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "../../../public/asset/member/css/bootstrap.min.css";
 // import "@fortawesome/fontawesome-free/css/all.min.css";
 
 import "../../../public/asset/member/css/style.css";
 import "../../../public/asset/member/css/responsive.css";
 import AIOutputShow from "@/shared/showOutputFormat/AIOutputShow";
+import {
+  Document,
+  Page,
+  Text,
+  View,
+  StyleSheet,
+  PDFDownloadLink,
+  Image, // Import Image for the logo
+} from "@react-pdf/renderer";
 
 const ProblemDefLayout = ({
   output,
   setoutPutQues,
   outPutQues,
   setshowPhaseOutput,
-  onSubmitPhaseOutput
+  onSubmitPhaseOutput,
 }: any) => {
   // Sample Data for the sections
 
   const [activeSectionIndex, setActiveSectionIndex] = useState(0);
   const [activeFaqs, setActiveFaqs] = useState({});
+  const [pdfLink, setPdfLink] = useState<JSX.Element | null>(null);
 
   // Toggle FAQ active state
   const toggleFaq = (sectionIndex, faqIndex) => {
+    console.log("sectionIndex, faqIndex", sectionIndex, faqIndex);
     setActiveFaqs((prevState) => {
       const newState = { ...prevState };
       const sectionKey = `${sectionIndex}-${faqIndex}`;
@@ -29,11 +40,145 @@ const ProblemDefLayout = ({
   };
 
   const activateSection = (index) => {
+    console.log("index=====>", index);
+    console.log("outPutQues====>", outPutQues);
     setActiveSectionIndex(index);
     setoutPutQues(output[index]);
   };
 
-  console.log(`output`, output, outPutQues);
+  // console.log(`output`, output, outPutQues);
+
+  const exportOptions = [
+    { icon: "fas fa-file-pdf", label: "Export as PDF" },
+    { icon: "fas fa-file-word", label: "Export as Word" },
+    { icon: "fas fa-file-alt", label: "Export as Markdown" },
+    { icon: "fas fa-print", label: "Print Document" },
+  ];
+
+  const [menuOpen, setMenuOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  // Toggle menu visibility
+  const toggleMenu = () => {
+    setMenuOpen((prev) => !prev);
+  };
+
+  // Close menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setMenuOpen(false);
+      }
+    };
+    document.addEventListener("click", handleClickOutside);
+    return () => document.removeEventListener("click", handleClickOutside);
+  }, []);
+
+  const styles = StyleSheet.create({
+    page: {
+      padding: 45,
+    },
+    header: {
+      paddingBottom: 20,
+      marginBottom: 40,
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "center",
+    },
+    logo: {
+      width: 100,
+    },
+    title: {
+      fontSize: 16,
+      fontWeight: "bold",
+      marginBottom: 10,
+      color: "#1a472a",
+    },
+    content_title: {
+      backgroundColor: "#1a472a",
+      color: "white",
+      padding: 10,
+      fontSize: 16,
+      fontWeight: "bold",
+      textAlign: "left",
+    },
+    content: {
+      fontSize: 12,
+      lineHeight: 1.5,
+      textAlign: "justify",
+      marginBottom: 20,
+    },
+    footer: {
+      position: "absolute",
+      bottom: 20,
+      left: 0,
+      right: 0,
+      textAlign: "center",
+      fontSize: 10,
+      color: "gray",
+    },
+    pageNumber: {
+      position: "absolute",
+      bottom: 20,
+      right: 43,
+      fontSize: 10,
+      color: "gray",
+    },
+  });
+
+  const PDFDocument = ({ blockName, questions }) => (
+    <Document>
+      <Page size="A4" style={styles.page}>
+        {/* Header with Logo */}
+        <View style={styles.header}>
+          <Image style={styles.logo} src="asset/member/images/logo.png" />
+          {/* <Text style={styles.title}>{blockName}</Text> */}
+        </View>
+        {/* Content */}
+        <View>
+          <View style={styles.content_title}>
+            <Text>{blockName}</Text>
+          </View>
+          {questions.map((faq, index) => (
+            <View key={index}>
+              <Text style={styles.content}>
+                Q{index + 1}: {faq.question}
+              </Text>
+              <Text style={styles.content}>
+                A: {faq.aiReply || "No answer available"}
+              </Text>
+            </View>
+          ))}
+        </View>
+        {/* Footer */}
+        <Text fixed style={styles.footer}>
+          {"\u00A9"} Coinnovator. All rights reserved @
+          {new Date().getFullYear()}
+        </Text>
+        <Text fixed style={styles.pageNumber}>
+          Page 1 of 1
+        </Text>
+      </Page>
+    </Document>
+  );
+
+  // Handle export actions
+  // const handleExport = (btn_number: any) => {
+  //   if (btn_number == 0) {
+  //     const blockName =
+  //       outPutQues[activeSectionIndex]?.block_name || "No Title";
+  //     const questions = outPutQues || [];
+  //     const link = (
+  //       <PDFDownloadLink
+  //         document={<PDFDocument blockName={blockName} questions={questions} />}
+  //         fileName={`${blockName.replace(/\s/g, "_")}.pdf`}
+  //       >
+  //         {({ loading }) => (loading ? "Generating PDF..." : "Download PDF")}
+  //       </PDFDownloadLink>
+  //     );
+  //     setPdfLink(link);
+  //   }
+  // };
 
   return (
     <div>
@@ -123,7 +268,10 @@ const ProblemDefLayout = ({
                           : ""
                       }`}
                     >
-                      <p> <AIOutputShow messages={faq.aiReply} /> </p>
+                      <p>
+                        {" "}
+                        <AIOutputShow messages={faq.aiReply} />{" "}
+                      </p>
                     </div>
                   </div>
                 ))}
@@ -131,6 +279,55 @@ const ProblemDefLayout = ({
             </div>
           </div>
         </div>
+      </div>
+
+      <div className="export-actions" ref={menuRef}>
+        {/* Export Menu */}
+        <div className={`export-menu ${menuOpen ? "active" : ""}`}>
+          <PDFDownloadLink
+            document={
+              <PDFDocument
+                blockName={
+                  outPutQues[activeSectionIndex]?.block_name || "No Title"
+                }
+                questions={outPutQues || []}
+              />
+            }
+            fileName={`${
+              outPutQues[activeSectionIndex]?.block_name?.replace(/\s/g, "_") ||
+              "Document"
+            }.pdf`}
+            className="export-btn"
+          >
+            {({ loading }) => (
+              <>
+                <i className="fas fa-file-pdf"></i>{" "}
+                {loading ? "Generating PDF..." : "Export as PDF"}
+              </>
+            )}
+          </PDFDownloadLink>
+          <button className="export-btn">
+            <i className="fas fa-file-word"></i> Export as Word
+          </button>
+          <button className="export-btn">
+            <i className="fas fa-file-alt"></i> Export as Markdown
+          </button>
+          <button className="export-btn">
+            <i className="fas fa-print"></i> Print Document
+          </button>
+        </div>
+
+        {/* Main Export Button */}
+        <button
+          className={`main-export-btn  ${menuOpen ? "active" : ""}`}
+          data-tooltip="Export Options"
+          onClick={toggleMenu}
+        >
+          <i className="fas fa-download"></i>
+        </button>
+
+        {/* Render PDF Download Link */}
+        {pdfLink && <div className="mt-3">{pdfLink}</div>}
       </div>
     </div>
   );

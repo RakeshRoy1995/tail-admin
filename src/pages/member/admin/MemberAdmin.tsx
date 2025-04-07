@@ -301,6 +301,10 @@ export default function MemberAdmin() {
     }
   };
 
+  useEffect(() => {
+    setoutPutQues(output[0]);
+  }, [output]);
+
   console.log(`showPhaseOutput`, showPhaseOutput, output);
 
   return (
