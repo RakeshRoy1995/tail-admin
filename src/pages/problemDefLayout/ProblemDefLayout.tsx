@@ -289,14 +289,14 @@ const ProblemDefLayout = ({
           </div>
         </div>
 
-        <a
+        {/* <a
           className="phase-output-btn text-decoration-none mt-4"
           href="#"
           onClick={(e) => onSubmitPhaseOutput()}
         >
           <i className="fas fa-arrow-circle-right" />
           Phase Output Summarize
-        </a>
+        </a> */}
       </div>
 
       <div className="__question-and-answer phase__description position-relative __margin-left bg-light min-vh-100">
@@ -312,7 +312,7 @@ const ProblemDefLayout = ({
               {outPutQues[activeSectionIndex]?.block_name}
             </h1>
             <a
-              className="phase-output-btn text-decoration-none mt-4"
+              className="phase-output-btn text-decoration-none "
               href="#"
               onClick={(e) => onSubmitPhaseOutput()}
             >
