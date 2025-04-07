@@ -46,6 +46,7 @@ const App: FC = () => {
               path="/apply-call-for-submission/:id"
               element={<OutreachCardsApply />}
             />
+            
           </Route> */}
           <Route path="/" element={<HomeEntryPage />}></Route>
 
