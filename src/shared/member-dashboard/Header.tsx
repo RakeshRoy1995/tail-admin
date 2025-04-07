@@ -132,7 +132,7 @@ export default function Header() {
                   ))}
                 </ul>
               </div>
-              <div className="dropdown">
+                <div className="dropdown">
                 <button
                   className="btn btn-primary dropdown-toggle font-weight-bold"
                   type="button"
@@ -146,30 +146,30 @@ export default function Header() {
                   className="dropdown-menu dropdown-menu-end"
                   aria-labelledby="dropDownProfile"
                 >
-                  <li className=" my-1">
-                    <a className="dropdown-item" href="#">
-                      <i className="fa fa-user-circle" aria-hidden="true" />
-                      <span className=" ml-2">Profile</span>
-                    </a>
+                  <li className="my-1">
+                  <a className="dropdown-item d-flex align-items-center" href="#">
+                    <i className="fa fa-user-circle" aria-hidden="true" />
+                    <span className="ml-2 ms-2">Profile</span>
+                  </a>
                   </li>
-                  <li className=" my-1">
-                    <a className="dropdown-item" href="#">
-                      <i className="fa fa-info-circle" aria-hidden="true" />
-                      <span className=" ml-2">Help &amp; Support</span>
-                    </a>
+                  <li className="my-1">
+                  <a className="dropdown-item d-flex align-items-center" href="#">
+                    <i className="fa fa-info-circle" aria-hidden="true" />
+                    <span className="ml-2 ms-2">Help &amp; Support</span>
+                  </a>
                   </li>
-                  <li className=" my-1">
-                    <a
-                      className="dropdown-item"
-                      href="#"
-                      onClick={handleLogout}
-                    >
-                      <i className="fa fa-sign-out" aria-hidden="true" />
-                      <span className=" ml-2">Logout</span>
-                    </a>
+                  <li className="my-1">
+                  <a
+                    className="dropdown-item d-flex align-items-center"
+                    href="#"
+                    onClick={handleLogout}
+                  >
+                    <i className="fa fa-sign-out" aria-hidden="true" />
+                    <span className="ml-2 ms-2">Logout</span>
+                  </a>
                   </li>
                 </ul>
-              </div>
+                </div>
             </div>
           </div>
         </div>

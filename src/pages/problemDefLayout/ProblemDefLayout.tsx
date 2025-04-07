@@ -14,7 +14,7 @@ import {
   PDFDownloadLink,
   Image, // Import Image for the logo
 } from "@react-pdf/renderer";
-
+import questionIcon from "../../../public/custome/question_icon.png";
 const ProblemDefLayout = ({
   output,
   setoutPutQues,
@@ -80,13 +80,27 @@ const ProblemDefLayout = ({
     },
     header: {
       paddingBottom: 20,
-      marginBottom: 40,
       flexDirection: "column",
       alignItems: "center",
       justifyContent: "center",
     },
     logo: {
       width: 100,
+    },
+    phase_name: {
+      marginTop: 10,
+      fontSize: 16,
+      lineHeight: 1.5,
+      textAlign: "justify",
+      fontWeight: "bold",
+    },
+    section_block_name: {
+      marginTop: 10,
+      fontSize: 12,
+      lineHeight: 1.5,
+      textAlign: "justify",
+      fontWeight: "bold",
+      color: "#1a472a",
     },
     title: {
       fontSize: 16,
@@ -96,11 +110,20 @@ const ProblemDefLayout = ({
     },
     content_title: {
       backgroundColor: "#1a472a",
+      marginBottom: 20,
       color: "white",
       padding: 10,
       fontSize: 16,
       fontWeight: "bold",
       textAlign: "left",
+    },
+    question_style: {
+      fontSize: 12,
+      lineHeight: 1.5,
+      textAlign: "justify",
+      marginBottom: 20,
+      fontWeight: "bold",
+      color: "#1a472a",
     },
     content: {
       fontSize: 12,
@@ -132,18 +155,70 @@ const ProblemDefLayout = ({
         {/* Header with Logo */}
         <View style={styles.header}>
           <Image style={styles.logo} src="asset/member/images/logo.png" />
-          {/* <Text style={styles.title}>{blockName}</Text> */}
+          <Text
+            style={{
+              ...styles.phase_name,
+              fontWeight: "bold",
+              color: "#1a472a",
+            }}
+          >
+          Phase 01: Problem Definition
+          </Text>
+          <Text
+            style={{
+              ...styles.section_block_name,
+              fontWeight: "bold",
+              color: "#1a472a",
+            }}
+          >
+            {blockName}
+          </Text>
         </View>
         {/* Content */}
         <View>
-          <View style={styles.content_title}>
-            <Text>{blockName}</Text>
-          </View>
+          {/* <View style={styles.content_title}>
+            <Text>Problem Scope</Text>
+          </View> */}
           {questions.map((faq, index) => (
             <View key={index}>
-              <Text style={styles.content}>
-                Q{index + 1}: {faq.question}
-              </Text>
+              {/* <Text style={styles.question_style}>
+                <i
+                  className="fa fa-question-circle"
+                  aria-hidden="true"
+                  style={{ marginRight: 5 }}
+                ></i>
+                ❓ Q{index + 1}: {faq.question}
+              </Text> */}
+              <View
+                key={index}
+                style={{
+                  flexDirection: "row", // row layout
+                  alignItems: "center", // vertical align center
+                  marginBottom: 10,
+                }}
+              >
+                <Image
+                  src={questionIcon} // or use an imported image
+                  style={{
+                    width: 12,
+                    height: 12,
+                    marginRight: 5,
+                    marginBottom: 5,
+                  }}
+                />
+                <Text
+                  style={{
+                    fontSize: 12,
+                    lineHeight: 1.5,
+                    fontWeight: "bold",
+                    color: "#1a472a",
+                    flex: 1,
+                  }}
+                >
+                  Q{index + 1}: {faq.question}
+                </Text>
+              </View>
+
               <Text style={styles.content}>
                 A: {faq.aiReply || "No answer available"}
               </Text>
@@ -232,10 +307,18 @@ const ProblemDefLayout = ({
         </div>
 
         <div className="phase-content">
-          <div className="phase-header">
+          <div className="phase-header d-flex justify-content-between align-items-center">
             <h1 className="phase-title">
               {outPutQues[activeSectionIndex]?.block_name}
             </h1>
+            <a
+              className="phase-output-btn text-decoration-none mt-4"
+              href="#"
+              onClick={(e) => onSubmitPhaseOutput()}
+            >
+              <i className="fas fa-arrow-circle-right" />
+              Phase Output Summarize
+            </a>
           </div>
 
           <div id="sectionContents">

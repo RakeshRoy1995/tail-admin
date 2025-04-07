@@ -8,7 +8,6 @@ import {
   AlertTriangle,
   Bookmark,
   RotateCcw,
-  Copyright,
 } from "lucide-react";
 import { motion } from "framer-motion"; // Import framer-motion
 import { getUserDetails } from "@/utils";
