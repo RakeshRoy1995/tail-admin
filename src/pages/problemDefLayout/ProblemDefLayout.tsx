@@ -367,13 +367,13 @@ const ProblemDefLayout = ({
       <div className="export-actions" ref={menuRef}>
         {/* Export Menu */}
         <div className={`export-menu ${menuOpen ? "active" : ""}`}>
-          <PDFDownloadLink
+            <PDFDownloadLink
             document={
               <PDFDocument
-                blockName={
-                  outPutQues[activeSectionIndex]?.block_name || "No Title"
-                }
-                questions={outPutQues || []}
+              blockName={
+                outPutQues[activeSectionIndex]?.block_name || "No Title"
+              }
+              questions={outPutQues || []}
               />
             }
             fileName={`${
@@ -381,14 +381,15 @@ const ProblemDefLayout = ({
               "Document"
             }.pdf`}
             className="export-btn"
-          >
+            style={{ textDecoration: "none" }} // Remove underline
+            >
             {({ loading }) => (
               <>
-                <i className="fas fa-file-pdf"></i>{" "}
-                {loading ? "Generating PDF..." : "Export as PDF"}
+              <i className="fas fa-file-pdf"></i>{" "}
+              {loading ? "Generating PDF..." : "Export as PDF"}
               </>
             )}
-          </PDFDownloadLink>
+            </PDFDownloadLink>
           <button className="export-btn">
             <i className="fas fa-file-word"></i> Export as Word
           </button>
