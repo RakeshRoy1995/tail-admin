@@ -142,7 +142,7 @@ export default function Header() {
                 >
                   My Profile
                 </button>
-                {/* <ul
+                <ul
                   className="dropdown-menu dropdown-menu-end"
                   aria-labelledby="dropDownProfile"
                 >
@@ -174,7 +174,7 @@ export default function Header() {
                       <span className="ml-2 ms-2">Logout</span>
                     </a>
                   </li>
-                </ul> */}
+                </ul>
               </div>
               {/* <div
                 className="position-relative"
