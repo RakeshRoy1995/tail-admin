@@ -132,7 +132,7 @@ export default function Header() {
                   ))}
                 </ul>
               </div>
-                <div className="dropdown">
+              <div className="dropdown">
                 <button
                   className="btn btn-primary dropdown-toggle font-weight-bold"
                   type="button"
@@ -142,34 +142,49 @@ export default function Header() {
                 >
                   My Profile
                 </button>
-                <ul
+                {/* <ul
                   className="dropdown-menu dropdown-menu-end"
                   aria-labelledby="dropDownProfile"
                 >
                   <li className="my-1">
-                  <a className="dropdown-item d-flex align-items-center" href="#">
-                    <i className="fa fa-user-circle" aria-hidden="true" />
-                    <span className="ml-2 ms-2">Profile</span>
-                  </a>
+                    <a
+                      className="dropdown-item d-flex align-items-center"
+                      href="#"
+                    >
+                      <i className="fa fa-user-circle" aria-hidden="true" />
+                      <span className="ml-2 ms-2">Profile</span>
+                    </a>
                   </li>
                   <li className="my-1">
-                  <a className="dropdown-item d-flex align-items-center" href="#">
-                    <i className="fa fa-info-circle" aria-hidden="true" />
-                    <span className="ml-2 ms-2">Help &amp; Support</span>
-                  </a>
+                    <a
+                      className="dropdown-item d-flex align-items-center"
+                      href="#"
+                    >
+                      <i className="fa fa-info-circle" aria-hidden="true" />
+                      <span className="ml-2 ms-2">Help &amp; Support</span>
+                    </a>
                   </li>
                   <li className="my-1">
-                  <a
-                    className="dropdown-item d-flex align-items-center"
-                    href="#"
-                    onClick={handleLogout}
-                  >
-                    <i className="fa fa-sign-out" aria-hidden="true" />
-                    <span className="ml-2 ms-2">Logout</span>
-                  </a>
+                    <a
+                      className="dropdown-item d-flex align-items-center"
+                      href="#"
+                      onClick={handleLogout}
+                    >
+                      <i className="fa fa-sign-out" aria-hidden="true" />
+                      <span className="ml-2 ms-2">Logout</span>
+                    </a>
                   </li>
-                </ul>
-                </div>
+                </ul> */}
+              </div>
+              {/* <div
+                className="position-relative"
+                style={{ cursor: "pointer" }}
+                data-bs-toggle="tooltip"
+                data-bs-placement="bottom"
+                title={`Name: ${name || "Guest"}\nEmail: user@example.com`}
+              >
+                <i className="fa fa-user-circle fa-2x text-primary ms-2" />
+              </div> */}
             </div>
           </div>
         </div>
