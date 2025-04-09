@@ -176,15 +176,7 @@ export default function Header() {
                   </li>
                 </ul>
               </div>
-              {/* <div
-                className="position-relative"
-                style={{ cursor: "pointer" }}
-                data-bs-toggle="tooltip"
-                data-bs-placement="bottom"
-                title={`Name: ${name || "Guest"}\nEmail: user@example.com`}
-              >
-                <i className="fa fa-user-circle fa-2x text-primary ms-2" />
-              </div> */}
+           
             </div>
           </div>
         </div>

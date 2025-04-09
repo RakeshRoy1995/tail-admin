@@ -15,6 +15,8 @@ import {
   Image, // Import Image for the logo
 } from "@react-pdf/renderer";
 import questionIcon from "../../../public/custome/question_icon.png";
+import { Document as WordDocument, Packer, Paragraph, TextRun } from "docx";
+import { saveAs } from "file-saver";
 const ProblemDefLayout = ({
   output,
   setoutPutQues,
@@ -162,7 +164,7 @@ const ProblemDefLayout = ({
               color: "#1a472a",
             }}
           >
-          Phase 01: Problem Definition
+            Phase 01: Problem Definition
           </Text>
           <Text
             style={{
@@ -237,23 +239,70 @@ const ProblemDefLayout = ({
     </Document>
   );
 
-  // Handle export actions
-  // const handleExport = (btn_number: any) => {
-  //   if (btn_number == 0) {
-  //     const blockName =
-  //       outPutQues[activeSectionIndex]?.block_name || "No Title";
-  //     const questions = outPutQues || [];
-  //     const link = (
-  //       <PDFDownloadLink
-  //         document={<PDFDocument blockName={blockName} questions={questions} />}
-  //         fileName={`${blockName.replace(/\s/g, "_")}.pdf`}
-  //       >
-  //         {({ loading }) => (loading ? "Generating PDF..." : "Download PDF")}
-  //       </PDFDownloadLink>
-  //     );
-  //     setPdfLink(link);
-  //   }
-  // };
+  const handleExportWord = () => {
+    const blockName = outPutQues[activeSectionIndex]?.block_name || "No Title";
+    const questions = outPutQues || [];
+
+    const doc = new WordDocument({
+      sections: [
+        {
+          properties: {},
+          children: [
+            new Paragraph({
+              alignment: "center", // Center align the text
+              children: [
+                new TextRun({
+                  text: `Phase 01: Problem Definition`,
+                  bold: true,
+                  size: 28,
+                  color: "1a472a",
+                }),
+              ],
+            }),
+            new Paragraph({
+              alignment: "center", // Center align the text
+              children: [
+                new TextRun({
+                  text: blockName,
+                  bold: true,
+                  size: 24,
+                  color: "1a472a",
+                }),
+              ],
+            }),
+            ...questions
+              .map((faq, index) => [
+                new Paragraph({
+                  // alignment: "center",
+                  children: [
+                    new TextRun({
+                      text: `Q${index + 1}: ${faq.question}`,
+                      bold: true,
+                      size: 22,
+                      color: "1a472a",
+                    }),
+                  ],
+                }),
+                new Paragraph({
+                  // alignment: "center",
+                  children: [
+                    new TextRun({
+                      text: `A: ${faq.aiReply || "No answer available"}`,
+                      size: 20,
+                    }),
+                  ],
+                }),
+              ])
+              .flat(),
+          ],
+        },
+      ],
+    });
+
+    Packer.toBlob(doc).then((blob) => {
+      saveAs(blob, `${blockName.replace(/\s/g, "_")}.docx`);
+    });
+  };
 
   return (
     <div>
@@ -367,13 +416,13 @@ const ProblemDefLayout = ({
       <div className="export-actions" ref={menuRef}>
         {/* Export Menu */}
         <div className={`export-menu ${menuOpen ? "active" : ""}`}>
-            <PDFDownloadLink
+          <PDFDownloadLink
             document={
               <PDFDocument
-              blockName={
-                outPutQues[activeSectionIndex]?.block_name || "No Title"
-              }
-              questions={outPutQues || []}
+                blockName={
+                  outPutQues[activeSectionIndex]?.block_name || "No Title"
+                }
+                questions={outPutQues || []}
               />
             }
             fileName={`${
@@ -382,20 +431,24 @@ const ProblemDefLayout = ({
             }.pdf`}
             className="export-btn"
             style={{ textDecoration: "none" }} // Remove underline
-            >
+          >
             {({ loading }) => (
               <>
-              <i className="fas fa-file-pdf"></i>{" "}
-              {loading ? "Generating PDF..." : "Export as PDF"}
+                <i className="fas fa-file-pdf"></i>{" "}
+                {loading ? "Generating PDF..." : "Export as PDF"}
               </>
             )}
-            </PDFDownloadLink>
-          <button className="export-btn">
+          </PDFDownloadLink>
+          <button
+            className="export-btn"
+            // onClick={handleExportWord}
+          >
             <i className="fas fa-file-word"></i> Export as Word
           </button>
           <button className="export-btn">
             <i className="fas fa-file-alt"></i> Export as Markdown
           </button>
+          j
           <button className="export-btn">
             <i className="fas fa-print"></i> Print Document
           </button>
