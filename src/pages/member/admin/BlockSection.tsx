@@ -15,15 +15,15 @@ export default function BlockSection({
   output,
 }: any) {
   return (
-    <div className={classname} onClick={(e) => setactiveBlock(d.id)}>
+    <div className={'section-item ' + classname} onClick={(e) => setactiveBlock(d.id)}>
       <h6 className="mb-1 d-flex justify-content-between">
         <span>{d.name}</span>
         <span className="icon_section">
           <i className="fa fa-angle-down" aria-hidden="true" />
         </span>
       </h6>
-      <small className="text-muted">{totalQues?.length} questions</small>
-      <div className={`questions-list ${active} mt-2 flex-column gap-1`}>
+      <small className="text-muted">{totalQues?.length} questions </small>
+      <div className={`questions-list  mt-2 flex-column gap-1 ${classname}`}>
         {AllQues?.map((qd: any) => (
           <>
             {qd.blockId == d.id && (
@@ -36,6 +36,7 @@ export default function BlockSection({
                     ["question_id"]: qd.id,
                   });
                   settextareaShow(true);
+                  setactiveBlock(d.id);
                   setactiveQuestion(qd.id);
                 }}
               >

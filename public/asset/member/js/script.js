@@ -5,8 +5,8 @@ $(document).ready(function () {
     let $this = $(this);
     let isActive = $this.hasClass("active"); // Check if the clicked item is already active
 
-    $(".section-item").removeClass("active");
-    $(".questions-list").removeClass("active");
+    // $(".section-item").removeClass("active");
+    // $(".questions-list").removeClass("active");
     $(".icon_section i")
       .removeClass("fa-angle-down")
       .addClass("fa-angle-right");
@@ -14,7 +14,7 @@ $(document).ready(function () {
     if (!isActive) {
       // Toggle only if it wasn't active before
       $this.addClass("active");
-      $this.find(".questions-list").addClass("active");
+      // $this.find(".questions-list").addClass("active");
       $this
         .find(".icon_section i")
         .removeClass("fa-angle-right")

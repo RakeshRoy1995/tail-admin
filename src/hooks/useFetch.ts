@@ -7,7 +7,7 @@ const authToken = localStorage.getItem("customer_login_auth") || "";
 const token: any = authToken ? JSON.parse(authToken) : "";
 
 const useFetch = (url: any, options = {}) => {
-  const param = `organizationLevelId=${token?.user?.organizationLevelId || ""}&partnerOrganizationId=${token?.user?.partnerOrganizationId || ""}&branchId=${token?.user?.branchId || ""}`;
+  const param = `userId=${token?.id }`;
 
   const [data, setData] = useState<any>(null);
   const [common_data, setcommon_Data] = useState(null);

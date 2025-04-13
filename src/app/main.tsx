@@ -25,16 +25,6 @@ const theme = createTheme(
 
 ReactDOM.createRoot(document.getElementById("page-top") as HTMLElement).render(
   <BrowserRouter>
-    {/* <Provider store={store}> */}
-    <I18nextProvider i18n={i18n}>
-      <ThemeProvider theme={theme}>
-        <LocalizationProvider
-          adapterLocale={i18n.language}
-        >
-          <App />
-        </LocalizationProvider>
-      </ThemeProvider>
-    </I18nextProvider>
-    {/* </Provider> */}
+    <App />
   </BrowserRouter>,
 );

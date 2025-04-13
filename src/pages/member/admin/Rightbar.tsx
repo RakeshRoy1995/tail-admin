@@ -1,3 +1,4 @@
+import { enablePhaseOutput } from "@/utils";
 import React from "react";
 
 interface RightbarProps {
@@ -12,7 +13,10 @@ const Rightbar: React.FC<RightbarProps> = ({
   return (
     <div className="__right-sidebar __height-half">
       <div>
-        <button className="close_right_sidebar btn btn-danger mb-3" type="button">
+        <button
+          className="close_right_sidebar btn btn-danger mb-3"
+          type="button"
+        >
           <i className="fa fa-times" aria-hidden="true" />
           Close
         </button>
@@ -22,7 +26,6 @@ const Rightbar: React.FC<RightbarProps> = ({
         <div
           className="suggestion-item text-center"
           onMouseEnter={(e) => {
-            
             const span = e.currentTarget.querySelector("span");
             const icon = e.currentTarget.querySelector("svg");
 
@@ -30,7 +33,6 @@ const Rightbar: React.FC<RightbarProps> = ({
             if (icon) icon.style.display = "none"; // Hides the icon
           }}
           onMouseLeave={(e) => {
-            
             const span = e.currentTarget.querySelector("span");
             const icon = e.currentTarget.querySelector("svg");
 
@@ -39,66 +41,66 @@ const Rightbar: React.FC<RightbarProps> = ({
           }}
         >
           <i className="fas fa-diagram" />
-          
+
           <span>Canvas</span>
         </div>
-        <div className="suggestion-item text-center"
-         onMouseEnter={(e) => {
-            
-          const span = e.currentTarget.querySelector("span");
-          const icon = e.currentTarget.querySelector("svg");
+        <div
+          className="suggestion-item text-center"
+          onMouseEnter={(e) => {
+            const span = e.currentTarget.querySelector("span");
+            const icon = e.currentTarget.querySelector("svg");
 
-          if (span) span.textContent = "Causes Diagram";
-          if (icon) icon.style.display = "none"; // Hides the icon
-        }}
-        onMouseLeave={(e) => {
-          
-          const span = e.currentTarget.querySelector("span");
-          const icon = e.currentTarget.querySelector("svg");
+            if (span) span.textContent = "Causes Diagram";
+            if (icon) icon.style.display = "none"; // Hides the icon
+          }}
+          onMouseLeave={(e) => {
+            const span = e.currentTarget.querySelector("span");
+            const icon = e.currentTarget.querySelector("svg");
 
-          if (span) span.textContent = "Causes Diagram";
-          if (icon) icon.style.display = ""; // Resets to default display (inline by default for icons)
-        }}>
+            if (span) span.textContent = "Causes Diagram";
+            if (icon) icon.style.display = ""; // Resets to default display (inline by default for icons)
+          }}
+        >
           <i className="fas fa-comments" />
           <span>Causes Diagram</span>
         </div>
-        <div className="suggestion-item text-center"
-         onMouseEnter={(e) => {
-            
-          const span = e.currentTarget.querySelector("span");
-          const icon = e.currentTarget.querySelector("svg");
+        <div
+          className="suggestion-item text-center"
+          onMouseEnter={(e) => {
+            const span = e.currentTarget.querySelector("span");
+            const icon = e.currentTarget.querySelector("svg");
 
-          if (span) span.textContent = "Portfolio Sense-Making";
-          if (icon) icon.style.display = "none"; // Hides the icon
-        }}
-        onMouseLeave={(e) => {
-          
-          const span = e.currentTarget.querySelector("span");
-          const icon = e.currentTarget.querySelector("svg");
+            if (span) span.textContent = "Portfolio Sense-Making";
+            if (icon) icon.style.display = "none"; // Hides the icon
+          }}
+          onMouseLeave={(e) => {
+            const span = e.currentTarget.querySelector("span");
+            const icon = e.currentTarget.querySelector("svg");
 
-          if (span) span.textContent = "Portfolio";
-          if (icon) icon.style.display = ""; // Resets to default display (inline by default for icons)
-        }}>
+            if (span) span.textContent = "Portfolio";
+            if (icon) icon.style.display = ""; // Resets to default display (inline by default for icons)
+          }}
+        >
           <i className="fas fa-file-alt" />
           <span>Portfolio</span>
         </div>
-        <div className="suggestion-item text-center"
-         onMouseEnter={(e) => {
-            
-         // const span = e.currentTarget.querySelector("span");
-          const icon = e.currentTarget.querySelector("svg");
+        <div
+          className="suggestion-item text-center"
+          onMouseEnter={(e) => {
+            // const span = e.currentTarget.querySelector("span");
+            const icon = e.currentTarget.querySelector("svg");
 
-         // if (span) span.textContent = "Business Model Canvas";
-          if (icon) icon.style.display = "none"; // Hides the icon
-        }}
-        onMouseLeave={(e) => {
-          
-        //  const span = e.currentTarget.querySelector("span");
-          const icon = e.currentTarget.querySelector("svg");
+            // if (span) span.textContent = "Business Model Canvas";
+            if (icon) icon.style.display = "none"; // Hides the icon
+          }}
+          onMouseLeave={(e) => {
+            //  const span = e.currentTarget.querySelector("span");
+            const icon = e.currentTarget.querySelector("svg");
 
-        //  if (span) span.textContent = "Canvas";
-          if (icon) icon.style.display = ""; // Resets to default display (inline by default for icons)
-        }}>
+            //  if (span) span.textContent = "Canvas";
+            if (icon) icon.style.display = ""; // Resets to default display (inline by default for icons)
+          }}
+        >
           <i className="fas fa-image" />
           <span>Inversion</span>
         </div>
@@ -106,9 +108,16 @@ const Rightbar: React.FC<RightbarProps> = ({
       <div className="button-group __custom-group-btn">
         <button className="active">Relevant Case Studies</button>
         <button className="btn-info">Institutional Structure</button>
-        <button type="button" onClick={onSubmitPhaseOutput} className="btn-warning">
-          Phase Output Summarize
-        </button>
+          <button
+            type="button"
+            onClick={onSubmitPhaseOutput}
+            className="btn-warning"
+            disabled={!enablePhaseOutput()}
+            title={enablePhaseOutput() ? '' : 'Phase Output Summarize is disabled'}
+            data-toggle="tooltip"
+          >
+            Phase Output Summarize
+          </button>
       </div>
       <a
         className="phase-output text-decoration-none"

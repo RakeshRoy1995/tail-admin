@@ -6,20 +6,12 @@ import QuesAnswer from "./QuesAnswer";
 import Rightbar from "./Rightbar";
 import Navigation from "./Navigation";
 
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import {
-  getPreviousQuestion,
   getUserDetails,
   groupBy,
   phasepromptdata,
   statusOfQuestion,
 } from "@/utils";
-import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
-  Typography,
-} from "@mui/material";
 
 import Swal from "sweetalert2";
 // import AiResponseForm from "./AiResponseForm";
@@ -66,8 +58,6 @@ export default function MemberAdmin() {
 
         if (response.data.length) {
           setphases(response.data);
-          //   getPhaseOutput(response.data[0].id)
-          console.log(`response.data[0].id`, response.data);
           setactivephase(response.data[0].id);
           setnextPhase(response.data[1].id);
 
@@ -90,6 +80,7 @@ export default function MemberAdmin() {
           setAllQues(res_ques.data);
 
           if (res_ques.data) {
+            localStorage.setItem("questions", JSON.stringify(res_ques.data));
             const resQues = AllQues.filter((d: any) => d.blockId == blockId);
             if (resQues.length) {
               setQues(resQues);
@@ -110,7 +101,8 @@ export default function MemberAdmin() {
     const fetchBlockByPhase = async (id: any) => {
       try {
         const result = Allblocks.filter((d: any) => d.phaseId == id);
-        console.log(`result`, Allblocks, id, result);
+        console.log(`resfffffult`, result);
+        localStorage.setItem("block", JSON.stringify(result));
         setblocks(result);
         if (result.length) {
           setactiveBlock(result[0].id);
@@ -121,7 +113,7 @@ export default function MemberAdmin() {
     };
 
     fetchBlockByPhase(activephase);
-  }, [activephase]);
+  }, [activephase, Allblocks.length]);
 
   // get question by block
   useEffect(() => {
@@ -233,6 +225,7 @@ export default function MemberAdmin() {
 
       if (res.length) {
         setoutput(Object.values(groupBy(res, "blockId")));
+        localStorage.setItem("question_output", JSON.stringify(res));
       }
       setrender(!render);
     } catch (error) {
@@ -262,7 +255,7 @@ export default function MemberAdmin() {
 
       if (data.length) {
         setallPhasePromts(data);
-      }else{
+      } else {
         setallPhasePromts(phasepromptdata);
       }
     } catch (error) {
@@ -305,95 +298,103 @@ export default function MemberAdmin() {
     setoutPutQues(output[0]);
   }, [output]);
 
-  console.log(`showPhaseOutput`, showPhaseOutput, output);
-
   return (
     <>
       <Header />
 
-      {!showPhaseOutputSummery ? (
-        <main>
-          {showPhaseOutput ? (
-            <ProblemDefLayout
-              output={output}
-              setoutPutQues={setoutPutQues}
-              outPutQues={outPutQues}
-              setshowPhaseOutput={setshowPhaseOutput}
-              onSubmitPhaseOutput={onSubmitPhaseOutput}
-            />
-          ) : (
-            <>
-              {/*Left Sidebar with sections and question*/}
-              <div className="__left-sidebar border-end __height-half ">
-                {/* Close left sidebar */}
-                <button
-                  className="close_left_sidebar btn btn-danger mb-3"
-                  type="button"
-                >
-                  <i className="fa fa-times" aria-hidden="true" />
-                  close
-                </button>
-                {/* Profile Section */}
-                <ProfileSection phases={phases} activephase={activephase} />
-                {/* sidebar Section */}
-                <SidebarMember
-                  Allblocks={Allblocks}
-                  activeBlock={activeBlock}
-                  setactiveBlock={setactiveBlock}
-                  activephase={activephase}
-                  AllQues={AllQues}
-                  setdata={setdata}
-                  settextareaShow={settextareaShow}
-                  setactiveQuestion={setactiveQuestion}
-                  data={data}
-                  output={output}
-                />
-              </div>
-              {/*Question and answer section*/}
+      <>
+        {AllQues.length > 0 && (
+          <>
+            {!showPhaseOutputSummery ? (
+              <main>
+                {showPhaseOutput ? (
+                  <ProblemDefLayout
+                    output={output}
+                    setoutPutQues={setoutPutQues}
+                    outPutQues={outPutQues}
+                    setshowPhaseOutput={setshowPhaseOutput}
+                    onSubmitPhaseOutput={onSubmitPhaseOutput}
+                  />
+                ) : (
+                  <>
+                    {/*Left Sidebar with sections and question*/}
+                    <div className="__left-sidebar border-end __height-half ">
+                      {/* Close left sidebar */}
+                      <button
+                        className="close_left_sidebar btn btn-danger mb-3"
+                        type="button"
+                      >
+                        <i className="fa fa-times" aria-hidden="true" />
+                        close
+                      </button>
+                      {/* Profile Section */}
+                      <ProfileSection
+                        phases={phases}
+                        activephase={activephase}
+                        AllQues={AllQues}
+                        Allblocks={Allblocks}
+                      />
+                      {/* sidebar Section */}
+                      <SidebarMember
+                        Allblocks={Allblocks}
+                        activeBlock={activeBlock}
+                        setactiveBlock={setactiveBlock}
+                        activephase={activephase}
+                        AllQues={AllQues}
+                        setdata={setdata}
+                        settextareaShow={settextareaShow}
+                        setactiveQuestion={setactiveQuestion}
+                        data={data}
+                        output={output}
+                      />
+                    </div>
+                    {/*Question and answer section*/}
 
-              <QuesAnswer
-                data={data}
-                AllQues={AllQues}
-                AiResponse={AiResponse}
-                setdata={setdata}
-                submit={submit}
-                onSubmit={onSubmit}
-                onSubmitAnswer={onSubmitAnswer}
-                activeQuestion={activeQuestion}
-                showSavedQuestion={showSavedQuestion}
-                setshowSavedQuestion={setshowSavedQuestion}
-                output={output}
-                setshowPhaseOutput={setshowPhaseOutput}
-                onSubmitPhaseOutput={onSubmitPhaseOutput}
-              />
-              {/*Right Sidebar with sections and question*/}
-              <Rightbar
-                setshowSavedQuestion={setshowSavedQuestion}
-                onSubmitPhaseOutput={onSubmitPhaseOutput}
-              />
-              {/* Phase Navigation */}
+                    <QuesAnswer
+                      data={data}
+                      AllQues={AllQues}
+                      AiResponse={AiResponse}
+                      setdata={setdata}
+                      submit={submit}
+                      onSubmit={onSubmit}
+                      onSubmitAnswer={onSubmitAnswer}
+                      activeQuestion={activeQuestion}
+                      showSavedQuestion={showSavedQuestion}
+                      setshowSavedQuestion={setshowSavedQuestion}
+                      output={output}
+                      setshowPhaseOutput={setshowPhaseOutput}
+                      onSubmitPhaseOutput={onSubmitPhaseOutput}
+                    />
+                    {/*Right Sidebar with sections and question*/}
+                    <Rightbar
+                      setshowSavedQuestion={setshowSavedQuestion}
+                      onSubmitPhaseOutput={onSubmitPhaseOutput}
+                    />
+                    {/* Phase Navigation */}
 
-              {phases.length > 0 && (
-                <Navigation
+                    {phases.length > 0 && (
+                      <Navigation
+                        activephase={activephase}
+                        phases={phases}
+                        setactivephase={setactivephase}
+                      />
+                    )}
+                  </>
+                )}
+              </main>
+            ) : (
+              <main>
+                <PropsedSystemMappainig
+                  questionAnswer={questionAnswer}
+                  allPhasePromts={allPhasePromts}
                   activephase={activephase}
-                  phases={phases}
-                  setactivephase={setactivephase}
+                  phaseName={phaseName}
                 />
-              )}
-            </>
-          )}
-        </main>
-      ) : (
-        <main>
-          <PropsedSystemMappainig
-            questionAnswer={questionAnswer}
-            allPhasePromts={allPhasePromts}
-            activephase={activephase}
-            phaseName={phaseName}
-            activephase={activephase}
-          />
-        </main>
-      )}
+              </main>
+            )}
+          </>
+        )}
+      </>
     </>
   );
 }

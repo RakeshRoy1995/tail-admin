@@ -6,7 +6,7 @@ const API_AI = import.meta.env.VITE_REACT_APP_AI;
 const authToken = localStorage.getItem("customer_login_auth") || "";
 const token: any = authToken ? JSON.parse(authToken) : "";
 
-const param = `organizationLevelId=${token?.user?.organizationLevelId || ""}&partnerOrganizationId=${token?.user?.partnerOrganizationId || ""}&branchId=${token?.user?.branchId || ""}`;
+const param = `userId=${token?.id }`;
 
 // const param = `organizationType=${token?.user?.organizationType || ""}&partnerOrganizationId=${token?.user?.partnerOrganizationId || ""}&branchId=${token?.user?.branchId || ""}`;
 

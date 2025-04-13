@@ -1,8 +1,11 @@
 import React from "react";
 
-export default function ProfileSection({phases, activephase}:any) {
+export default function ProfileSection({phases, activephase , AllQues , Allblocks}:any) {
 
   const phaseDetails = phases?.find((d: any) => d.id == activephase);
+  const block = Allblocks?.filter((d: any) => d.phaseId == activephase) || [];
+  const blockIds = block?.map((d: any) => d.id) || [];
+  const question = AllQues?.filter((d: any) => blockIds.includes( d.blockId)) || [];
 
   return (
     <div className="profile-card">
@@ -20,11 +23,11 @@ export default function ProfileSection({phases, activephase}:any) {
       <div className="d-flex justify-content-between">
         <div>
           <small className="opacity-75">Total Questions</small>
-          <h6 className="mb-0">24</h6>
+          <h6 className="mb-0">{question?.length || 0}</h6>
         </div>
         <div>
           <small className="opacity-75">Sections</small>
-          <h6 className="mb-0">4</h6>
+          <h6 className="mb-0">{block?.length || 0}</h6>
         </div>
       </div>
     </div>

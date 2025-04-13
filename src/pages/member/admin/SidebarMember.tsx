@@ -11,7 +11,7 @@ export default function SidebarMember({
   setactiveQuestion,
   data,
   setactiveBlock,
-  output
+  output,
 }: any) {
   return (
     <div className="section-list">
@@ -20,32 +20,30 @@ export default function SidebarMember({
           {d.phaseId == activephase && (
             <>
               {activeBlock == d.id ? (
-                <div>
-                  <BlockSection
-                    d={d}
-                    classname="section-item active"
-                    active={"active"}
-                    AllQues={AllQues}
-                    setdata={setdata}
-                    settextareaShow={settextareaShow}
-                    setactiveQuestion={setactiveQuestion}
-                    data={data}
-                    setactiveBlock={setactiveBlock}
-                    totalQues={AllQues?.filter((dq:any)=> dq.blockId == d.id )}
-                    output={output}
-                  />
-                </div>
-              ) : (
                 <BlockSection
                   d={d}
-                  classname="section-item"
+                  active={activeBlock}
+                  classname="active"
                   AllQues={AllQues}
                   setdata={setdata}
                   settextareaShow={settextareaShow}
                   setactiveQuestion={setactiveQuestion}
                   data={data}
                   setactiveBlock={setactiveBlock}
-                  totalQues={AllQues?.filter((dq:any)=> dq.blockId == d.id )}
+                  totalQues={AllQues?.filter((dq: any) => dq.blockId == d.id)}
+                  output={output}
+                />
+              ) : (
+                <BlockSection
+                  d={d}
+                  classname=""
+                  AllQues={AllQues}
+                  setdata={setdata}
+                  settextareaShow={settextareaShow}
+                  setactiveQuestion={setactiveQuestion}
+                  data={data}
+                  setactiveBlock={setactiveBlock}
+                  totalQues={AllQues?.filter((dq: any) => dq.blockId == d.id)}
                   output={output}
                 />
               )}

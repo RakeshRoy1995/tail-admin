@@ -665,3 +665,22 @@ export const phasepromptdata = [
       "status": 1
   }
 ]
+
+export const enablePhaseOutput = () => {
+  const data = localStorage.getItem('question_output');
+  const output = data ? JSON.parse(data) : [];
+
+
+
+  const blockdata = localStorage.getItem('block');
+  const block = data ? JSON.parse(blockdata) : [];
+
+  const blockID = block.map((d:any)=> d.id )
+
+
+  const questionsdata = localStorage.getItem('questions');
+  const questions = data ? JSON.parse(questionsdata) : [];
+  const quesID = questions.filter((d:any)=> blockID.includes(d.blockId)  )
+  
+  return quesID.length == output.length ;
+};
