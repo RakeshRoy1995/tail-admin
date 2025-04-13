@@ -113,7 +113,7 @@ const Rightbar: React.FC<RightbarProps> = ({
             onClick={onSubmitPhaseOutput}
             className="btn-warning"
             disabled={!enablePhaseOutput()}
-            title={enablePhaseOutput() ? '' : 'Phase Output Summarize is disabled'}
+            title={enablePhaseOutput() ? '' : 'Please give answer to all questions'}
             data-toggle="tooltip"
           >
             Phase Output Summarize
