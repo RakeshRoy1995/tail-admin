@@ -203,7 +203,7 @@ const PhaseOutput = () => {
                       </select>
                     </div>
 
-                    <PhaseSummery output={output} />
+                    <PhaseSummery output={output} error={''} />
                   </>
                 )}
 
