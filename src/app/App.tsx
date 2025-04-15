@@ -18,6 +18,8 @@ const Home = React.lazy(() => import("@/pages/Home/index"));
 import MemberAdmin from "@/pages/member/admin/MemberAdmin";
 import ProblemDefLayout from "@/pages/problemDefLayout/ProblemDefLayout";
 import LeftSideMenuBar from "./Layout/LeftSideMenuBar";
+import BlockUserOutput from "@/pages/BlockOverview/BlockUserOutput";
+import AIModelMgt from "@/pages/AI-model-mgt/AIModelMgt";
 const PrivateRoute = React.lazy(() => import("./PrivateRoute"));
 const Login = React.lazy(() => import("@/pages/Login/Login"));
 
@@ -55,9 +57,11 @@ const App: FC = () => {
             <Route path="/" element={<Layout />}>
               <Route path="/admin" element={<Admin />} />
               <Route path="/phase-overview" element={<PhaseOverView />} />
-              <Route path="/block-overview" element={<BlockOverview />} />
+              <Route path="/block-overview" element={<BlockUserOutput />} />
               <Route path="/phase-output" element={<PhaseOutput />} />
               <Route path="/block-output" element={<BlockOutput />} />
+              <Route path="/ai-model-mgmt" element={<AIModelMgt />} />
+              <Route path="/ai-model-mgmt" element={<AIModelMgt />} />
 
               {/* <Route path="/" element={<Home />} /> */}
               {/* <Route path="/admin" element={<Admin />} /> */}

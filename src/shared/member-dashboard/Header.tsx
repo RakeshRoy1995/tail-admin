@@ -10,77 +10,9 @@ export default function Header() {
     navigate("/");
   };
 
-  const AI_model = [
-    {
-      id: 5,
-      name: "gpt-4",
-    },
-    {
-      id: 2,
-      name: "gpt-4o",
-    },
-    {
-      id: 3,
-      name: "gpt-4o-mini",
-    },
-    {
-      id: 4,
-      name: "gpt-4-turbo",
-    },
-
-    {
-      id: 6,
-      name: "o3-mini",
-    },
-    {
-      id: 7,
-      name: "claude-3-7-sonnet",
-    },
-    {
-      id: 8,
-      name: "claude-3-5-sonnet",
-    },
-    {
-      id: 9,
-      name: "claude-3-opus",
-    },
-    {
-      id: 10,
-      name: "claude-3-haiku",
-    },
-    {
-      id: 11,
-      name: "gemini-1.5-pro",
-    },
-    {
-      id: 12,
-      name: "gemini-1.5-flash",
-    },
-    {
-      id: 13,
-      name: "gemini-2.0-flash",
-    },
-    {
-      id: 14,
-      name: "gemini-2.0-pro",
-    },
-    {
-      id: 15,
-      name: "command-r",
-    },
-    {
-      id: 16,
-      name: "command-r-plus",
-    },
-    {
-      id: 17,
-      name: "DeepSeek-V3",
-    },
-    {
-      id: 18,
-      name: "DeepSeek-R1",
-    },
-  ];
+  const AI_model = localStorage.getItem("all_aiModel")
+    ? JSON.parse(localStorage.getItem("all_aiModel") || "")
+    : [];
 
   const modelSelect = (value: any) => {
     localStorage.setItem("AI_model", value);
@@ -119,16 +51,20 @@ export default function Header() {
                   aria-labelledby="dropdownMenuButton1"
                 >
                   {AI_model.map((model: any) => (
-                    <li
-                      onClick={(e) => {
-                        modelSelect(model.name);
-                      }}
-                      key={model.id}
-                    >
-                      <a className="dropdown-item" href="#">
-                        {model.name}
-                      </a>
-                    </li>
+                    <>
+                      {model.status == 1 && (
+                        <li
+                          onClick={(e) => {
+                            modelSelect(model.name);
+                          }}
+                          key={model.id}
+                        >
+                          <a className="dropdown-item" href="#">
+                            {model.name}
+                          </a>
+                        </li>
+                      )}
+                    </>
                   ))}
                 </ul>
               </div>
@@ -176,7 +112,6 @@ export default function Header() {
                   </li>
                 </ul>
               </div>
-           
             </div>
           </div>
         </div>

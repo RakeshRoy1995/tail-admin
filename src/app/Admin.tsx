@@ -122,10 +122,10 @@ export default function Admin() {
           {...childHoverAnimation}
         >
           <div className="icon-box">
-            <a href="#">
+            <Link to="/ai-model-mgmt">
               <img src="asset/assets/img/img8.png" alt="" />
               <p>AI MODEL MGMT</p>
-            </a>
+            </Link>
           </div>
         </motion.div>
       </div>
