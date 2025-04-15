@@ -52,7 +52,15 @@ const Login = () => {
           "user-role/user/" + response.data?.id,
         );
         localStorage.setItem("current_role", JSON.stringify(roleData.data[0]));
-        localStorage.setItem("all_role", JSON.stringify(roleData.data));
+
+        if (roleData.data[0]?.id) {
+          const aiModel: any = await get_all_data(
+            "ai-model",
+          );
+          localStorage.setItem("AI_model", aiModel.data[0]?.code);
+          localStorage.setItem("all_aiModel", JSON.stringify(aiModel.data));
+          localStorage.setItem("all_role", JSON.stringify(roleData.data));
+        }
         axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
         if (rememberMe) {
