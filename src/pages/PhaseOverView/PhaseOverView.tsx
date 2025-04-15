@@ -1,24 +1,43 @@
+import React, { useEffect, useState } from "react";
+import { BsPlusCircleFill } from "react-icons/bs";
+import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
+import Modal from "react-modal";
 import useFetch from "@/hooks/useFetch";
-import AddButton from "@/shared/components/ButttonsCollection/AddButton";
-import UpdateButton from "@/shared/components/ButttonsCollection/UpdateButton";
-import ActionButton from "@/shared/Table/ActionButton";
-import Table from "@/shared/Table/Table";
-import { useEffect, useState } from "react";
-import { SketchPicker } from "react-color";
-import Swal from "sweetalert2";
 const API_URL = import.meta.env.VITE_REACT_APP_API_URL;
 const token = localStorage.getItem("token");
 
-const PhaseOverView = () => {
-  const [render, setrender] = useState(true);
-  const [color, setColor] = useState("#ffffff");
- 
+const card_css = [
+  {
+    color: "#ffede6",
+    textColor: "#3366cc",
+    illustration: "🗺️",
+  },
+  {
+    color: "#fff8e6",
+    textColor: "#b38600",
+    illustration: "🧭",
+  },
+  {
+    color: "#ffede6",
+    textColor: "#cc5500",
+    illustration: "🏗️",
+  },
+  {
+    color: "#f8e6ff",
+    textColor: "#8c1aff",
+    illustration: "🌱",
+  },
+  {
+    color: "#e6ffe6",
+    textColor: "#1a8c1a",
+    illustration: "📚",
+  },
+];
 
-  const colorOptions = [
-    { label: "Red", value: "red" },
-    { label: "Blue", value: "blue" },
-    { label: "Green", value: "green" },
-  ];
+const PhasesDashboard = () => {
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [selectedPhase, setSelectedPhase] = useState(null);
 
   const {
     data,
@@ -37,126 +56,32 @@ const PhaseOverView = () => {
     setaddFormShow,
   } = useFetch(`${API_URL}/phases`);
 
-  const getheaderColor = (status: string) => {
-    return status === "Active" ? "text-green-500" : "text-red-500";
+  // Animation variants for framer-motion
+  const cardVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.8, ease: "easeOut" },
+    },
+    hover: {
+      scale: 1.05,
+      transition: { duration: 0.4, ease: "easeInOut" },
+    },
   };
 
-  const column = [
-    {
-      name: "Name",
-      selector: (row: any) => row.name,
-      sortable: true,
-    },
-    {
-      name: "Description",
-      selector: (row: any) => row.discription,
-      sortable: true,
-    },
-    {
-      name: "Prompt",
-      selector: (row: any) => row.prompt,
-      sortable: true,
-    },
-    {
-      name: "Sort Order",
-      selector: (row: any) => row.sort,
-      sortable: true,
-    },
-    {
-      name: "Color",
-      selector: (row: any) => row.color,
-      sortable: true,
-    },
-    {
-      name: "Status",
-      selector: (row: any) => row.status,
-      sortable: true,
-    },
-
-    {
-      name: "action",
-      cell: (row: any) => (
-        <>{ActionButton(fetchDataByID, row?.id, false, true, true)}</>
-      ),
-    },
-  ];
-
-  const handleInputChange = (e: any) => {
-    const { id, value } = e.target;
-    setsingleData((prev) => ({
-      ...prev,
-      [id]: id === "sort" ? (value === "1" ? "1" : "0") : value,
-    }));
+  const openModal = (phase) => {
+    setSelectedPhase(phase);
+    setModalIsOpen(true);
   };
 
-  const handleFileChange = (e: any) => {
-    setsingleData((prev) => ({ ...prev, avatar: e.target.files[0] }));
+  const closeModal = () => {
+    setModalIsOpen(false);
+    setSelectedPhase(null);
   };
 
-  const handleStatusChange = (e: any) => {
-    setsingleData((prev) => ({ ...prev, status: e.target.checked }));
-  };
-
-  const handleSubmit = async (e: any) => {
-    e.preventDefault();
-    const submissionData = {
-      ...singleData,
-      color,
-    };
-    console.log("Submitting Data:", submissionData);
-
-    let page_list = `${API_URL}/phases`;
-    let method = "POST";
-
-    if (singleData?.id) {
-      page_list = `${API_URL}/phases/${singleData?.id}`;
-      method = "PUT";
-    }
-    const options = {
-      method,
-      data: submissionData,
-      headers: {
-        "content-type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    };
-
-    fetchDataCommon(page_list, options);
-    setsingleData(null);
-
-    // Add API call logic here
-  };
-
-  const fetchDataByID = async (id: any, type = "") => {
-    setrender(false);
-    if (type == "edit") {
-      // const form: any = document.querySelector("form");
-      // form.reset();
-      const page_list = `${API_URL}/phases/${id}`;
-      const options = {
-        method: "get",
-        headers: {
-          "content-type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      };
-
-      fetchSingleDataCommonByID(page_list, options);
-      setrender(true);
-    }
-
-    if (type == "delete") {
-      const page_list = `${API_URL}/phases/${id}`;
-      deleteData(page_list);
-      // fetchData();
-    }
-    setrender(true);
-    setaddFormShow(true);
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
-  };
+  console.log("data", data);
+  console.log("selected", selectedPhase);
 
   const fetchInitData = async () => {
     fetchData();
@@ -166,236 +91,183 @@ const PhaseOverView = () => {
     fetchInitData();
   }, []);
 
-  useEffect(() => {
-    if (common_data) {
-      setaddFormShow(false);
-      Swal.fire({
-        icon: "success",
-        text: "Success",
-        confirmButtonText: "Close",
-      });
-      setcommon_Data(null);
-      fetchData();
-      setsingleData(null);
-      const form: any = document.querySelector("form");
-      form.reset();
-    }
-
-    if (error) {
-      //show error message
-      Swal.fire({
-        icon: "error",
-        text: error?.data?.message ? error?.data?.message : error,
-        confirmButtonText: "Close",
-      });
-    }
-  }, [error?.data?.timestamp, common_data, error]);
-
-  useEffect(() => {
-    if (deleteMsg) {
-      //show success message
-      setcommon_Data(null);
-      fetchData();
-    }
-  }, [deleteMsg]);
-
-  console.log("dtata", data);
-
   return (
-    <div className="container-fluid tab-panel">
-      <div className="row tab-panel-body form-tab-panel-body">
-        <div className="col-md-12 from-panel-wrap">
-          <div className="row ">
-            <div className="phase-wrapper">
-              <h3>Phase Information</h3>
-              <div className="forms-wrapper">
-                <form id="avatar-form" onSubmit={handleSubmit}>
-                  <div className="row mb-3">
-                    <label htmlFor="img" className="col-form-label col-sm-4">
-                      Avatar
-                    </label>
-                    <div className="col-sm-8">
-                      <input
-                        type="file"
-                        className="form-control"
-                        id="img"
-                        accept="image/*"
-                        defaultValue={singleData?.img}
-                        onChange={handleFileChange}
-                      />
+    <div className="container">
+      {/* Phases Grid */}
+      <div className="row row-cols-1 row-cols-md-3 g-4">
+        {data?.map((phase, index) => {
+          const cardStyle = card_css[index % card_css.length]; // Dynamically select card_css based on index
+          return (
+            <motion.div
+              className="col"
+              key={index}
+              variants={cardVariants}
+              initial="hidden"
+              whileInView="visible"
+              whileHover="hover"
+              viewport={{ once: true }}
+             
+            >
+              <div
+                className="card h-100 border-0 shadow-sm"
+                style={{
+                  backgroundColor: cardStyle.color, // Use dynamic card_css color
+                  borderRadius: "12px",
+                  minHeight: "300px",
+                  cursor: "pointer", // Add cursor pointer
+                }}
+              >
+                <div className="card-body p-4">
+                  <h5
+                    className="card-title mb-4 text-center"
+                    style={{ color: cardStyle.textColor }} // Use dynamic card_css textColor
+                  >
+                    {phase.name}
+                  </h5>
+                  <div className="d-flex justify-content-between align-items-center mb-4">
+                    <div className="text-center">
+                      <p
+                        className="mb-0 fw-bold"
+                        style={{
+                          fontSize: "1.2rem",
+                          color: cardStyle.textColor, // Use dynamic card_css textColor
+                        }}
+                      >
+                        {index + 4}
+                      </p>
+                      <small style={{ color: "#666" }}>Blocks</small>
+                    </div>
+                    <div
+                      style={{
+                        width: "1px",
+                        height: "40px",
+                        backgroundColor: "#ccc",
+                      }}
+                    ></div>
+                    <div className="text-center">
+                      <p
+                        className="mb-0 fw-bold"
+                        style={{
+                          fontSize: "1.2rem",
+                          color: cardStyle.textColor, // Use dynamic card_css textColor
+                        }}
+                      >
+                        {index + 10}
+                      </p>
+                      <small style={{ color: "#666" }}>Topics</small>
                     </div>
                   </div>
-                  <div className="row mb-3">
-                    <label
-                      htmlFor="phase-name"
-                      className="col-form-label col-sm-4"
+                  <div className="text-center mt-3">
+                    <div style={{ fontSize: "2rem", opacity: 0.6 }}>
+                      <span role="img" aria-label="illustration">
+                        {cardStyle.illustration}{" "}
+                        {/* Use dynamic card_css illustration */}
+                      </span>
+                    </div>
+                  </div>
+                  {/* Add View Details Button */}
+                  <div className="text-center mt-4">
+                    <button
+                      className="btn btn-primary"
+                      onClick={() => openModal(phase)} // Open modal on button click
                     >
-                      Phase Name *
-                    </label>
-                    <div className="col-sm-8">
-                      <input
-                        type="text"
-                        className="form-control"
-                        id="name"
-                        placeholder="Enter Phase Name"
-                        required
-                        defaultValue={singleData?.name}
-                        onChange={handleInputChange}
-                      />
-                    </div>
+                      View Details
+                    </button>
                   </div>
-                  <div className="row mb-3">
-                    <label
-                      htmlFor="phase-description"
-                      className="col-form-label col-sm-4"
-                    >
-                      Phase Description *
-                    </label>
-                    <div className="col-sm-8">
-                      <textarea
-                        className="form-control"
-                        id="discription"
-                        rows={4}
-                        placeholder="Enter Phase Description"
-                        required
-                        defaultValue={singleData?.discription}
-                        onChange={handleInputChange}
-                      />
-                    </div>
-                  </div>
-                  <div className="row mb-3">
-                    <label
-                      htmlFor="phase-description"
-                      className="col-form-label col-sm-4"
-                    >
-                      prompt *
-                    </label>
-                    <div className="col-sm-8">
-                      <textarea
-                        className="form-control"
-                        id="prompt"
-                        rows={4}
-                        placeholder="Enter prompt"
-                        required
-                        defaultValue={singleData?.prompt}
-                        onChange={handleInputChange}
-                      />
-                    </div>
-                  </div>
-                  <div className="row mb-3">
-                    <label
-                      htmlFor="sort-order"
-                      className="col-form-label col-sm-4"
-                    >
-                      Sort Order
-                    </label>
-                    <div className="col-sm-8 d-flex align-items-center">
-                      <div>
-                        <div className="form-check form-check-inline">
-                          <input
-                            className="form-check-input"
-                            type="checkbox"
-                            id="0"
-                            value="0"
-                            checked={singleData?.sort}
-                            onChange={handleInputChange}
-                          />
-                          <label className="form-check-label" htmlFor="email">
-                            Email
-                          </label>
-                        </div>
-                        <div className="form-check form-check-inline">
-                          <input
-                            className="form-check-input"
-                            type="checkbox"
-                            id="0"
-                            value="0"
-                            checked={singleData?.sort}
-                            onChange={handleInputChange}
-                          />
-                          <label className="form-check-label" htmlFor="phone">
-                            Phone
-                          </label>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                </div>
+              </div>
+            </motion.div>
+          );
+        })}
 
-                  <div className="row mb-3">
-                    <label
-                      htmlFor="phase-name"
-                      className="col-form-label col-sm-4"
-                    >
-                      Color *
-                    </label>
-                    <div className="col-sm-8">
-                      <SketchPicker
-                        color={color}
-                        onChangeComplete={(newColor) => setColor(newColor.hex)}
-                      />
-                    </div>
-                  </div>
-
-                  <div className="row mb-3">
-                    <label htmlFor="status" className="col-form-label col-sm-4">
-                      Status
-                    </label>
-                    <div className="col-sm-8">
-                      <div className="form-check form-switch">
-                        <input
-                          className="form-check-input"
-                          type="checkbox"
-                          id="status"
-                          checked={singleData?.status}
-                          onChange={handleStatusChange}
-                        />
-                        <label className="form-check-label" htmlFor="status">
-                          Active / Inactive
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-                  <hr />
-                  <div className="d-flex justify-content-end gap-2 col-sm-12 submit-box">
-                    {/* <span>
-                      <button type="button" className="btn btn-secondary">
-                        Discard
-                      </button>
-                    </span>
-                    <span>
-                      <button type="submit" className="btn btn-primary">
-                        Save Changes
-                      </button>
-                    </span> */}
-
-                    {singleData?.id ? (
-                      <UpdateButton
-                        setsingleData={setsingleData}
-                        loading={loading}
-                        setaddFormShow={setaddFormShow}
-                      />
-                    ) : (
-                      <AddButton
-                        setsingleData={setsingleData}
-                        loading={loading}
-                        setaddFormShow={setaddFormShow}
-                      />
-                    )}
-                  </div>
-                </form>
+        {/* Add New Phase Card */}
+        <motion.div
+          className="col"
+          variants={cardVariants}
+          initial="hidden"
+          whileInView="visible"
+          whileHover="hover"
+          viewport={{ once: true }}
+        >
+          <div
+            className="card h-100 border-0 shadow-lg bg-white"
+            style={{
+              borderRadius: "16px",
+              minHeight: "300px",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <div className="card-body p-4 d-flex flex-column align-items-center justify-content-center">
+              <h5
+                className="card-title mb-4 text-center"
+                style={{
+                  fontSize: "1.5rem",
+                  fontWeight: "bold",
+                  color: "#333",
+                }}
+              >
+                Add New Phase
+              </h5>
+              <div className="text-center mt-3">
+                <div
+                  className="text-success"
+                  style={{
+                    fontSize: "5rem",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <Link to="/add-phase">
+                    <BsPlusCircleFill />
+                  </Link>
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
 
-      <Table
-        rows={data || []}
-        column={column}
-        getheaderColor={getheaderColor}
-      />
+      {/* Modal for showing description */}
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        contentLabel="Phase Description"
+        style={{
+          overlay: {
+            backgroundColor: "rgba(0, 0, 0, 0.7)", // Dark background with opacity
+            transition: "opacity 0.3s ease-in-out", // Smooth transition for overlay
+          },
+          content: {
+            top: "50%",
+            left: "50%",
+            right: "auto",
+            bottom: "auto",
+            marginRight: "-50%",
+            transform: "translate(-50%, -50%)",
+            width: "50%",
+            padding: "20px",
+            borderRadius: "12px",
+            transition: "transform 0.3s ease-in-out, opacity 0.3s ease-in-out", // Smooth animation for modal
+            opacity: modalIsOpen ? 1 : 0, // Fade-in effect
+          },
+        }}
+      >
+        {selectedPhase && (
+          <div>
+            <h2>{selectedPhase.name}</h2>
+            <p>{selectedPhase.discription}</p>
+            <button onClick={closeModal} className="btn btn-secondary mt-3">
+              Close
+            </button>
+          </div>
+        )}
+      </Modal>
     </div>
   );
 };
 
-export default PhaseOverView;
+export default PhasesDashboard;
