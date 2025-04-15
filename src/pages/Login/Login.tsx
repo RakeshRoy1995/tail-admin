@@ -39,7 +39,7 @@ const Login = () => {
       setError("");
       const response: any = await loginPassword({ username, password });
       if (response?.data?.access_token) {
-        localStorage.setItem("AI_model", 'gpt-4');
+        localStorage.setItem("AI_model", "gpt-4");
         const token = response?.data?.access_token;
         toast.success("Login successful!");
         localStorage.setItem(
@@ -95,9 +95,8 @@ const Login = () => {
                   </p>
                   <div className="inner-logo">
                     <a className="center-img" href="#">
-           
                       <img
-                        src="/public/asset/assets/img/logo-coinnovator301209.jpg"
+                        src="/public/asset/assets/img/trbglogo.png"
                         alt=""
                       />
                     </a>
