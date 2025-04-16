@@ -672,16 +672,18 @@ const PropsedSystemMappainig = ({
                     fontSize: "0.9rem",
                   }}
                 >
-                  {({ loading }) =>
-                    loading ? (
-                      "Generating PDF..."
-                    ) : (
-                      <>
-                        <FileText size={16} />
-                        <span>Export Summerize</span>
-                      </>
-                    )
-                  }
+                  <>
+                    {({ loading }) =>
+                      loading ? (
+                        "Generating PDF..."
+                      ) : (
+                        <>
+                          <FileText size={16} />
+                          <span>Export Summerize</span>
+                        </>
+                      )
+                    }
+                  </>
                 </PDFDownloadLink>
               </motion.div>
             </div>
