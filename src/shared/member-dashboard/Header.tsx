@@ -9,6 +9,7 @@ export default function Header() {
     localStorage.clear();
     navigate("/");
   };
+  
 
   const AI_model = localStorage.getItem("all_aiModel")
     ? JSON.parse(localStorage.getItem("all_aiModel") || "")
