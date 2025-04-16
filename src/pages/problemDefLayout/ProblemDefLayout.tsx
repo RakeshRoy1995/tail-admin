@@ -432,12 +432,14 @@ const ProblemDefLayout = ({
             className="export-btn"
             style={{ textDecoration: "none" }} // Remove underline
           >
-            {({ loading }) => (
-              <>
-                <i className="fas fa-file-pdf"></i>{" "}
-                {loading ? "Generating PDF..." : "Export as PDF"}
-              </>
-            )}
+            <>
+              {(params: { loading: boolean }) => (
+                <>
+                  <i className="fas fa-file-pdf"></i>{" "}
+                  {params?.loading ? "Generating PDF..." : "Export as PDF"}
+                </>
+              )}
+            </>
           </PDFDownloadLink>
           <button
             className="export-btn"
