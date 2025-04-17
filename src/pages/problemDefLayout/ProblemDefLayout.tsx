@@ -303,7 +303,6 @@ const ProblemDefLayout = ({
       saveAs(blob, `${blockName.replace(/\s/g, "_")}.docx`);
     });
   };
-
   return (
     <div>
       <div className="__left-sidebar border-end __height-full">
@@ -356,7 +355,7 @@ const ProblemDefLayout = ({
         </div>
 
         <div className="phase-content">
-          <div className="phase-header d-flex justify-content-between align-items-center">
+          {/* <div className="phase-header d-flex justify-content-between align-items-center">
             <h1 className="phase-title">
               {outPutQues[activeSectionIndex]?.block_name}
             </h1>
@@ -368,9 +367,35 @@ const ProblemDefLayout = ({
               <i className="fas fa-arrow-circle-right" />
               Phase Output Summarize
             </a>
+          </div> */}
+          <div className="phase-header ">
+            <div className="d-flex justify-content-between align-items-center mb-3">
+              <h1 className="phase-title">Problem Definition</h1>
+              <a
+                className="phase-output-btn text-decoration-none "
+                href="#"
+                onClick={() => onSubmitPhaseOutput()}
+              >
+                <i className="fas fa-arrow-circle-right" />
+                Phase Output Summarize
+              </a>
+            </div>
+            <p className="phase-description">
+              In this phase, we focus on understanding and clearly defining the
+              problem space through systematic analysis and stakeholder input.
+            </p>
           </div>
 
           <div id="sectionContents">
+            <div className="section-header">
+              <h2 className="section-title" style={{ fontSize: "1.25rem" }}>
+                {outPutQues[activeSectionIndex]?.block_name}
+              </h2>
+              <p className="section-description">
+                Define the boundaries and scope of the problem we are trying to
+                solve.
+              </p>
+            </div>
             <div className="section-content">
               <div className="faq-list">
                 {outPutQues.map((faq: any, faqIndex: number) => (
@@ -416,6 +441,29 @@ const ProblemDefLayout = ({
       <div className="export-actions" ref={menuRef}>
         {/* Export Menu */}
         <div className={`export-menu ${menuOpen ? "active" : ""}`}>
+          {/* <PDFDownloadLink
+            document={
+              <PDFDocument
+                blockName={
+                  outPutQues[activeSectionIndex]?.block_name || "No Title"
+                }
+                questions={outPutQues || []}
+              />
+            }
+            fileName={`${
+              outPutQues[activeSectionIndex]?.block_name?.replace(/\s/g, "_") ||
+              "Document"
+            }.pdf`}
+            className="export-btn"
+            style={{ textDecoration: "none" }}
+          >
+            {({ loading }) => (
+              <>
+                <i className="fas fa-file-pdf"></i>{" "}
+                {loading ? "Generating PDF..." : "Export as PDF"}
+              </>
+            )}
+          </PDFDownloadLink> */}
           <PDFDownloadLink
             document={
               <PDFDocument
@@ -430,17 +478,13 @@ const ProblemDefLayout = ({
               "Document"
             }.pdf`}
             className="export-btn"
-            style={{ textDecoration: "none" }} // Remove underline
+            style={{ textDecoration: "none" }}
           >
-            <>
-              {(params: { loading: boolean }) => (
-                <>
-                  <i className="fas fa-file-pdf"></i>{" "}
-                  {params?.loading ? "Generating PDF..." : "Export as PDF"}
-                </>
-              )}
-            </>
+            <span>
+              <i className="fas fa-file-pdf"></i> Export as PDF
+            </span>
           </PDFDownloadLink>
+
           <button
             className="export-btn"
             // onClick={handleExportWord}
@@ -450,7 +494,7 @@ const ProblemDefLayout = ({
           <button className="export-btn">
             <i className="fas fa-file-alt"></i> Export as Markdown
           </button>
-          j
+
           <button className="export-btn">
             <i className="fas fa-print"></i> Print Document
           </button>
