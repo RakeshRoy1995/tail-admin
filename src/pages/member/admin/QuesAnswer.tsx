@@ -16,7 +16,9 @@ export default function QuesAnswer({
   setshowSavedQuestion,
   output,
   setshowPhaseOutput,
+  activephase
 }: any) {
+  console.log(`activephase`, activephase , output);
   return (
     <div className="__question-and-answer position-relative __margin-left __margin-right __height-full">
       <div className="toggle_sidebar align-items-center justify-content-between px-3 w-100">
@@ -183,7 +185,7 @@ export default function QuesAnswer({
           <div className="saved-questions">
             {output.map((d: any) => (
               <>
-                {d.map((outPut_d: any) => (
+                {d.filter((info:any)=> info.phaseId == activephase ).map((outPut_d: any) => (
                   <div className="question-item">
                     <div className="question">
                       <i className="fas fa-question-circle" />
