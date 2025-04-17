@@ -720,10 +720,10 @@ function LeftSideMenuBar() {
                               {...childHoverAnimation}
                             >
                               <div className="icon-box">
-                                <a href="#">
+                                <Link to="/guide-prompts">
                                   <img src="asset/assets/img/img4.png" alt="" />
                                   <p>GUIDE PROMPTS</p>
-                                </a>
+                                </Link>
                               </div>
                             </motion.div>
                           </div>

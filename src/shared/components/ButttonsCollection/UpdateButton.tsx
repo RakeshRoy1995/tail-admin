@@ -6,10 +6,10 @@ const UpdateButton = ({setsingleData, loading , setaddFormShow}:any) => {
       const { t } = useTranslation();
     return (
         <>
-            <div className="flex justify-end gap-5">
+            <div className="d-flex justify-content-end gap-1">
                 <div><ResetButton setsingleData={setsingleData} setaddFormShow={setaddFormShow} /></div>
-                <div className="flex justify-end mt-5">
-                    <button disabled={loading} className="bg-primaryColor font-bold text-sm text-white rounded-lg px-4 py-3 flex justify-center items-center gap-1">
+                <div className="d-flex justify-content-end ">
+                    <button disabled={loading} className="bg-primary font-bold text-sm text-white rounded-lg px-4 py-3 flex justify-content-end items-center gap-1">
                        {t("Update")} {loading ? "...": ""}
                     </button>
                 </div>

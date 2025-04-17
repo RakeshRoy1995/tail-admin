@@ -15,7 +15,7 @@ const AddButton = ({setsingleData, loading, setaddFormShow}:any) => {
   return (
     <>
       {addButton && (
-        <div className="flex justify-end mt-5 gap-5">
+        <div className="d-flex justify-content-end gap-1">
           {/* cancel btn */}
           <ResetButton setsingleData={setsingleData} setaddFormShow={setaddFormShow} />
           {/* add btn */}

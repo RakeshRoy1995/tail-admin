@@ -21,6 +21,7 @@ import LeftSideMenuBar from "./Layout/LeftSideMenuBar";
 import BlockUserOutput from "@/pages/BlockOverview/BlockUserOutput";
 import AIModelMgt from "@/pages/AI-model-mgt/AIModelMgt";
 import AddPhase from "@/pages/PhaseOverView/AddPhase";
+import GuidePrompt from "@/pages/guide-prompt/GuidePrompt";
 const PrivateRoute = React.lazy(() => import("./PrivateRoute"));
 const Login = React.lazy(() => import("@/pages/Login/Login"));
 
@@ -64,7 +65,7 @@ const App: FC = () => {
               <Route path="/phase-output" element={<PhaseOutput />} />
               <Route path="/block-output" element={<BlockOutput />} />
               <Route path="/ai-model-mgmt" element={<AIModelMgt />} />
-              <Route path="/ai-model-mgmt" element={<AIModelMgt />} />
+              <Route path="/guide-prompts" element={<GuidePrompt />} />
 
               {/* <Route path="/" element={<Home />} /> */}
               {/* <Route path="/admin" element={<Admin />} /> */}
