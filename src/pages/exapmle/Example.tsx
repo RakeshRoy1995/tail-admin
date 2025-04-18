@@ -3,7 +3,7 @@ const Example = () => {
 
  
 
-  return <div></div>;
+  return <div>test</div>;
 };
 
 export default Example;
