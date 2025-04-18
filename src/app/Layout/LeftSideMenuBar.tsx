@@ -8,9 +8,12 @@ import PhasesForm from "@/pages/Form/PhasesForm";
 import { motion } from "framer-motion";
 import MemberAdmin from "@/pages/member/admin/MemberAdmin";
 import Navbar from "@/pages/Navbar/Navbar";
+import QuickLinks from "./QuickLinks";
 
 const current_role = JSON.parse(localStorage.getItem("current_role"));
 function LeftSideMenuBar() {
+  const location = useLocation();
+  const [expend, setexpend] = useState(false);
   const [activephase, setactivephase] = useState(0);
   const [activeBlock, setactiveBlock] = useState(0);
   const [activeQuestion, setactiveQuestion] = useState(0);
@@ -117,7 +120,27 @@ function LeftSideMenuBar() {
     fetchQuestionByBlock(activeBlock);
   }, [activeBlock]);
 
-  console.log(`csdcsd`, phases);
+  const expandeRoute = [
+    {
+      id: 1,
+      title: "/add-phase",
+    },
+  ];
+
+  useEffect(() => {
+    // Trigger on every route change
+    const handleRouteChange = () => {
+      const pathname = window.location.pathname;
+      const currentRouteGroup = expandeRoute.find((group) =>
+        group.title.includes(pathname),
+      );
+
+      setexpend(currentRouteGroup?.id ? true : false);
+    };
+    handleRouteChange();
+  }, [location]);
+
+  console.log(`expend`, expend);
 
   return (
     <>
@@ -205,7 +228,7 @@ function LeftSideMenuBar() {
                     >
                       <Breadcrumb
                         name1="Dashboard"
-                        name2="Application"
+                        name2={ location.pathname }
                         date={new Date().toLocaleDateString("en-US", {
                           month: "short",
                           day: "2-digit",
@@ -213,117 +236,10 @@ function LeftSideMenuBar() {
                         })}
                       />
                       <div className="row tab-panel-body">
-                        <div className="col-lg-3 col-md-3">
-                          <div className="left-sidebar-menu">
-                            <h3>QUICK ACTIONS</h3>
-                            <div className="menu-bar">
-                              <ul>
-                                <li>
-                                  <a href="#">
-                                    <span className="menu-icon">
-                                      <img
-                                        src="asset/assets/img/left-bar-icon1.png"
-                                        alt=""
-                                      />
-                                    </span>
-                                    Add to Knowledgebase
-                                  </a>
-                                </li>
-                                <li>
-                                  <a href="#">
-                                    <span className="menu-icon">
-                                      <img
-                                        src="asset/assets/img/left-bar-icon2.png"
-                                        alt=""
-                                      />
-                                    </span>
-                                    Add new case
-                                  </a>
-                                </li>
-                                <li>
-                                  <a href="#">
-                                    <span className="menu-icon">
-                                      <img
-                                        src="asset/assets/img/left-bar-icon3.png"
-                                        alt=""
-                                      />
-                                    </span>
-                                    Modify existing case
-                                  </a>
-                                </li>
-                                <li>
-                                  <a href="#">
-                                    <span className="menu-icon">
-                                      <img
-                                        src="asset/assets/img/left-bar-icon4.png"
-                                        alt=""
-                                      />
-                                    </span>
-                                    Modify prompt
-                                  </a>
-                                </li>
-                                <li>
-                                  <a href="#">
-                                    <span className="menu-icon">
-                                      <img
-                                        src="asset/assets/img/left-bar-icon5.png"
-                                        alt=""
-                                      />
-                                    </span>
-                                    Archive phase output
-                                  </a>
-                                </li>
-                                <li>
-                                  <a href="#">
-                                    <span className="menu-icon">
-                                      <img
-                                        src="asset/assets/img/left-bar-icon6.png"
-                                        alt=""
-                                      />
-                                    </span>
-                                    Archive block Output
-                                  </a>
-                                </li>
-                                <li>
-                                  <a href="#">
-                                    <span className="menu-icon">
-                                      <img
-                                        src="asset/assets/img/left-bar-icon7.png"
-                                        alt=""
-                                      />
-                                    </span>
-                                    Disconnect phase
-                                  </a>
-                                </li>
-                                <li>
-                                  <a href="#">
-                                    <span className="menu-icon">
-                                      <img
-                                        src="asset/assets/img/left-bar-icon8.png"
-                                        alt=""
-                                      />
-                                    </span>
-                                    Disconnect blocks
-                                  </a>
-                                </li>
-                                <li>
-                                  <a href="#">
-                                    <span className="menu-icon">
-                                      <img
-                                        src="asset/assets/img/left-bar-icon9.png"
-                                        alt=""
-                                      />
-                                    </span>
-                                    Logs
-                                  </a>
-                                </li>
-                              </ul>
-                            </div>
-                          </div>
-                        </div>
+                        {!expend && <QuickLinks />}
 
                         <motion.div
-                          className="col-lg-9 col-md-9"
+                          className={expend ? "col-12" : "col-lg-9 col-md-9"}
                           variants={parentAnimation}
                           initial="hidden"
                           animate="visible"

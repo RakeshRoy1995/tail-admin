@@ -61,7 +61,7 @@ const App: FC = () => {
               <Route path="/phase-overview" element={<PhaseOverView />} />
               <Route path="/block-overview" element={<BlockUserOutput />} />
               <Route path="/add-phase" element={<AddPhase />} />
-              <Route path="/block-overview" element={<BlockOverview />} />
+              <Route path="/add-block" element={<BlockOverview />} />
               <Route path="/phase-output" element={<PhaseOutput />} />
               <Route path="/block-output" element={<BlockOutput />} />
               <Route path="/ai-model-mgmt" element={<AIModelMgt />} />
