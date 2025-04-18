@@ -16,9 +16,9 @@ export default function QuesAnswer({
   setshowSavedQuestion,
   output,
   setshowPhaseOutput,
-  activephase
+  activephase,
 }: any) {
-  console.log(`activephase`, activephase , output);
+  
   return (
     <div className="__question-and-answer position-relative __margin-left __margin-right __height-full">
       <div className="toggle_sidebar align-items-center justify-content-between px-3 w-100">
@@ -185,28 +185,33 @@ export default function QuesAnswer({
           <div className="saved-questions">
             {output.map((d: any) => (
               <>
-                {d.filter((info:any)=> info.phaseId == activephase ).map((outPut_d: any) => (
-                  <div className="question-item">
-                    <div className="question">
-                      <i className="fas fa-question-circle" />
-                      <span>{outPut_d?.question}</span>
+                {d
+                  .filter((info: any) => info.phaseId == activephase)
+                  .map((outPut_d: any) => (
+                    <div className="question-item">
+                      <div className="question">
+                        <i className="fas fa-question-circle" />
+                        <span>{outPut_d?.question}</span>
+                      </div>
+                      <div className="answer">
+                        <AIOutputShow messages={outPut_d?.aiReply} />
+                      </div>
+                      <div className="meta">
+                        <span className="tag">{outPut_d?.block_name}</span>
+                        {/* <span>Saved 2 days ago</span> */}
+                      </div>
                     </div>
-                    <div className="answer">
-                      <AIOutputShow messages={outPut_d?.aiReply} />
-                    </div>
-                    <div className="meta">
-                      <span className="tag">{outPut_d?.block_name}</span>
-                      {/* <span>Saved 2 days ago</span> */}
-                    </div>
-                  </div>
-                ))}
+                  ))}
               </>
             ))}
           </div>
           <a
             className="phase-output text-decoration-none mt-4"
             href="#"
-            onClick={(e) => setshowPhaseOutput(true)}
+            onClick={(e) => {
+              setshowSavedQuestion(false);
+              setshowPhaseOutput(true);
+            }}
           >
             <i className="fas fa-arrow-circle-right" />
             Phase Output

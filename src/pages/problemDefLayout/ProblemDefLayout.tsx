@@ -17,6 +17,7 @@ import {
 import questionIcon from "../../../public/custome/question_icon.png";
 import { Document as WordDocument, Packer, Paragraph, TextRun } from "docx";
 import { saveAs } from "file-saver";
+import { enablePhaseOutput } from "@/utils";
 const ProblemDefLayout = ({
   output,
   setoutPutQues,
@@ -360,14 +361,18 @@ const ProblemDefLayout = ({
             <h1 className="phase-title">
               {outPutQues[activeSectionIndex]?.block_name}
             </h1>
-            <a
+            <button
               className="phase-output-btn text-decoration-none "
-              href="#"
+              type="button"
               onClick={(e) => onSubmitPhaseOutput()}
+              disabled={!enablePhaseOutput()}
+              title={
+                enablePhaseOutput() ? "" : "Please give answer to all questions"
+              }
             >
               <i className="fas fa-arrow-circle-right" />
               Phase Output Summarize
-            </a>
+            </button>
           </div>
 
           <div id="sectionContents">

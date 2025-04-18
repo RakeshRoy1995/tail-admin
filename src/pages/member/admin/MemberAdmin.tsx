@@ -388,6 +388,8 @@ export default function MemberAdmin() {
                   allPhasePromts={allPhasePromts}
                   activephase={activephase}
                   phaseName={phaseName}
+                  showPhaseOutputSummery={showPhaseOutputSummery}
+                  setshowPhaseOutputSummery={setshowPhaseOutputSummery}
                 />
               </main>
             )}
