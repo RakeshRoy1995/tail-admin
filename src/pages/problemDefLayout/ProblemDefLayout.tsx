@@ -386,7 +386,7 @@ const ProblemDefLayout = ({
                     ? ""
                     : "Please give answer to all questions"
                 }
-              ></button>
+              >Phase Output Summarize</button>
             </div>
             <p className="phase-description">
               In this phase, we focus on understanding and clearly defining the
