@@ -18,7 +18,6 @@ export default function QuesAnswer({
   setshowPhaseOutput,
   activephase,
 }: any) {
-  
   return (
     <div className="__question-and-answer position-relative __margin-left __margin-right __height-full">
       <div className="toggle_sidebar align-items-center justify-content-between px-3 w-100">
@@ -101,7 +100,8 @@ export default function QuesAnswer({
             </div>
           )}
         </div>
-        {AllQues.find((d: any) => d.id == data?.question_id)?.question ? (
+        {/* Previous Code */}
+        {/* {AllQues.find((d: any) => d.id == data?.question_id)?.question ? (
           <div className="chat-footer">
             <div className="input-wrapper">
               <div className="input-actions">
@@ -134,11 +134,53 @@ export default function QuesAnswer({
             </div>
           </div>
         ) : (
-          <p className="text-danger text-center">
+          <p className="text-danger text-center chat-footer">
             please select a question to start conversation
           </p>
-        )}
+        )} */}
+
+        {/* Shakhawat Code*/}
+        <div
+          className={`chat-footer ${AllQues.find((d: any) => d.id == data?.question_id)?.question ? "" : "invisible"}`}
+        >
+          <div className="input-wrapper">
+            <div className="input-actions">
+              <button className="action-btn">
+                <i className="fas fa-paperclip" />
+              </button>
+              <button className="action-btn">
+                <i className="fas fa-image" />
+              </button>
+            </div>
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Type your message..."
+              onChange={(e) => {
+                setdata({
+                  ...data,
+                  ["message"]: e.target.value,
+                });
+              }}
+              value={data.message}
+            />
+            <button
+              className="btn-send"
+              disabled={submit}
+              onClick={(e) => onSubmit()}
+            >
+              <i className="fas fa-paper-plane text-white" />
+            </button>
+          </div>
+        </div>
+
+        <p
+          className={`text-danger text-center  ${AllQues.find((d: any) => d.id == data?.question_id)?.question ? "d-none" : ""}`}
+        >
+          please select a question to start conversation
+        </p>
       </div>
+      
       {/* Floating Buttons with Tooltips */}
       <div className="floating-buttons">
         <button
