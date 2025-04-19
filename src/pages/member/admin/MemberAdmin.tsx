@@ -344,6 +344,7 @@ export default function MemberAdmin() {
                         setactiveQuestion={setactiveQuestion}
                         data={data}
                         output={output}
+                        setAiResponse={setAiResponse}
                       />
                     </div>
                     {/*Question and answer section*/}
