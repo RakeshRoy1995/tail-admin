@@ -365,8 +365,79 @@ body {
   text-align: center;
 }
 /*carousel*/
+
+/* Custom fade transition for carousel */
+.home-entry-page .carousel.fade {
+  opacity: 1;
+}
+
+.home-entry-page .carousel.fade .carousel-item {
+  transition: opacity 0.7s ease-in-out;
+  opacity: 0;
+  position: absolute;
+  display: block;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.home-entry-page .carousel.fade .carousel-item:first-of-type {
+  position: relative;
+}
+
+.home-entry-page .carousel.fade .carousel-item.active {
+  opacity: 1;
+  position: relative;
+  z-index: 1;
+}
+.home-entry-page .carousel-fade .carousel-item {height: 100vh}
+
+/* Background image styling */
+.home-entry-page .carousel-item {
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+}
+
+/* Text content styling */
+.home-entry-page .carousel-content {
+  position: absolute;
+  bottom: 20vh;
+  left: 5%;
+  right: 0;
+  color: white;
+}
+
+/* Optional: Center indicators at bottom */
+.home-entry-page .carousel-indicators {
+  bottom: 20px;
+}
+
+/* Optional: Style for demo content */
+.home-entry-page .carousel-content h3 {
+  font-size: 65px;
+  margin-bottom: 10px;
+  font-weight: 900;
+  font-family: "Lato", sans-serif;
+  text-transform: uppercase;
+  color: #232323;
+}
+.home-entry-page .carousel-content h3 span {
+  display: block;
+  color: #fff;
+}
+.home-entry-page .carousel-indicators [data-bs-target] {
+  display: none;
+}
+.home-entry-page .carousel-content p {
+  font-family: "Lato", sans-serif;
+  font-size: 26px;
+  color: #000;
+}
+
 .slider-wrapper .carousel {
-  margin-bottom: 4rem;
+  margin-bottom: 0;
 }
 .slider-wrapper .carousel-caption {
   bottom: 3rem;
@@ -382,9 +453,14 @@ body {
   min-width: 100%;
   height: 45rem;
 }
-.slider-wrapper {
+/* .slider-wrapper {
   margin-top: 80px;
-}
+} */
+.slider-wrapper .carousel-caption {top: 0;z-index: 10;left:0;width: 100%;right: 0}
+.slider-wrapper .carousel-caption a.login-btn {background: #0b5704;color: #fff;text-decoration: none;padding: 10px 25px;border-radius: 5px;transition: all 400ms;position: absolute;right: 0;top: 75px;margin-right: 5%}
+.slider-wrapper .carousel-caption img {float: left;margin-left: 5%}
+.slider-wrapper .carousel-caption a.login-btn:hover {background: #000;}
+
 
 /*Mapping page css*/
 .admin-panel .mapping-body {
@@ -720,6 +796,9 @@ body {
 .admin-panel .phase-box.phase-box6 {background: #FFFFFF;}
 
 @media (max-width: 1200px) {
+
+  .home-entry-page .carousel-content h3 {font-size: 50px;}
+  .home-entry-page .carousel-content {bottom: 26vh;}
   .admin-panel .right-panel-wrap {
     margin-left: 0;
   }
@@ -733,9 +812,15 @@ body {
   .admin-panel .phase-box .block-wrap p {font-size: 14px;}
   .admin-panel .phase-box.phase-box6 h4 {font-size: 20px;}
   .admin-panel .phase-box.phase-box6 a img {margin-top: 20px;}
+
+  .slider-wrapper .carousel-caption img {max-width: 200px;}
+  .slider-wrapper .carousel-caption a.login-btn {top: 40px;}
 }
 
 @media (max-width: 992px) {
+  .home-entry-page .carousel-content h3 {font-size: 42px;}
+  .home-entry-page .carousel-content {bottom: 28vh;}
+  .home-entry-page .carousel-content p {font-size: 20px;}
   .admin-panel .navbar .nav-link {
     margin-bottom: 10px;
   }
@@ -834,6 +919,14 @@ body {
   .admin-panel .section-three .image-wrap img {max-width: 140px;}
   .admin-panel .phase-wrapper button.btn {font-size: 14px;padding: 12px 10px;}
   .admin-panel .phase-box {margin-bottom: 20px;}
+
+  .slider-wrapper .carousel-caption.d-none {display: block !important;}
+  .slider-wrapper .carousel-caption img {max-width: 150px;}
+  .slider-wrapper .carousel-caption a.login-btn {padding: 5px 15px;top: 35px;font-size: 14px;}
+
+  .home-entry-page .carousel-content h3 {font-size: 24px;}
+  .home-entry-page .carousel-content p {font-size: 16px;}
+  .home-entry-page .carousel-content {bottom: 33vh;}
 }
 
 @media (max-width:575px) {
@@ -854,74 +947,7 @@ body {
   }
 }
 
-/* Custom fade transition for carousel */
-.home-entry-page .carousel.fade {
-  opacity: 1;
-}
 
-.home-entry-page .carousel.fade .carousel-item {
-  transition: opacity 0.7s ease-in-out;
-  opacity: 0;
-  position: absolute;
-  display: block;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-}
-
-.home-entry-page .carousel.fade .carousel-item:first-of-type {
-  position: relative;
-}
-
-.home-entry-page .carousel.fade .carousel-item.active {
-  opacity: 1;
-  position: relative;
-  z-index: 1;
-}
-
-/* Background image styling */
-.home-entry-page .carousel-item {
-  background-size: cover;
-  background-position: center;
-  height: 100vh;
-}
-
-/* Text content styling */
-.home-entry-page .carousel-content {
-  position: absolute;
-  bottom: 15vh;
-  left: 5%;
-  right: 0;
-  color: white;
-}
-
-/* Optional: Center indicators at bottom */
-.home-entry-page .carousel-indicators {
-  bottom: 20px;
-}
-
-/* Optional: Style for demo content */
-.home-entry-page .carousel-content h3 {
-  font-size: 65px;
-  margin-bottom: 10px;
-  font-weight: 900;
-  font-family: "Lato", sans-serif;
-  text-transform: uppercase;
-  color: #232323;
-}
-.home-entry-page .carousel-content h3 span {
-  display: block;
-  color: #fff;
-}
-.home-entry-page .carousel-indicators [data-bs-target] {
-  display: none;
-}
-.home-entry-page .carousel-content p {
-  font-family: "Lato", sans-serif;
-  font-size: 26px;
-  color: #000;
-}
 
 @media (min-width: 1600px) {
   .home-entry-page .carousel-content {

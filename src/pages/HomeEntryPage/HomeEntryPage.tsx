@@ -3,7 +3,7 @@ import React from "react";
 const HomeEntryPage = () => {
   return (
     <div className="home-entry-page">
-      <div className="container-fluid px-0">
+      <div className="container-fluid px-0 slider-wrapper">
         {/* Carousel with fade effect and background images */}
         <div
           id="imageCarousel"
@@ -15,7 +15,7 @@ const HomeEntryPage = () => {
             {/* Slide 1 */}
             <div
               className="carousel-item active"
-              style={{ backgroundImage: 'url("asset/assets/img/slider-one.png")' }}
+              style={{ backgroundImage: 'url("asset/assets/img/slider-one.png")'  }}
             >
               <div className="carousel-content">
                 <p>Welcome to </p>
@@ -51,6 +51,38 @@ const HomeEntryPage = () => {
                 </h3>
               </div>
             </div>
+
+            <div
+              className="carousel-item"
+              style={{ backgroundImage: 'url("asset/assets/img/slider4.png")' }}
+            >
+              <div className="carousel-content">
+                <p>Welcome to </p>
+                <h3>
+                  INSTITUTIONAL <span>INNOVATION &amp; DESIGN </span>
+                  <span>TOOL</span>
+                </h3>
+              </div>
+            </div>
+
+            <div
+              className="carousel-item"
+              style={{ backgroundImage: 'url("asset/assets/img/slider5.png")'  }}
+            >
+              <div className="carousel-content">
+                <p>Welcome to </p>
+                <h3>
+                  INSTITUTIONAL <span>INNOVATION &amp; DESIGN </span>
+                  <span>TOOL</span>
+                </h3>
+              </div>
+            </div>
+
+
+            <div className="carousel-caption d-none d-md-block">
+                    <img src="asset/assets/img/slider-logo.png" alt="" />
+                    <a className="login-btn" href="#">Login</a>
+                  </div>
           </div>
           {/* Controls */}
           <button
