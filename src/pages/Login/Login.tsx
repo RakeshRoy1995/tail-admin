@@ -153,9 +153,20 @@ const Login = () => {
                 </div>
               </div>
             </div>
+
+            <div className="row section-three">
+                  <div className="image-wrap">
+                  <img src="asset/assets/img/l-img1.png" alt="" />
+                  <img src="asset/assets/img/l-img2.png" alt="" />
+                  <img src="asset/assets/img/l-img3.png" alt="" />
+                  <img src="asset/assets/img/l-img4.png" alt="" />
+                  <img src="asset/assets/img/l-img5.png" alt="" />
+                  </div>
+              </div>
+
           </div>
         </div>
-        <div className="section-three">
+        {/* <div className="section-three">
           <div className="container">
             <div className="row">
               <div className="image-wrap">
@@ -167,8 +178,8 @@ const Login = () => {
               </div>
             </div>
           </div>
-        </div>
-        <footer className="footer text-center">
+        </div> */}
+        <footer className="footer text-center login-footer">
           <div className="container">
             <div className="row">
               {/* Footer Location*/}
