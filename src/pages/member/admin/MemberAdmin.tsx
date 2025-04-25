@@ -9,6 +9,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import {
+  getConversationIdByQues,
   getUserDetails,
   groupBy,
   phasepromptdata,
@@ -16,7 +17,7 @@ import {
 } from "@/utils";
 
 // import AiResponseForm from "./AiResponseForm";
-import { submitAI, submitFormData } from "@/api/Reqest";
+import { HistoryAI, submitAI, submitFormData } from "@/api/Reqest";
 import axiosInstance from "@/api/axios";
 import PropsedSystemMappainig from "@/pages/PropsedSystemMappainig/PropsedSystemMappainig";
 import ProblemDefLayout from "@/pages/problemDefLayout/ProblemDefLayout";
@@ -145,6 +146,11 @@ export default function MemberAdmin() {
       });
 
       setyourMessage(data?.message);
+
+      const conversetion_id =   getConversationIdByQues(data?.question_id , output)
+      if (conversetion_id) {
+        localStorage.setItem("chat_id", conversetion_id);
+      }
 
       const user_details = getUserDetails();
 
@@ -302,6 +308,37 @@ export default function MemberAdmin() {
   useEffect(() => {
     setoutPutQues(output[0]);
   }, [output]);
+
+
+
+
+
+
+  const questionHistory = async (activeQuestion: any) => {
+    setsubmit(true);
+    try {
+      const conversetion_id =   getConversationIdByQues(activeQuestion , output)
+
+      if (conversetion_id) {
+        const {data} =  await HistoryAI(conversetion_id);
+        console.log(`data`, data);
+      }
+    } catch (error: any) {
+      seterror(error?.response?.data?.message || "Something Went Wrong");
+    }
+    setsubmit(false);
+  };
+
+
+
+  // get question chat output history
+  useEffect(() => {
+    if (activeQuestion) {
+      questionHistory(activeQuestion)
+    }
+  }, [activeQuestion]);
+
+  
 
   return (
     <>

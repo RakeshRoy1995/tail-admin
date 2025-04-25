@@ -334,6 +334,17 @@ export function submitAI(message: any) {
   return axios(options);
 }
 
+export function HistoryAI(chat_id: any) {
+  const api = `${API_AI}/history?conversation_id=${chat_id}`; // Replace API_URL with your base URL
+
+  const options = {
+    headers: { "content-type": "application/json" },
+    url: api,
+  };
+
+  return axios(options);
+}
+
 
 export function submitAISummery(message: any) {
   const model = localStorage.getItem("AI_model");

@@ -31,7 +31,6 @@ export default function BlockSection({
               <span
                 className={`question_item d-flex ${data?.question_id == qd.id || statusOfQuestion(output, qd.id) == 1 ? "active" : ""} gap-2`}
                 onClick={(e) => {
-                  localStorage.setItem("chat_id", String( Math.floor(Math.random() * (100000 - 1 + 1)) + 1));
                   setdata({
                     ...data,
                     ["question_id"]: qd.id,
@@ -48,7 +47,7 @@ export default function BlockSection({
                     aria-hidden="true"
                   />
                 </span>
-                <p className=" mb-0">{qd.question}</p>
+                <p className=" mb-0">{qd.question} { }</p>
               </span>
             )}
           </>
