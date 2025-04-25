@@ -33,6 +33,7 @@ const Login = () => {
       setLoading(true);
       setError("");
       const response: any = await loginPassword({ username, password });
+      console.log(`response`, response);
       if (response?.data?.access_token) {
         localStorage.setItem("AI_model", "gpt-4");
         const token = response?.data?.access_token;

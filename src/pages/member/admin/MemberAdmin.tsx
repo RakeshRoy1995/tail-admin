@@ -5,6 +5,8 @@ import SidebarMember from "./SidebarMember";
 import QuesAnswer from "./QuesAnswer";
 import Rightbar from "./Rightbar";
 import Navigation from "./Navigation";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import {
   getUserDetails,
@@ -13,7 +15,6 @@ import {
   statusOfQuestion,
 } from "@/utils";
 
-import Swal from "sweetalert2";
 // import AiResponseForm from "./AiResponseForm";
 import { submitAI, submitFormData } from "@/api/Reqest";
 import axiosInstance from "@/api/axios";
@@ -188,11 +189,8 @@ export default function MemberAdmin() {
       };
 
       await submitFormData(page_list, options);
-      Swal.fire({
-        icon: "success",
-        text: "Success",
-        confirmButtonText: "Close",
-      });
+      
+      toast.success("Answer Saved!");
       settextareaShow(false);
       setdata(null);
       setactiveQuestion(0);
@@ -408,6 +406,7 @@ export default function MemberAdmin() {
           </>
         )}
       </>
+      <ToastContainer />
     </>
   );
 }
