@@ -24,6 +24,7 @@ const ProblemDefLayout = ({
   outPutQues,
   setshowPhaseOutput,
   onSubmitPhaseOutput,
+  phaseName
 }: any) => {
   // Sample Data for the sections
 
@@ -375,7 +376,7 @@ const ProblemDefLayout = ({
           </div> */}
           <div className="phase-header ">
             <div className="d-flex justify-content-between align-items-center mb-3">
-              <h1 className="phase-title">Problem Definition</h1>
+              <h1 className="phase-title">{phaseName}</h1>
               <button
                 className="phase-output-btn text-decoration-none "
                 type="button"

@@ -66,11 +66,12 @@ const Login = () => {
         }, 500);
       } else {
         toast.error(response?.data?.message || "Login failed.");
-        // console.log("response?.data?.message", response?.data?.message);
+        setLoading(false);
       }
     } catch (error) {
-      console.log("Error toast about to trigger", error);
+      console.log("Error toast about to trigger", error?.response?.data?.message);
       toast.error(error?.response?.data?.message || "Login failed.");
+      
       setLoading(false);
     }
   };
@@ -141,8 +142,9 @@ const Login = () => {
                         placeholder="Enter Password"
                       />
                     </div>
-                    <button type="submit" className="btn">
-                      Continue
+                    <button type="submit" className="btn" disabled={loading}>
+                      Continue {loading && (
+                        <i className="fa fa-spinner fa-spin" aria-hidden="true" />)}
                     </button>
                   </form>
                 </div>
@@ -192,6 +194,7 @@ const Login = () => {
           </div>
         </footer>
       </div>
+      <ToastContainer />
     </div>
   );
 };

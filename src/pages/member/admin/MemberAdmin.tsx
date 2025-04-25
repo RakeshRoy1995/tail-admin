@@ -321,6 +321,7 @@ export default function MemberAdmin() {
                     outPutQues={outPutQues}
                     setshowPhaseOutput={setshowPhaseOutput}
                     onSubmitPhaseOutput={onSubmitPhaseOutput}
+                    phaseName={phaseName}
                   />
                 ) : (
                   <>
