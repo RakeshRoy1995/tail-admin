@@ -161,6 +161,7 @@ export default function QuesAnswer({
       </div>
 
       {/* Floating Buttons with Tooltips */}
+
       <div className="floating-buttons">
         <button
           className={`floating-btn save_btn ${AiResponse.length === 0 ? "no-hover" : ""}`}
@@ -173,13 +174,7 @@ export default function QuesAnswer({
         >
           <i className="fas fa-save" />
         </button>
-        <style>
-          {`
-            .no-hover:hover {
-              pointer-events: none;
-            }
-          `}
-        </style>
+        
       </div>
       <div
         className={showSavedQuestion ? "overlay active" : "overlay"}
@@ -202,6 +197,7 @@ export default function QuesAnswer({
               <i className="fas fa-times" />
             </button>
           </div>
+          <p>Phase : {activephase}</p>
 
           <div className="saved-questions">
             {output.map((d: any) => (

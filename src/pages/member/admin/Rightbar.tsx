@@ -111,7 +111,7 @@ const Rightbar: React.FC<RightbarProps> = ({
           <button
             type="button"
             onClick={onSubmitPhaseOutput}
-            className="btn-warning"
+            className="btn-success"
             disabled={!enablePhaseOutput()}
             title={enablePhaseOutput() ? '' : 'Please give answer to all questions'}
             data-toggle="tooltip"
