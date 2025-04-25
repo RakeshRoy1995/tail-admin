@@ -13691,4 +13691,7 @@ header nav {
   transform: rotate(180deg);
 }
 
+.no-hover:hover {
+  pointer-events: none;
+}
 /*# sourceMappingURL=style.css.map */

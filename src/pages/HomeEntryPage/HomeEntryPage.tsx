@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const HomeEntryPage = () => {
   return (
@@ -15,7 +16,9 @@ const HomeEntryPage = () => {
             {/* Slide 1 */}
             <div
               className="carousel-item active"
-              style={{ backgroundImage: 'url("asset/assets/img/slider-one.png")'  }}
+              style={{
+                backgroundImage: 'url("asset/assets/img/slider-one.png")',
+              }}
             >
               <div className="carousel-content">
                 <p>Welcome to </p>
@@ -28,7 +31,9 @@ const HomeEntryPage = () => {
             {/* Slide 2 */}
             <div
               className="carousel-item"
-              style={{ backgroundImage: 'url("asset/assets/img/slider-two.png")' }}
+              style={{
+                backgroundImage: 'url("asset/assets/img/slider-two.png")',
+              }}
             >
               <div className="carousel-content">
                 <p>Welcome to </p>
@@ -67,7 +72,7 @@ const HomeEntryPage = () => {
 
             <div
               className="carousel-item"
-              style={{ backgroundImage: 'url("asset/assets/img/slider5.png")'  }}
+              style={{ backgroundImage: 'url("asset/assets/img/slider5.png")' }}
             >
               <div className="carousel-content">
                 <p>Welcome to </p>
@@ -78,11 +83,12 @@ const HomeEntryPage = () => {
               </div>
             </div>
 
-
             <div className="carousel-caption d-none d-md-block">
-                    <img src="asset/assets/img/slider-logo.png" alt="" />
-                    <a className="login-btn" href="#">Login</a>
-                  </div>
+              <img src="asset/assets/img/slider-logo.png" alt="" />
+              <Link className="login-btn" to="login">
+                Login
+              </Link>
+            </div>
           </div>
           {/* Controls */}
           <button

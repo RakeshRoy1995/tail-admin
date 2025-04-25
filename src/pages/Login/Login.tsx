@@ -1,14 +1,9 @@
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import LoginImage from "../../../assets/loginPageImage/register.png";
-import { FaRegEyeSlash } from "react-icons/fa";
-import { FaRegEye } from "react-icons/fa6";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { get_all_data, loginPassword } from "@/api/Reqest";
 import axios from "axios";
-import { Link } from "react-router-dom";
-import { ArrowLeft } from "@mui/icons-material";
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setrememberMe] = useState(false);
@@ -38,6 +33,7 @@ const Login = () => {
       setLoading(true);
       setError("");
       const response: any = await loginPassword({ username, password });
+      console.log(`response`, response);
       if (response?.data?.access_token) {
         localStorage.setItem("AI_model", "gpt-4");
         const token = response?.data?.access_token;
@@ -71,11 +67,12 @@ const Login = () => {
         }, 500);
       } else {
         toast.error(response?.data?.message || "Login failed.");
-        // console.log("response?.data?.message", response?.data?.message);
+        setLoading(false);
       }
     } catch (error) {
-      console.log("Error toast about to trigger", error);
+      console.log("Error toast about to trigger", error?.response?.data?.message);
       toast.error(error?.response?.data?.message || "Login failed.");
+      
       setLoading(false);
     }
   };
@@ -146,8 +143,9 @@ const Login = () => {
                         placeholder="Enter Password"
                       />
                     </div>
-                    <button type="submit" className="btn">
-                      Continue
+                    <button type="submit" className="btn" disabled={loading}>
+                      Continue {loading && (
+                        <i className="fa fa-spinner fa-spin" aria-hidden="true" />)}
                     </button>
                   </form>
                 </div>
@@ -197,6 +195,7 @@ const Login = () => {
           </div>
         </footer>
       </div>
+      <ToastContainer />
     </div>
   );
 };

@@ -5,6 +5,8 @@ import SidebarMember from "./SidebarMember";
 import QuesAnswer from "./QuesAnswer";
 import Rightbar from "./Rightbar";
 import Navigation from "./Navigation";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import {
   getUserDetails,
@@ -13,7 +15,6 @@ import {
   statusOfQuestion,
 } from "@/utils";
 
-import Swal from "sweetalert2";
 // import AiResponseForm from "./AiResponseForm";
 import { submitAI, submitFormData } from "@/api/Reqest";
 import axiosInstance from "@/api/axios";
@@ -42,6 +43,7 @@ export default function MemberAdmin() {
   const [activeBlock, setactiveBlock] = useState(0);
   const [activeQuestion, setactiveQuestion] = useState(0);
   const [nextPhase, setnextPhase] = useState(0);
+  const [yourMessage, setyourMessage] = useState("");
   const [phases, setphases] = useState([]);
   const [blocks, setblocks] = useState([]);
   const [Allblocks, setallblocks] = useState([]);
@@ -137,17 +139,25 @@ export default function MemberAdmin() {
     seterror("");
     setsubmit(true);
     try {
+      setdata({
+        ...data,
+        ["message"]: "",
+      });
+
+      setyourMessage(data?.message);
+
       const user_details = getUserDetails();
+
       const response = await submitAI(data.message);
-      const chat_id = localStorage.getItem("chat_id");
       const obj = {
         userId: user_details.id,
         question_id: data?.question_id,
         yourMessage: data.message,
         aiReply: response.data?.response,
-        conversetion_id: chat_id,
+        conversetion_id: response.data?.conversation_id,
         status: 1,
       };
+      setyourMessage("");
 
       AiResponse.push(obj);
       console.log(`AiResponse`, AiResponse);
@@ -179,11 +189,8 @@ export default function MemberAdmin() {
       };
 
       await submitFormData(page_list, options);
-      Swal.fire({
-        icon: "success",
-        text: "Success",
-        confirmButtonText: "Close",
-      });
+      
+      toast.success("Answer Saved!");
       settextareaShow(false);
       setdata(null);
       setactiveQuestion(0);
@@ -312,6 +319,7 @@ export default function MemberAdmin() {
                     outPutQues={outPutQues}
                     setshowPhaseOutput={setshowPhaseOutput}
                     onSubmitPhaseOutput={onSubmitPhaseOutput}
+                    phaseName={phaseName}
                   />
                 ) : (
                   <>
@@ -364,6 +372,7 @@ export default function MemberAdmin() {
                       setshowPhaseOutput={setshowPhaseOutput}
                       onSubmitPhaseOutput={onSubmitPhaseOutput}
                       activephase={activephase}
+                      yourMessage={yourMessage}
                     />
                     {/*Right Sidebar with sections and question*/}
                     <Rightbar
@@ -397,6 +406,7 @@ export default function MemberAdmin() {
           </>
         )}
       </>
+      <ToastContainer />
     </>
   );
 }
