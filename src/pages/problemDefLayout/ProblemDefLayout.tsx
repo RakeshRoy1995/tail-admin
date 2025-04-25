@@ -17,6 +17,7 @@ import {
 import questionIcon from "../../../public/custome/question_icon.png";
 import { Document as WordDocument, Packer, Paragraph, TextRun } from "docx";
 import { saveAs } from "file-saver";
+import { enablePhaseOutput } from "@/utils";
 const ProblemDefLayout = ({
   output,
   setoutPutQues,
@@ -303,7 +304,6 @@ const ProblemDefLayout = ({
       saveAs(blob, `${blockName.replace(/\s/g, "_")}.docx`);
     });
   };
-
   return (
     <div>
       <div className="__left-sidebar border-end __height-full">
@@ -356,21 +356,54 @@ const ProblemDefLayout = ({
         </div>
 
         <div className="phase-content">
-          <div className="phase-header d-flex justify-content-between align-items-center">
+          {/* <div className="phase-header d-flex justify-content-between align-items-center">
             <h1 className="phase-title">
               {outPutQues[activeSectionIndex]?.block_name}
             </h1>
-            <a
+            <button
               className="phase-output-btn text-decoration-none "
-              href="#"
+              type="button"
               onClick={(e) => onSubmitPhaseOutput()}
+              disabled={!enablePhaseOutput()}
+              title={
+                enablePhaseOutput() ? "" : "Please give answer to all questions"
+              }
             >
               <i className="fas fa-arrow-circle-right" />
               Phase Output Summarize
             </a>
+          </div> */}
+          <div className="phase-header ">
+            <div className="d-flex justify-content-between align-items-center mb-3">
+              <h1 className="phase-title">Problem Definition</h1>
+              <button
+                className="phase-output-btn text-decoration-none "
+                type="button"
+                onClick={(e) => onSubmitPhaseOutput()}
+                disabled={!enablePhaseOutput()}
+                title={
+                  enablePhaseOutput()
+                    ? ""
+                    : "Please give answer to all questions"
+                }
+              >Phase Output Summarize</button>
+            </div>
+            <p className="phase-description">
+              In this phase, we focus on understanding and clearly defining the
+              problem space through systematic analysis and stakeholder input.
+            </p>
           </div>
 
           <div id="sectionContents">
+            <div className="section-header">
+              <h2 className="section-title" style={{ fontSize: "1.25rem" }}>
+                {outPutQues[activeSectionIndex]?.block_name}
+              </h2>
+              <p className="section-description">
+                Define the boundaries and scope of the problem we are trying to
+                solve.
+              </p>
+            </div>
             <div className="section-content">
               <div className="faq-list">
                 {outPutQues.map((faq: any, faqIndex: number) => (
@@ -416,6 +449,29 @@ const ProblemDefLayout = ({
       <div className="export-actions" ref={menuRef}>
         {/* Export Menu */}
         <div className={`export-menu ${menuOpen ? "active" : ""}`}>
+          {/* <PDFDownloadLink
+            document={
+              <PDFDocument
+                blockName={
+                  outPutQues[activeSectionIndex]?.block_name || "No Title"
+                }
+                questions={outPutQues || []}
+              />
+            }
+            fileName={`${
+              outPutQues[activeSectionIndex]?.block_name?.replace(/\s/g, "_") ||
+              "Document"
+            }.pdf`}
+            className="export-btn"
+            style={{ textDecoration: "none" }}
+          >
+            {({ loading }) => (
+              <>
+                <i className="fas fa-file-pdf"></i>{" "}
+                {loading ? "Generating PDF..." : "Export as PDF"}
+              </>
+            )}
+          </PDFDownloadLink> */}
           <PDFDownloadLink
             document={
               <PDFDocument
@@ -430,15 +486,13 @@ const ProblemDefLayout = ({
               "Document"
             }.pdf`}
             className="export-btn"
-            style={{ textDecoration: "none" }} // Remove underline
+            style={{ textDecoration: "none" }}
           >
-            {({ loading }) => (
-              <>
-                <i className="fas fa-file-pdf"></i>{" "}
-                {loading ? "Generating PDF..." : "Export as PDF"}
-              </>
-            )}
+            <span>
+              <i className="fas fa-file-pdf"></i> Export as PDF
+            </span>
           </PDFDownloadLink>
+
           <button
             className="export-btn"
             // onClick={handleExportWord}
@@ -448,7 +502,7 @@ const ProblemDefLayout = ({
           <button className="export-btn">
             <i className="fas fa-file-alt"></i> Export as Markdown
           </button>
-          j
+
           <button className="export-btn">
             <i className="fas fa-print"></i> Print Document
           </button>

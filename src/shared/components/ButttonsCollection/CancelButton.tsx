@@ -7,7 +7,6 @@ const CancelButton = ({ setsingleData, setaddFormShow }: any) => {
     const form: any = document.querySelector("form");
     if (form) {
       form.reset();
-      
     }
 
     if (setsingleData) {
@@ -15,20 +14,18 @@ const CancelButton = ({ setsingleData, setaddFormShow }: any) => {
     }
 
     if (setaddFormShow) {
-      setaddFormShow(false)
+      setaddFormShow(false);
     }
   };
   return (
     <div>
-      <div className="flex justify-end mt-5">
-          <button
-            type="button"
-            onClick={(e: any) => formReset()}
-            className="bg-tertiaryColor font-bold text-sm text-white rounded-lg px-4 py-3 flex justify-center items-center gap-1"
-          >
-            {t("cancel")}
-          </button>
-      </div>
+      <button
+        type="button"
+        onClick={(e: any) => formReset()}
+        className="btn btn-danger fw-bold btn-sm px-4 py-2"
+      >
+        {t("cancel")}
+      </button>
     </div>
   );
 };

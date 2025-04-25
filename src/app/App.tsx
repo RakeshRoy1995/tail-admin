@@ -18,6 +18,11 @@ const Home = React.lazy(() => import("@/pages/Home/index"));
 import MemberAdmin from "@/pages/member/admin/MemberAdmin";
 import ProblemDefLayout from "@/pages/problemDefLayout/ProblemDefLayout";
 import LeftSideMenuBar from "./Layout/LeftSideMenuBar";
+import BlockUserOutput from "@/pages/BlockOverview/BlockUserOutput";
+import AIModelMgt from "@/pages/AI-model-mgt/AIModelMgt";
+import AddPhase from "@/pages/PhaseOverView/AddPhase";
+import GuidePrompt from "@/pages/guide-prompt/GuidePrompt";
+import Example from "@/pages/exapmle/Example";
 const PrivateRoute = React.lazy(() => import("./PrivateRoute"));
 const Login = React.lazy(() => import("@/pages/Login/Login"));
 
@@ -51,13 +56,18 @@ const App: FC = () => {
           <Route path="/" element={<HomeEntryPage />}></Route>
 
           <Route path="/" element={<PrivateRoute />}>
+            <Route path="/example" element={<Example />} />
             <Route path="/problem-def" element={<ProblemDefLayout />} />
             <Route path="/" element={<Layout />}>
               <Route path="/admin" element={<Admin />} />
               <Route path="/phase-overview" element={<PhaseOverView />} />
-              <Route path="/block-overview" element={<BlockOverview />} />
+              <Route path="/block-overview" element={<BlockUserOutput />} />
+              <Route path="/add-phase" element={<AddPhase />} />
+              <Route path="/add-block" element={<BlockOverview />} />
               <Route path="/phase-output" element={<PhaseOutput />} />
               <Route path="/block-output" element={<BlockOutput />} />
+              <Route path="/ai-model-mgmt" element={<AIModelMgt />} />
+              <Route path="/guide-prompts" element={<GuidePrompt />} />
 
               {/* <Route path="/" element={<Home />} /> */}
               {/* <Route path="/admin" element={<Admin />} /> */}

@@ -13,6 +13,7 @@ export default function BlockSection({
   data,
   totalQues,
   output,
+  setAiResponse
 }: any) {
   return (
     <div className={'section-item ' + classname} onClick={(e) => setactiveBlock(d.id)}>
@@ -35,6 +36,7 @@ export default function BlockSection({
                     ...data,
                     ["question_id"]: qd.id,
                   });
+                  setAiResponse([]);
                   settextareaShow(true);
                   setactiveBlock(d.id);
                   setactiveQuestion(qd.id);

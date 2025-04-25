@@ -12,6 +12,7 @@ export default function SidebarMember({
   data,
   setactiveBlock,
   output,
+  setAiResponse
 }: any) {
   return (
     <div className="section-list">
@@ -32,6 +33,7 @@ export default function SidebarMember({
                   setactiveBlock={setactiveBlock}
                   totalQues={AllQues?.filter((dq: any) => dq.blockId == d.id)}
                   output={output}
+                  setAiResponse={setAiResponse}
                 />
               ) : (
                 <BlockSection
@@ -45,6 +47,7 @@ export default function SidebarMember({
                   setactiveBlock={setactiveBlock}
                   totalQues={AllQues?.filter((dq: any) => dq.blockId == d.id)}
                   output={output}
+                  setAiResponse={setAiResponse}
                 />
               )}
             </>

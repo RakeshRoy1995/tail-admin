@@ -16,6 +16,7 @@ export default function QuesAnswer({
   setshowSavedQuestion,
   output,
   setshowPhaseOutput,
+  activephase,
 }: any) {
   return (
     <div className="__question-and-answer position-relative __margin-left __margin-right __height-full">
@@ -99,7 +100,8 @@ export default function QuesAnswer({
             </div>
           )}
         </div>
-        {AllQues.find((d: any) => d.id == data?.question_id)?.question ? (
+        {/* Previous Code */}
+        {/* {AllQues.find((d: any) => d.id == data?.question_id)?.question ? (
           <div className="chat-footer">
             <div className="input-wrapper">
               <div className="input-actions">
@@ -132,11 +134,53 @@ export default function QuesAnswer({
             </div>
           </div>
         ) : (
-          <p className="text-danger text-center">
+          <p className="text-danger text-center chat-footer">
             please select a question to start conversation
           </p>
-        )}
+        )} */}
+
+        {/* Shakhawat Code*/}
+        <div
+          className={`chat-footer ${AllQues.find((d: any) => d.id == data?.question_id)?.question ? "" : "invisible"}`}
+        >
+          <div className="input-wrapper">
+            <div className="input-actions">
+              <button className="action-btn">
+                <i className="fas fa-paperclip" />
+              </button>
+              <button className="action-btn">
+                <i className="fas fa-image" />
+              </button>
+            </div>
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Type your message..."
+              onChange={(e) => {
+                setdata({
+                  ...data,
+                  ["message"]: e.target.value,
+                });
+              }}
+              value={data.message}
+            />
+            <button
+              className="btn-send"
+              disabled={submit}
+              onClick={(e) => onSubmit()}
+            >
+              <i className="fas fa-paper-plane text-white" />
+            </button>
+          </div>
+        </div>
+
+        <p
+          className={`text-danger text-center  ${AllQues.find((d: any) => d.id == data?.question_id)?.question ? "d-none" : ""}`}
+        >
+          please select a question to start conversation
+        </p>
       </div>
+      
       {/* Floating Buttons with Tooltips */}
       <div className="floating-buttons">
         <button
@@ -183,28 +227,33 @@ export default function QuesAnswer({
           <div className="saved-questions">
             {output.map((d: any) => (
               <>
-                {d.map((outPut_d: any) => (
-                  <div className="question-item">
-                    <div className="question">
-                      <i className="fas fa-question-circle" />
-                      <span>{outPut_d?.question}</span>
+                {d
+                  .filter((info: any) => info.phaseId == activephase)
+                  .map((outPut_d: any) => (
+                    <div className="question-item">
+                      <div className="question">
+                        <i className="fas fa-question-circle" />
+                        <span>{outPut_d?.question}</span>
+                      </div>
+                      <div className="answer">
+                        <AIOutputShow messages={outPut_d?.aiReply} />
+                      </div>
+                      <div className="meta">
+                        <span className="tag">{outPut_d?.block_name}</span>
+                        {/* <span>Saved 2 days ago</span> */}
+                      </div>
                     </div>
-                    <div className="answer">
-                      <AIOutputShow messages={outPut_d?.aiReply} />
-                    </div>
-                    <div className="meta">
-                      <span className="tag">{outPut_d?.block_name}</span>
-                      {/* <span>Saved 2 days ago</span> */}
-                    </div>
-                  </div>
-                ))}
+                  ))}
               </>
             ))}
           </div>
           <a
             className="phase-output text-decoration-none mt-4"
             href="#"
-            onClick={(e) => setshowPhaseOutput(true)}
+            onClick={(e) => {
+              setshowSavedQuestion(false);
+              setshowPhaseOutput(true);
+            }}
           >
             <i className="fas fa-arrow-circle-right" />
             Phase Output

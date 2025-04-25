@@ -195,8 +195,9 @@ const PropsedSystemMappainig = ({
   questionAnswer,
   activephase,
   phaseName,
+  showPhaseOutputSummery,
+  setshowPhaseOutputSummery,
 }) => {
-  console.log(`allPhasePromts`, allPhasePromts);
   const [submit, setsubmit] = useState<any>(false);
   const [error, seterror] = useState<any>("");
   const [output, setoutput] = useState<any>([]);
@@ -205,22 +206,6 @@ const PropsedSystemMappainig = ({
   const cardVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
-  };
-
-  const cardBodyStyle = {
-    overflowY: "auto",
-    maxHeight: "300px", // Adjust height as needed
-    paddingRight: "10px",
-  };
-  const cardBodyStyleCard1andCard3 = {
-    overflowY: "auto",
-    maxHeight: "600px", // Adjust height as needed
-    paddingRight: "10px",
-  };
-
-  const customScrollbarStyle = {
-    scrollbarWidth: "thin",
-    scrollbarColor: "#6c757d #f8f9fa", // Custom scrollbar colors
   };
 
   const getPhaseOutput = async (id = null) => {
@@ -343,11 +328,6 @@ const PropsedSystemMappainig = ({
     setsubmit(false);
   };
 
-  console.log(`outpddddddddddut`, output, allPhasePromts, payloadArr);
-  console.log(`cards`, cards);
-  console.log(`phaseName`, phaseName);
-  console.log(`activephase`, activephase);
-
   return (
     <>
       <div className="pt-5">
@@ -360,7 +340,7 @@ const PropsedSystemMappainig = ({
               fontSize: "0.9rem",
               boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
             }}
-            onClick={() => (window.location.href = "/admin")}
+            onClick={() => setshowPhaseOutputSummery(false)}
           >
             ← Back
           </button>
@@ -456,7 +436,7 @@ const PropsedSystemMappainig = ({
                   >
                     {cards[0].icon}
                   </div>
-                  <h5 className="ms-3 mb-0">{cards[0].title}</h5>
+                  <h5 className="ms-3 mb-0">{cards[1].title}</h5>
                 </div>
                 <div
                   className="card-body"
@@ -497,7 +477,7 @@ const PropsedSystemMappainig = ({
                   >
                     {cards[0].icon}
                   </div>
-                  <h5 className="ms-3 mb-0">{cards[0].title}</h5>
+                  <h5 className="ms-3 mb-0">{cards[2].title}</h5>
                 </div>
                 <div
                   className="card-body"
@@ -672,16 +652,18 @@ const PropsedSystemMappainig = ({
                     fontSize: "0.9rem",
                   }}
                 >
-                  {({ loading }) =>
-                    loading ? (
-                      "Generating PDF..."
-                    ) : (
-                      <>
-                        <FileText size={16} />
-                        <span>Export Summerize</span>
-                      </>
-                    )
-                  }
+                  <>
+                    {({ loading }) =>
+                      loading ? (
+                        "Generating PDF..."
+                      ) : (
+                        <>
+                          <FileText size={16} />
+                          <span>Export Summerize</span>
+                        </>
+                      )
+                    }
+                  </>
                 </PDFDownloadLink>
               </motion.div>
             </div>

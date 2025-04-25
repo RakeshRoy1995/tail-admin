@@ -53,7 +53,6 @@ export default function MemberAdmin() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        console.log(`1`, 1);
         const response = await axiosInstance.get("/phases"); // Example endpoint
 
         if (response.data.length) {
@@ -101,7 +100,6 @@ export default function MemberAdmin() {
     const fetchBlockByPhase = async (id: any) => {
       try {
         const result = Allblocks.filter((d: any) => d.phaseId == id);
-        console.log(`resfffffult`, result);
         localStorage.setItem("block", JSON.stringify(result));
         setblocks(result);
         if (result.length) {
@@ -346,6 +344,7 @@ export default function MemberAdmin() {
                         setactiveQuestion={setactiveQuestion}
                         data={data}
                         output={output}
+                        setAiResponse={setAiResponse}
                       />
                     </div>
                     {/*Question and answer section*/}
@@ -364,6 +363,7 @@ export default function MemberAdmin() {
                       output={output}
                       setshowPhaseOutput={setshowPhaseOutput}
                       onSubmitPhaseOutput={onSubmitPhaseOutput}
+                      activephase={activephase}
                     />
                     {/*Right Sidebar with sections and question*/}
                     <Rightbar
@@ -389,6 +389,8 @@ export default function MemberAdmin() {
                   allPhasePromts={allPhasePromts}
                   activephase={activephase}
                   phaseName={phaseName}
+                  showPhaseOutputSummery={showPhaseOutputSummery}
+                  setshowPhaseOutputSummery={setshowPhaseOutputSummery}
                 />
               </main>
             )}

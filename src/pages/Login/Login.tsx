@@ -39,7 +39,7 @@ const Login = () => {
       setError("");
       const response: any = await loginPassword({ username, password });
       if (response?.data?.access_token) {
-        localStorage.setItem("AI_model", 'gpt-4');
+        localStorage.setItem("AI_model", "gpt-4");
         const token = response?.data?.access_token;
         toast.success("Login successful!");
         localStorage.setItem(
@@ -52,7 +52,15 @@ const Login = () => {
           "user-role/user/" + response.data?.id,
         );
         localStorage.setItem("current_role", JSON.stringify(roleData.data[0]));
-        localStorage.setItem("all_role", JSON.stringify(roleData.data));
+
+        if (roleData.data[0]?.id) {
+          const aiModel: any = await get_all_data(
+            "ai-model",
+          );
+          localStorage.setItem("AI_model", aiModel.data[0]?.code);
+          localStorage.setItem("all_aiModel", JSON.stringify(aiModel.data));
+          localStorage.setItem("all_role", JSON.stringify(roleData.data));
+        }
         axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
         if (rememberMe) {
@@ -95,9 +103,8 @@ const Login = () => {
                   </p>
                   <div className="inner-logo">
                     <a className="center-img" href="#">
-           
                       <img
-                        src="/public/asset/assets/img/logo-coinnovator301209.jpg"
+                        src="/public/asset/assets/img/trbglogo.png"
                         alt=""
                       />
                     </a>
@@ -146,9 +153,20 @@ const Login = () => {
                 </div>
               </div>
             </div>
+
+            <div className="row section-three">
+                  <div className="image-wrap">
+                  <img src="asset/assets/img/l-img1.png" alt="" />
+                  <img src="asset/assets/img/l-img2.png" alt="" />
+                  <img src="asset/assets/img/l-img3.png" alt="" />
+                  <img src="asset/assets/img/l-img4.png" alt="" />
+                  <img src="asset/assets/img/l-img5.png" alt="" />
+                  </div>
+              </div>
+
           </div>
         </div>
-        <div className="section-three">
+        {/* <div className="section-three">
           <div className="container">
             <div className="row">
               <div className="image-wrap">
@@ -160,8 +178,8 @@ const Login = () => {
               </div>
             </div>
           </div>
-        </div>
-        <footer className="footer text-center">
+        </div> */}
+        <footer className="footer text-center login-footer">
           <div className="container">
             <div className="row">
               {/* Footer Location*/}
