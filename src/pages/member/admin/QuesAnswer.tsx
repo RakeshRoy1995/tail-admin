@@ -17,6 +17,7 @@ export default function QuesAnswer({
   output,
   setshowPhaseOutput,
   activephase,
+  yourMessage,
 }: any) {
   return (
     <div className="__question-and-answer position-relative __margin-left __margin-right __height-full">
@@ -86,6 +87,17 @@ export default function QuesAnswer({
             </>
           ))}
 
+          {yourMessage && (
+            <div className="message user-message">
+              <div className="user-avatar">
+                <i className="fas fa-user" />
+              </div>
+              <div className="message-content">
+                <div className="message-bubble">{yourMessage}</div>
+              </div>
+            </div>
+          )}
+
           {/* Typing Indicator */}
           {submit && (
             <div className="message">
@@ -100,44 +112,6 @@ export default function QuesAnswer({
             </div>
           )}
         </div>
-        {/* Previous Code */}
-        {/* {AllQues.find((d: any) => d.id == data?.question_id)?.question ? (
-          <div className="chat-footer">
-            <div className="input-wrapper">
-              <div className="input-actions">
-                <button className="action-btn">
-                  <i className="fas fa-paperclip" />
-                </button>
-                <button className="action-btn">
-                  <i className="fas fa-image" />
-                </button>
-              </div>
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Type your message..."
-                onChange={(e) => {
-                  setdata({
-                    ...data,
-                    ["message"]: e.target.value,
-                  });
-                }}
-                value={data.message}
-              />
-              <button
-                className="btn-send"
-                disabled={submit}
-                onClick={(e) => onSubmit()}
-              >
-                <i className="fas fa-paper-plane text-white" />
-              </button>
-            </div>
-          </div>
-        ) : (
-          <p className="text-danger text-center chat-footer">
-            please select a question to start conversation
-          </p>
-        )} */}
 
         {/* Shakhawat Code*/}
         <div
@@ -162,7 +136,12 @@ export default function QuesAnswer({
                   ["message"]: e.target.value,
                 });
               }}
-              value={data.message}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  onSubmit();
+                }
+              }}
+              value={data?.message}
             />
             <button
               className="btn-send"
@@ -180,7 +159,7 @@ export default function QuesAnswer({
           please select a question to start conversation
         </p>
       </div>
-      
+
       {/* Floating Buttons with Tooltips */}
       <div className="floating-buttons">
         <button

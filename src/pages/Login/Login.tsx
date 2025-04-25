@@ -1,14 +1,9 @@
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import LoginImage from "../../../assets/loginPageImage/register.png";
-import { FaRegEyeSlash } from "react-icons/fa";
-import { FaRegEye } from "react-icons/fa6";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { get_all_data, loginPassword } from "@/api/Reqest";
 import axios from "axios";
-import { Link } from "react-router-dom";
-import { ArrowLeft } from "@mui/icons-material";
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setrememberMe] = useState(false);
