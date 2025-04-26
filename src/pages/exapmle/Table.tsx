@@ -8,7 +8,130 @@ import {
   Trash2,
 } from "lucide-react";
 
-export default function DataTable({ allData, col }) {
+export default function Table() {
+  const allData = [
+    {
+      id: "INV001",
+      customer: "John Doe",
+      email: "john@example.com",
+      amount: 1200,
+      status: "Paid",
+      date: "2024-03-12",
+    },
+    {
+      id: "INV002",
+      customer: "Jane Smith",
+      email: "jane@example.com",
+      amount: 850,
+      status: "Pending",
+      date: "2024-03-15",
+    },
+    {
+      id: "INV003",
+      customer: "Bob Johnson",
+      email: "bob@example.com",
+      amount: 980,
+      status: "Overdue",
+      date: "2024-03-20",
+    },
+    {
+      id: "INV004",
+      customer: "Alice Brown",
+      email: "alice@example.com",
+      amount: 750,
+      status: "Paid",
+      date: "2024-03-22",
+    },
+    {
+      id: "INV005",
+      customer: "Michael Green",
+      email: "michael@example.com",
+      amount: 1100,
+      status: "Pending",
+      date: "2024-03-25",
+    },
+    {
+      id: "INV006",
+      customer: "David Lee",
+      email: "david@example.com",
+      amount: 930,
+      status: "Overdue",
+      date: "2024-03-27",
+    },
+    {
+      id: "INV007",
+      customer: "Laura White",
+      email: "laura@example.com",
+      amount: 1400,
+      status: "Paid",
+      date: "2024-03-29",
+    },
+    {
+      id: "INV008",
+      customer: "Kevin Black",
+      email: "kevin@example.com",
+      amount: 670,
+      status: "Pending",
+      date: "2024-04-01",
+    },
+    {
+      id: "INV009",
+      customer: "Sophie Red",
+      email: "sophie@example.com",
+      amount: 1550,
+      status: "Paid",
+      date: "2024-04-03",
+    },
+    {
+      id: "INV010",
+      customer: "Tom Blue",
+      email: "tom@example.com",
+      amount: 820,
+      status: "Overdue",
+      date: "2024-04-05",
+    },
+    {
+      id: "INV011",
+      customer: "Emma Green",
+      email: "emma@example.com",
+      amount: 940,
+      status: "Pending",
+      date: "2024-04-07",
+    },
+    {
+      id: "INV012",
+      customer: "Liam Grey",
+      email: "liam@example.com",
+      amount: 1210,
+      status: "Paid",
+      date: "2024-04-10",
+    },
+    {
+      id: "INV013",
+      customer: "Mia Yellow",
+      email: "mia@example.com",
+      amount: 890,
+      status: "Pending",
+      date: "2024-04-12",
+    },
+    {
+      id: "INV014",
+      customer: "Noah Pink",
+      email: "noah@example.com",
+      amount: 1340,
+      status: "Overdue",
+      date: "2024-04-14",
+    },
+    {
+      id: "INV015",
+      customer: "Olivia Purple",
+      email: "olivia@example.com",
+      amount: 1020,
+      status: "Paid",
+      date: "2024-04-16",
+    },
+  ];
+
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [sortField, setSortField] = useState("id");
@@ -24,8 +147,6 @@ export default function DataTable({ allData, col }) {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = sortedData.slice(indexOfFirstItem, indexOfLastItem);
 
-  console.log(`currentItems`, currentItems);
-
   const totalPages = Math.ceil(allData.length / itemsPerPage);
   const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
 
@@ -40,10 +161,7 @@ export default function DataTable({ allData, col }) {
     }
   };
 
-  console.log(`col`, col);
-
   const formatDate = (dateString: string) => {
-    if (!dateString) return ""; // Handle empty date string
     const date = new Date(dateString);
     return new Intl.DateTimeFormat("en-US", {
       day: "numeric",
@@ -80,7 +198,7 @@ export default function DataTable({ allData, col }) {
 
   return (
     <div className="card shadow-sm border-0 p-4">
-      {/* <div className="d-flex justify-content-between align-items-center mb-3">
+      <div className="d-flex justify-content-between align-items-center mb-3">
         <h2 className="h5 mb-0">Invoices</h2>
         <div>
           <label className="me-2 small fw-semibold">Show:</label>
@@ -99,45 +217,34 @@ export default function DataTable({ allData, col }) {
             ))}
           </select>
         </div>
-      </div> */}
+      </div>
 
       <div className="table-responsive">
         <table className="table table-bordered table-hover align-middle rounded overflow-hidden">
           <thead className="table-light">
             <tr className="text-uppercase small text-muted">
-              {col.map((item: any, index) => (
-                <>
-                  {item.name !== "id" && (
-                    <th
-                      role="button"
-                      onClick={() => handleSort(item.name)}
-                      key={index}
-                    >
-                      {item.label} <ArrowUpDown size={14} className="ms-1" />
-                    </th>
-                  )}
-                </>
-              ))}
+              <th role="button" onClick={() => handleSort("id")}>
+                Invoice <ArrowUpDown size={14} className="ms-1" />
+              </th>
+              <th role="button" onClick={() => handleSort("customer")}>
+                Customer <ArrowUpDown size={14} className="ms-1" />
+              </th>
+              <th role="button" onClick={() => handleSort("amount")}>
+                Amount <ArrowUpDown size={14} className="ms-1" />
+              </th>
+              <th role="button" onClick={() => handleSort("status")}>
+                Status <ArrowUpDown size={14} className="ms-1" />
+              </th>
+              <th role="button" onClick={() => handleSort("date")}>
+                Date <ArrowUpDown size={14} className="ms-1" />
+              </th>
               <th className="text-center">Actions</th>
             </tr>
           </thead>
           <tbody>
             {currentItems.map((item) => (
               <tr key={item.id}>
-                {col.map((colItem: any, index) => (
-                  <>
-                    {colItem.name !== "id" && (
-                      <td key={index}>
-                        {colItem.name !== "status" && item[colItem.name]}
-
-                        {colItem.name == "status" && (
-                          <StatusBadge status={colItem.name} />
-                        )}
-                      </td>
-                    )}
-                  </>
-                ))}
-                {/* <td>{item.id}</td>
+                <td>{item.id}</td>
                 <td>
                   <div className="fw-semibold">{item.customer}</div>
                   <div className="text-muted small">{item.email}</div>
@@ -145,8 +252,8 @@ export default function DataTable({ allData, col }) {
                 <td>{formatCurrency(item.amount)}</td>
                 <td>
                   <StatusBadge status={item.status} />
-                </td> */}
-                {/* <td className="text-muted">{formatDate(item.date)}</td> */}
+                </td>
+                <td className="text-muted">{formatDate(item.date)}</td>
                 <td className="text-center">
                   <div className="btn-group" role="group">
                     <button
