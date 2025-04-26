@@ -147,7 +147,10 @@ export default function MemberAdmin() {
 
       setyourMessage(data?.message);
 
-      const conversetion_id =   getConversationIdByQues(data?.question_id , output)
+      const conversetion_id = getConversationIdByQues(
+        data?.question_id,
+        output,
+      );
       if (conversetion_id) {
         localStorage.setItem("chat_id", conversetion_id);
       }
@@ -166,7 +169,6 @@ export default function MemberAdmin() {
       setyourMessage("");
 
       AiResponse.push(obj);
-      console.log(`AiResponse`, AiResponse);
       setAiResponse(AiResponse);
       localStorage.setItem("ai_question_answer", JSON.stringify(AiResponse));
       setdata({ ...data, message: null });
@@ -195,7 +197,7 @@ export default function MemberAdmin() {
       };
 
       await submitFormData(page_list, options);
-      
+
       toast.success("Answer Saved!");
       settextareaShow(false);
       setdata(null);
@@ -309,19 +311,30 @@ export default function MemberAdmin() {
     setoutPutQues(output[0]);
   }, [output]);
 
-
-
-
-
-
   const questionHistory = async (activeQuestion: any) => {
     setsubmit(true);
     try {
-      const conversetion_id =   getConversationIdByQues(activeQuestion , output)
+      const conversetion_id = getConversationIdByQues(activeQuestion, output);
 
       if (conversetion_id) {
-        const {data} =  await HistoryAI(conversetion_id);
-        console.log(`data`, data);
+        const { data } = await HistoryAI(conversetion_id);
+        const user_details = getUserDetails();
+        const conversation_id = data.conversation_id;
+        for (let i = 0; i < data.messages.length; i++) {
+          if (i % 2 == 0) {
+            setAiResponse((prev: any) => [
+              ...prev,
+              {
+                userId: user_details.id,
+                question_id: activeQuestion,
+                yourMessage: data.messages[i].content,
+                aiReply: data.messages[i + 1].content,
+                conversetion_id: conversation_id,
+                status: 1,
+              },
+            ]);
+          }
+        }
       }
     } catch (error: any) {
       seterror(error?.response?.data?.message || "Something Went Wrong");
@@ -329,16 +342,12 @@ export default function MemberAdmin() {
     setsubmit(false);
   };
 
-
-
   // get question chat output history
   useEffect(() => {
     if (activeQuestion) {
-      questionHistory(activeQuestion)
+      questionHistory(activeQuestion);
     }
   }, [activeQuestion]);
-
-  
 
   return (
     <>

@@ -321,13 +321,13 @@ export function getPOlist() {
 
 export function submitAI(message: any) {
   const model = localStorage.getItem("AI_model");
-  const chat_id = localStorage.getItem("chat_id");
+  const conversation_id = localStorage.getItem("chat_id");
   const api = `${API_AI}/api`; // Replace API_URL with your base URL
 
   const options = {
     method: "POST",
     headers: { "content-type": "application/json" },
-    data: { message, chat_id, model },
+    data: { message, conversation_id, model },
     url: api,
   };
 
