@@ -118,6 +118,12 @@ export default function PhaseDetails() {
 
         const { data } = await submitFormData(page_list, options);
         setquestion(data);
+        setcol([
+          { name: "id", label: "ID" },
+          { name: "question_question", label: "Question" },
+          { name: "blockName", label: "Block" },
+          { name: "status", label: "Status" },
+        ]);
       }
       if (type === "update-phase") {
         setshowUpdatePhase(true);
