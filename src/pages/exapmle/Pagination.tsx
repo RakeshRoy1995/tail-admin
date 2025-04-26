@@ -24,8 +24,6 @@ export default function DataTable({ allData, col, view }) {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = sortedData.slice(indexOfFirstItem, indexOfLastItem);
 
-  console.log(`currentItems`, currentItems);
-
   const totalPages = Math.ceil(allData.length / itemsPerPage);
   const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
 
@@ -63,7 +61,7 @@ export default function DataTable({ allData, col, view }) {
   return (
     <div className="card shadow-sm border-0 p-4">
       <div className="d-flex justify-content-between align-items-center mb-3">
-        <h2 className="h5 mb-0">Invoices</h2>
+        <h2 className="h5 mb-0">Table</h2>
         <div>
           <label className="me-2 small fw-semibold">Show:</label>
           <select
