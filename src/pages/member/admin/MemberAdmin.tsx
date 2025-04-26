@@ -318,6 +318,7 @@ export default function MemberAdmin() {
 
       if (conversetion_id) {
         const { data } = await HistoryAI(conversetion_id);
+        setAiResponse([]);
         const user_details = getUserDetails();
         const conversation_id = data.conversation_id;
         for (let i = 0; i < data.messages.length; i++) {
