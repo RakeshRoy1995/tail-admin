@@ -1,4 +1,5 @@
 import React, { Suspense, FC } from "react";
+import "react-toastify/dist/ReactToastify.css";
 import { Route, Routes } from "react-router-dom";
 import { Layout } from "@/app/Layout";
 import ChangePassword from "./ChangePassword";

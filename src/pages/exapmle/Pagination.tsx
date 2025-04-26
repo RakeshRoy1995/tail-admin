@@ -8,7 +8,7 @@ import {
   Trash2,
 } from "lucide-react";
 
-export default function DataTable({ allData, col }) {
+export default function DataTable({ allData, col, view }) {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [sortField, setSortField] = useState("id");
@@ -40,33 +40,13 @@ export default function DataTable({ allData, col }) {
     }
   };
 
-  console.log(`col`, col);
-
-  const formatDate = (dateString: string) => {
-    if (!dateString) return ""; // Handle empty date string
-    const date = new Date(dateString);
-    return new Intl.DateTimeFormat("en-US", {
-      day: "numeric",
-      month: "short",
-      year: "numeric",
-    }).format(date);
-  };
-
-  const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat("en-US", {
-      style: "currency",
-      currency: "USD",
-      minimumFractionDigits: 2,
-    }).format(amount);
-  };
-
-  const StatusBadge = ({ status }: { status: string }) => {
+  const StatusBadge = ({ status }: { status: any }) => {
     let className = "badge rounded-pill px-3 ";
     switch (status) {
-      case "Paid":
+      case "1":
         className += "bg-success-subtle text-success-emphasis";
         break;
-      case "Pending":
+      case "0":
         className += "bg-warning-subtle text-warning-emphasis";
         break;
       case "Overdue":
@@ -75,12 +55,14 @@ export default function DataTable({ allData, col }) {
       default:
         className += "bg-secondary-subtle text-secondary-emphasis";
     }
-    return <span className={className}>{status}</span>;
+    return (
+      <span className={className}>{status == 1 ? "active" : "inactive"}</span>
+    );
   };
 
   return (
     <div className="card shadow-sm border-0 p-4">
-      {/* <div className="d-flex justify-content-between align-items-center mb-3">
+      <div className="d-flex justify-content-between align-items-center mb-3">
         <h2 className="h5 mb-0">Invoices</h2>
         <div>
           <label className="me-2 small fw-semibold">Show:</label>
@@ -99,7 +81,7 @@ export default function DataTable({ allData, col }) {
             ))}
           </select>
         </div>
-      </div> */}
+      </div>
 
       <div className="table-responsive">
         <table className="table table-bordered table-hover align-middle rounded overflow-hidden">
@@ -131,8 +113,42 @@ export default function DataTable({ allData, col }) {
                         {colItem.name !== "status" && item[colItem.name]}
 
                         {colItem.name == "status" && (
-                          <StatusBadge status={colItem.name} />
+                          <StatusBadge status={item[colItem.name]} />
                         )}
+                      </td>
+                    )}
+
+                    {index == col.length -1 && (
+                      <td className="text-center">
+                        <div className="btn-group" role="group">
+                          <button
+                            type="button"
+                            onClick={(e) => view(item)}
+                            className="btn btn-sm btn-light border"
+                            data-bs-toggle="tooltip"
+                            title="View"
+                          >
+                            <Eye size={14} />
+                          </button>
+                          <button
+                            type="button"
+                            onClick={(e) => view(item , "update")}
+                            className="btn btn-sm btn-light border"
+                            data-bs-toggle="tooltip"
+                            title="Edit"
+                          >
+                            <Pencil size={14} />
+                          </button>
+                          <button
+                            type="button"
+                            onClick={(e) => view(item , "delete")}
+                            className="btn btn-sm btn-light border text-danger"
+                            data-bs-toggle="tooltip"
+                            title="Delete"
+                          >
+                            <Trash2 size={14} />
+                          </button>
+                        </div>
                       </td>
                     )}
                   </>
@@ -147,34 +163,6 @@ export default function DataTable({ allData, col }) {
                   <StatusBadge status={item.status} />
                 </td> */}
                 {/* <td className="text-muted">{formatDate(item.date)}</td> */}
-                <td className="text-center">
-                  <div className="btn-group" role="group">
-                    <button
-                      type="button"
-                      className="btn btn-sm btn-light border"
-                      data-bs-toggle="tooltip"
-                      title="View"
-                    >
-                      <Eye size={14} />
-                    </button>
-                    <button
-                      type="button"
-                      className="btn btn-sm btn-light border"
-                      data-bs-toggle="tooltip"
-                      title="Edit"
-                    >
-                      <Pencil size={14} />
-                    </button>
-                    <button
-                      type="button"
-                      className="btn btn-sm btn-light border text-danger"
-                      data-bs-toggle="tooltip"
-                      title="Delete"
-                    >
-                      <Trash2 size={14} />
-                    </button>
-                  </div>
-                </td>
               </tr>
             ))}
           </tbody>
