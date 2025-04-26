@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link, Outlet, useLocation } from "react-router-dom";
+import { Link, Outlet, useLocation, useParams } from "react-router-dom";
 import Menu from "./Menu";
 import { permission_for_custom_route } from "@/utils";
 import Breadcrumb from "@/shared/Breadcumb/Breadcrumb";
@@ -120,10 +120,16 @@ function LeftSideMenuBar() {
     fetchQuestionByBlock(activeBlock);
   }, [activeBlock]);
 
+  const { id } = useParams();
   const expandeRoute = [
     {
       id: 1,
       title: "/add-phase",
+    },
+    {
+      id: 2,
+      title: "/phase/"+id,
+      hasParam : true,
     },
   ];
 
@@ -134,7 +140,6 @@ function LeftSideMenuBar() {
       const currentRouteGroup = expandeRoute.find((group) =>
         group.title.includes(pathname),
       );
-
       setexpend(currentRouteGroup?.id ? true : false);
     };
     handleRouteChange();
