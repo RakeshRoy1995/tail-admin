@@ -11,6 +11,7 @@ import Navbar from "@/pages/Navbar/Navbar";
 import QuickLinks from "./QuickLinks";
 
 const current_role = JSON.parse(localStorage.getItem("current_role"));
+
 function LeftSideMenuBar() {
   const location = useLocation();
   const [expend, setexpend] = useState(false);

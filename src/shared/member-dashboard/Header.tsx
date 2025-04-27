@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Header() {
   const navigate = useNavigate();
@@ -9,7 +9,6 @@ export default function Header() {
     localStorage.clear();
     navigate("/");
   };
-  
 
   const AI_model = localStorage.getItem("all_aiModel")
     ? JSON.parse(localStorage.getItem("all_aiModel") || "")
@@ -79,18 +78,21 @@ export default function Header() {
                 >
                   My Profile
                 </button>
+
                 <ul
                   className="dropdown-menu dropdown-menu-end"
                   aria-labelledby="dropDownProfile"
                 >
                   <li className="my-1">
-                    <a
-                      className="dropdown-item d-flex align-items-center"
-                      href="#"
-                    >
-                      <i className="fa fa-user-circle" aria-hidden="true" />
-                      <span className="ml-2 ms-2">Profile</span>
-                    </a>
+                    <Link to="/profile-update" className="text-decoration-none">
+                      <a
+                        className="dropdown-item d-flex align-items-center"
+                        href="#"
+                      >
+                        <i className="fa fa-user-circle" aria-hidden="true" />
+                        <span className="ml-2 ms-2">Profile</span>
+                      </a>
+                    </Link>
                   </li>
                   <li className="my-1">
                     <a

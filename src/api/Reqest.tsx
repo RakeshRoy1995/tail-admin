@@ -6,7 +6,7 @@ const API_AI = import.meta.env.VITE_REACT_APP_AI;
 const authToken = localStorage.getItem("customer_login_auth") || "";
 const token: any = authToken ? JSON.parse(authToken) : "";
 
-const param = `userId=${token?.id }`;
+const param = `userId=${token?.id}`;
 
 // const param = `organizationType=${token?.user?.organizationType || ""}&partnerOrganizationId=${token?.user?.partnerOrganizationId || ""}&branchId=${token?.user?.branchId || ""}`;
 
@@ -334,7 +334,6 @@ export function submitAI(message: any) {
   return axios(options);
 }
 
-
 export function submitAISummery(message: any) {
   const model = localStorage.getItem("AI_model");
   const chat_id = localStorage.getItem("chat_id");
@@ -348,4 +347,21 @@ export function submitAISummery(message: any) {
   };
 
   return axios(options);
+}
+
+export function getCurrentUserData(userID: any) {
+  const page = `${API_URL}user/${userID}`; // Replace API_URL with your base URL
+
+  const options = {
+    method: "GET",
+    headers: {
+      "content-type": "application/json",
+      Authorization: `Bearer ${token?.accessToken}`,
+    },
+
+    url: page,
+  };
+  return axios(options)
+    .then((response) => response.data)
+    .catch((error) => console.error("Error fetching division data:", error));
 }
