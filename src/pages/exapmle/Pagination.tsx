@@ -8,7 +8,7 @@ import {
   Trash2,
 } from "lucide-react";
 
-export default function DataTable({ allData, col, view }) {
+export default function DataTable({ allData, col, operation , label }:any) {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [sortField, setSortField] = useState("id");
@@ -61,7 +61,7 @@ export default function DataTable({ allData, col, view }) {
   return (
     <div className="card shadow-sm border-0 p-4">
       <div className="d-flex justify-content-between align-items-center mb-3">
-        <h2 className="h5 mb-0">Table</h2>
+        <h2 className="h5 mb-0 text-uppercase">{label} Table</h2>
         <div>
           <label className="me-2 small fw-semibold">Show:</label>
           <select
@@ -121,7 +121,7 @@ export default function DataTable({ allData, col, view }) {
                         <div className="btn-group" role="group">
                           <button
                             type="button"
-                            onClick={(e) => view(item)}
+                            onClick={(e) => operation(item)}
                             className="btn btn-sm btn-light border"
                             data-bs-toggle="tooltip"
                             title="View"
@@ -130,7 +130,7 @@ export default function DataTable({ allData, col, view }) {
                           </button>
                           <button
                             type="button"
-                            onClick={(e) => view(item , "update")}
+                            onClick={(e) => operation(item , "update")}
                             className="btn btn-sm btn-light border"
                             data-bs-toggle="tooltip"
                             title="Edit"
@@ -139,7 +139,7 @@ export default function DataTable({ allData, col, view }) {
                           </button>
                           <button
                             type="button"
-                            onClick={(e) => view(item , "delete")}
+                            onClick={(e) => operation(item , "delete")}
                             className="btn btn-sm btn-light border text-danger"
                             data-bs-toggle="tooltip"
                             title="Delete"
