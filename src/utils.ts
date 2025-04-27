@@ -685,6 +685,19 @@ export const enablePhaseOutput = () => {
   return quesID.length == output.length;
 };
 
+export const getConversationIdByQues = (ques_id: any, output: any) => {
+  let conversetion_id = "";
+  output.filter((d: any) =>
+    d.find((d2: any) => {
+      if (d2.question_id == ques_id) {
+        console.log(`d2`, d2);
+        conversetion_id = d2.conversetion_id;
+      }
+    }),
+  );
+  return conversetion_id;
+};
+
 export function current_user_infos() {
   const data = JSON.parse(localStorage.getItem("customer_login_auth"));
   return data;

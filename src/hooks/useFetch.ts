@@ -79,13 +79,13 @@ const useFetch = (url: any, options = {}) => {
       };
 
       Swal.fire({
-        title: "আপনি কি তথ্য মুছে ফেলতে চান?",
+        title: "Do you Really want to delete?",
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
-        cancelButtonText: "না",
-        confirmButtonText: "হ্যাঁ",
+        cancelButtonText: "No",
+        confirmButtonText: "Yes",
       }).then(async (result) => {
         if (result.isConfirmed) {
           const response = await fetch(api, option);

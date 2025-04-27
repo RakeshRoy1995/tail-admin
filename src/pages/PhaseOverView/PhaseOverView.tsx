@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { BsPlusCircleFill } from "react-icons/bs";
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Modal from "react-modal";
 import useFetch from "@/hooks/useFetch";
+import axiosInstance from "@/api/axios";
 const API_URL = import.meta.env.VITE_REACT_APP_API_URL;
 const token = localStorage.getItem("token");
 
@@ -38,23 +39,10 @@ const card_css = [
 const PhasesDashboard = () => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [selectedPhase, setSelectedPhase] = useState(null);
-
-  const {
-    data,
-    loading,
-    error,
-    fetchData,
-    deleteData,
-    deleteMsg,
-    common_data,
-    fetchDataCommon,
-    setcommon_Data,
-    fetchSingleDataCommonByID,
-    setsingleData,
-    singleData,
-    addFormShow,
-    setaddFormShow,
-  } = useFetch(`${API_URL}/phases`);
+  const [phaseData, setphases] = useState([]);
+  const [allBlock, setallblocks] = useState([]);
+  const [allQues, setAllQues] = useState([]);
+  const [phaseQuestionCount, setphaseQuestionCount] = useState({});
 
   // Animation variants for framer-motion
   const cardVariants = {
@@ -70,32 +58,64 @@ const PhasesDashboard = () => {
     },
   };
 
-  const openModal = (phase) => {
-    setSelectedPhase(phase);
-    setModalIsOpen(true);
-  };
-
   const closeModal = () => {
     setModalIsOpen(false);
     setSelectedPhase(null);
   };
 
-  console.log("data", data);
-  console.log("selected", selectedPhase);
-
-  const fetchInitData = async () => {
-    fetchData();
-  };
-
+  // get phases
   useEffect(() => {
-    fetchInitData();
+    const fetchData = async () => {
+      try {
+        const response = await axiosInstance.get("/phases"); // Example endpoint
+
+        if (response.data.length) {
+          setphases(response.data);
+
+          const res_block = await axiosInstance.get("/blocks"); // Example endpoint
+          if (res_block.data.length) {
+            setallblocks(res_block.data);
+          }
+
+          const res_ques = await axiosInstance.get("/question"); // Example endpoint
+          setAllQues(res_ques.data);
+
+          // Step 1: Build a mapping from blockId to phaseId
+          const blockIdToPhaseId = {};
+          res_block.data.forEach((block) => {
+            blockIdToPhaseId[block.id] = block.phaseId;
+          });
+
+          // Step 2: Count questions per phase
+          const phaseQuestionCount = {};
+          res_ques.data.forEach((question) => {
+            const phaseId = blockIdToPhaseId[question.blockId];
+            if (phaseId) {
+              phaseQuestionCount[phaseId] =
+                (phaseQuestionCount[phaseId] || 0) + 1;
+            }
+          });
+          setphaseQuestionCount(phaseQuestionCount);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
   }, []);
+
+  const navigate = useNavigate();
+
+  const handleClick = (id: any) => {
+    navigate("/phase/" + id); // replace with your path
+  };
 
   return (
     <div className="right-panel-wrap right-phase-wrap">
       {/* Phases Grid */}
       <div className="row row-cols-1 row-cols-md-3 g-4">
-        {data?.map((phase, index) => {
+        {phaseData?.map((phase, index) => {
           const cardStyle = card_css[index % card_css.length]; // Dynamically select card_css based on index
           return (
             <motion.div
@@ -107,11 +127,21 @@ const PhasesDashboard = () => {
               whileHover="hover"
               viewport={{ once: true }}
             >
-              <div className={"phase-box phase-box" + (index + 1)}>
+              <div
+                style={{ cursor: "pointer" }}
+                className={"phase-box phase-box" + (index + 1)}
+                onClick={() => handleClick(phase.id)}
+              >
                 <h4>{phase.name}</h4>
                 <div className="block-wrap">
-                  <p> 5 Blocks</p>
-                  <p> 21 Topics</p>
+                  <p>
+                    {" "}
+                    {
+                      allBlock.filter((d: any) => d.phaseId == phase.id).length
+                    }{" "}
+                    Blocks
+                  </p>
+                  <p> {phaseQuestionCount[phase.id]} Topics</p>
                 </div>
                 <a href="#">
                   <img src="asset/assets/img/phase1.png" alt="" />
