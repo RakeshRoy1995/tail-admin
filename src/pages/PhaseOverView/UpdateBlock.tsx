@@ -36,7 +36,7 @@ export default function UpdateBlock({ data, handleSubmit }: any) {
         </div>
 
         <div className="p-4">
-          <h6 className="mb-4">Update Block:</h6>
+          <h6 className="mb-4"> {data?.id ? 'Update' : "Add" }  Block:</h6>
 
           {/* Username */}
           <div className="row mb-4 align-items-center">

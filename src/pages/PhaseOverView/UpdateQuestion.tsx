@@ -48,8 +48,6 @@ export default function UpdateQuestion({ data, handleSubmit }: any) {
     fetchBlock(singledata.phaseId);
   }, [singledata.phaseId]);
 
-  console.log(`phase`, phase);
-
   return (
     <form onSubmit={handleSubmit}>
       <div className="flex-fill bg-white border rounded shadow-sm">
@@ -67,7 +65,7 @@ export default function UpdateQuestion({ data, handleSubmit }: any) {
         </div>
 
         <div className="p-4">
-          <h6 className="mb-4">Update Block:</h6>
+          <h6 className="mb-4">{data?.status ? "Update" : "Add"} Block:</h6>
 
           {/* Username */}
           <div className="row mb-4 align-items-center">

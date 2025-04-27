@@ -32,25 +32,26 @@ const API_URL = import.meta.env.VITE_REACT_APP_API_URL;
 const token = localStorage.getItem("token");
 
 export default function PhaseDetails() {
-  const { deleteData , deleteMsg  } = useFetch(`${API_URL}`);
+  const { deleteData, deleteMsg } = useFetch(`${API_URL}`);
 
   const { id } = useParams();
   const [phase, setphase] = useState(null);
   const [open, setOpen] = useState(false);
   const [blockUpdateModal, setblockUpdateModal] = useState(false);
+  const [blockAddModal, setblockAddModal] = useState(false);
 
   const [openQuestion, setOpenQuestion] = useState(false);
   const [questionUpdateModal, setquestionUpdateModal] = useState(false);
+  const [questionAddModal, setquestionAddModal] = useState(false);
 
   const [blocks, setblocks] = useState([]);
   const [question, setquestion] = useState([]);
   const [col, setcol] = useState([]);
   const [showQuestion, setshowQuestion] = useState(false);
   const [showBlock, setshowBlock] = useState(false);
-  const [selectedType, setselectedType] = useState('update-phase');
+  const [selectedType, setselectedType] = useState("update-phase");
   const [singleBlock, setsingleBlock] = useState(null);
   const [showUpdatePhase, setshowUpdatePhase] = useState(true);
-
 
   // Function to handle closing modal
   const handleClose = () => {
@@ -84,6 +85,8 @@ export default function PhaseDetails() {
       setshowBlock(false);
       setshowQuestion(false);
       setshowUpdatePhase(false);
+      setblockAddModal(false);
+      setquestionAddModal(false);
       if (type === "block") {
         setshowBlock(true);
         const page_list = `${API_URL}/phases/get-block-by-phaseid`;
@@ -107,6 +110,9 @@ export default function PhaseDetails() {
           { name: "name", label: "Name" },
           { name: "status", label: "Status" },
         ]);
+      }
+      if (type == "add-block") {
+        setblockAddModal(true);
       }
       if (type === "question") {
         setshowQuestion(true);
@@ -132,6 +138,9 @@ export default function PhaseDetails() {
           { name: "blockName", label: "Block" },
           { name: "status", label: "Status" },
         ]);
+      }
+      if (type == "add-question") {
+        setquestionAddModal(true);
       }
       if (type === "update-phase") {
         setshowUpdatePhase(true);
@@ -180,8 +189,8 @@ export default function PhaseDetails() {
       obj = { ...obj, [key]: value };
     }
 
-    const page_list = `${API_URL}/blocks/${singleBlock?.id}`;
-    const method = "PUT";
+    const page_list = `${API_URL}/blocks${singleBlock?.id ? `/${singleBlock?.id}` : ""}`;
+    const method = singleBlock?.id ? "PUT" : "POST";
 
     const options = {
       method,
@@ -196,6 +205,7 @@ export default function PhaseDetails() {
       toast.success("Block Updated!");
       fetchData("block");
       setblockUpdateModal(false);
+      setsingleBlock(null);
     } catch (error) {
       toast.error("Phase Updated Failed!");
     }
@@ -210,8 +220,8 @@ export default function PhaseDetails() {
       obj = { ...obj, [key]: value };
     }
 
-    const page_list = `${API_URL}/question/${singleBlock?.question_id}`;
-    const method = "Patch";
+    const page_list = `${API_URL}/question${singleBlock?.question_id ? `/${singleBlock?.question_id}` : ""}`;
+    const method = singleBlock?.question_id ? "Patch" : "POST";
 
     const options = {
       method,
@@ -226,6 +236,7 @@ export default function PhaseDetails() {
       toast.success("Question Updated!");
       fetchData("question");
       setquestionUpdateModal(false);
+      setsingleBlock(null);
     } catch (error) {
       toast.error("Question Updated Failed!");
     }
@@ -355,20 +366,23 @@ export default function PhaseDetails() {
             //     className: "bg-primary text-white px-2 py-0 rounded-pill small",
             //   },
             // },
-            
           ].map(({ icon, text, badge, type }, i) => (
             <a
               href="#"
               key={i}
               onClick={() => fetchData(type.toLowerCase())}
-              className={`d-flex align-items-center justify-content-between text-decoration-none p-2 rounded ${type == selectedType  ? "bg-light text-teal" : "text-dark"}`}
+              className={`d-flex align-items-center justify-content-between text-decoration-none p-2 rounded ${type == selectedType ? "bg-light text-teal" : "text-dark"}`}
             >
               <div className="d-flex align-items-center">
                 <span className="me-2">{icon}</span>
                 {text}
               </div>
               {badge && (
-                <span className={`badge ${ type == selectedType ? "text-white" : ""}`}>{badge.text}</span>
+                <span
+                  className={`badge ${type == selectedType ? "text-white" : ""}`}
+                >
+                  {badge.text}
+                </span>
               )}
             </a>
           ))}
@@ -378,21 +392,47 @@ export default function PhaseDetails() {
       {/* Main Content */}
 
       <div className="flex-fill bg-white border rounded shadow-sm">
-        {showBlock && <DataTable col={col} allData={blocks} operation={view} label={selectedType} />}
-        {showQuestion && <DataTable col={col} allData={question} operation={quesOperation} label={selectedType} />}
+        {showBlock && (
+          <DataTable
+            col={col}
+            allData={blocks}
+            operation={view}
+            label={selectedType}
+          />
+        )}
+        {showQuestion && (
+          <DataTable
+            col={col}
+            allData={question}
+            operation={quesOperation}
+            label={selectedType}
+          />
+        )}
         {showUpdatePhase && phase?.id && (
           <UpdatePhase data={phase} handleSubmit={UpdatePhasehandleSubmit} />
+        )}
+
+        {blockAddModal && (
+          <UpdateBlock
+            data={singleBlock}
+            handleSubmit={UpdateBlockhandleSubmit}
+          />
+        )}
+
+        {questionAddModal && (
+          <UpdateQuestion
+            data={singleBlock}
+            handleSubmit={UpdateQueshandleSubmit}
+          />
         )}
       </div>
 
       {/* Block show */}
       <Modal open={open} onClose={handleClose} aria-labelledby="modal-title">
         <Box sx={modelCss}>
-
-        <Typography id="modal-modal-title" variant="h6" component="h2">
+          <Typography id="modal-modal-title" variant="h6" component="h2">
             Block Information
-        </Typography>
-          
+          </Typography>
 
           {/* Modal content */}
 
@@ -488,10 +528,12 @@ export default function PhaseDetails() {
         </Box>
       </Modal>
 
-
-
       {/* Question show */}
-      <Modal open={openQuestion} onClose={handleClose} aria-labelledby="modal-title">
+      <Modal
+        open={openQuestion}
+        onClose={handleClose}
+        aria-labelledby="modal-title"
+      >
         <Box sx={modelCss}>
           {/* Modal content */}
 
@@ -506,7 +548,9 @@ export default function PhaseDetails() {
                   <div className="d-flex justify-content-between mb-3">
                     <div className="d-flex align-items-center">
                       <div>
-                        <h5 className="mb-0">{singleBlock?.question_question}</h5>
+                        <h5 className="mb-0">
+                          {singleBlock?.question_question}
+                        </h5>
                       </div>
                     </div>
                     <button className="btn btn-sm text-muted">
@@ -545,9 +589,7 @@ export default function PhaseDetails() {
 
                   <div className="mb-3">
                     <small className="text-muted">Phase</small>
-                    <p className="text-muted small mb-4">
-                      {phase?.name}
-                    </p>
+                    <p className="text-muted small mb-4">{phase?.name}</p>
                   </div>
                 </div>
               </div>
@@ -574,7 +616,6 @@ export default function PhaseDetails() {
         onClose={handleClose}
         aria-labelledby="modal-title"
       >
-        
         <Box sx={modelCss}>
           {/* Modal content */}
           <Typography id="modal-modal-title" variant="h6" component="h2">
