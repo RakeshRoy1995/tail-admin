@@ -6,6 +6,69 @@ import { groupBy } from "@/utils";
 import ShowOutput from "@/shared/ShowOutput/ShowOutput";
 import PhaseSummery from "../PropsedSystemMappainig/PhaseSummery";
 
+const projects = [
+  {
+    logo: "../../../assets/icons/Profile.svg",
+    name: "Nexa - Next generation SAAS",
+    tagline: "Creates limitless possibilities",
+    startDate: "14 Jan, 17",
+    dueDate: "15 Oct, 18",
+    progress: 59,
+    taskCount: 72,
+    commentCount: 648,
+  },
+  {
+    logo: "../../../assets/icons/Profile.svg",
+    name: "B & O - Food Company",
+    tagline: "Creates limitless possibilities",
+    startDate: "12 Jan, 14",
+    dueDate: "17 Oct, 26",
+    progress: 81,
+    taskCount: 72,
+    commentCount: 668,
+  },
+  {
+    logo: "../../../assets/icons/Profile.svg",
+    name: "Ad Brand - Luxury Footwear",
+    tagline: "Creates limitless possibilities",
+    startDate: "22 Jan, 24",
+    dueDate: "12 Oct, 23",
+    progress: 78,
+    taskCount: 34,
+    commentCount: 432,
+  },
+  {
+    logo: "../../../assets/icons/Profile.svg",
+    name: "Air B & B - Real Estate",
+    tagline: "Creates limitless possibilities",
+    startDate: "13 Jan, 14",
+    dueDate: "14 Oct, 25",
+    progress: 65,
+    taskCount: 45,
+    commentCount: 342,
+  },
+  {
+    logo: "../../../assets/icons/Profile.svg",
+    name: "B & O - Food Company",
+    tagline: "Tasty food for everyone",
+    startDate: "23 Jan, 31",
+    dueDate: "15 Oct, 22",
+    progress: 74,
+    taskCount: 123,
+    commentCount: 542,
+  },
+  {
+    logo: "../../../assets/icons/Profile.svg",
+    name: "Nexa - Next generation",
+    tagline: "Tasty food for everyone",
+    startDate: "13 Jan, 21",
+    dueDate: "25 Oct, 12",
+    progress: 84,
+    taskCount: 43,
+    commentCount: 545,
+  },
+];
+
 const PhaseOutput = () => {
   const [allUsersList, setAllUsersList] = React.useState([]);
   const [allPhaseList, setAllPhaseList] = React.useState([]);
@@ -130,15 +193,101 @@ const PhaseOutput = () => {
     }
   }, [phaseID]);
 
-  console.log(`type`, type);
-
   return (
     <div className="container-fluid tab-panel">
       <div className="row tab-panel-body form-tab-panel-body">
         <div className="col-md-12 from-panel-wrap">
           <div className="row ">
             <div className="phase-wrapper">
-              <h3>Phase Output</h3>
+
+              <div className=" min-vh-100">
+                <div className="row g-4">
+                  {projects.map((project, index) => (
+                    <div key={index} className="col-md-6 col-lg-4">
+                      <div className="card h-100 shadow-sm">
+                        <div className="card-body d-flex flex-column">
+                          <div className="d-flex justify-content-between mb-3">
+                            <div className="d-flex align-items-center">
+                              <img
+                                src={project.logo}
+                                alt={project.name}
+                                width={48}
+                                height={48}
+                                className="rounded-circle me-3"
+                              />
+                              <div>
+                                <h5 className="mb-0">{project.name}</h5>
+                                <small className="text-muted">
+                                  {project.tagline}
+                                </small>
+                              </div>
+                            </div>
+                            <button className="btn btn-sm text-muted">
+                              <i className="bi bi-three-dots-vertical"></i>
+                            </button>
+                          </div>
+
+                          <p className="text-muted small mb-4">
+                            I distinguish three main text objectives. First,
+                            your objective could be merely to inform people.
+                          </p>
+
+                          <div className="row mb-3">
+                            <div className="col">
+                              <small className="text-muted">Start</small>
+                              <div>
+                                <span className="badge bg-primary-subtle text-primary">
+                                  {project.startDate}
+                                </span>
+                              </div>
+                            </div>
+                            <div className="col">
+                              <small className="text-muted">Due</small>
+                              <div>
+                                <span className="badge bg-danger-subtle text-danger">
+                                  {project.dueDate}
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div className="mb-3">
+                            <div className="d-flex justify-content-between small text-muted">
+                              <span>Progress</span>
+                              <span>{project.progress}%</span>
+                            </div>
+                            <div className="progress" style={{ height: "6px" }}>
+                              <div
+                                className="progress-bar bg-success"
+                                role="progressbar"
+                                style={{ width: `${project.progress}%` }}
+                              ></div>
+                            </div>
+                          </div>
+
+                          <div className="mt-auto d-flex text-muted small">
+                            <div className="me-4 d-flex align-items-center">
+                              <i className="bi bi-list-task me-1"></i>
+                              <strong className="me-1">
+                                {project.taskCount}
+                              </strong>
+                              Tasks
+                            </div>
+                            <div className="d-flex align-items-center">
+                              <i className="bi bi-chat-left-text me-1"></i>
+                              <strong className="me-1">
+                                {project.commentCount}
+                              </strong>
+                              Comments
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
               <div className="forms-wrapper">
                 <div className="mb-3">
                   <label htmlFor="user-select" className="form-label">
@@ -203,7 +352,7 @@ const PhaseOutput = () => {
                       </select>
                     </div>
 
-                    <PhaseSummery output={output} error={''} />
+                    <PhaseSummery output={output} error={""} />
                   </>
                 )}
 
@@ -249,6 +398,8 @@ const PhaseOutput = () => {
                   </div>
                 )}
               </div>
+
+              
             </div>
           </div>
         </div>
