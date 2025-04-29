@@ -23,11 +23,12 @@ import axiosInstance from "@/api/axios";
 import { get_all_data, submitFormData } from "@/api/Reqest";
 import DataTable from "../exapmle/Pagination";
 import UpdatePhase from "./UpdatePhase";
-import cardImage from "../../../assets/main page/demopic.png";
 import UpdateBlock from "./UpdateBlock";
 import useFetch from "@/hooks/useFetch";
 import UpdateQuestion from "./UpdateQuestion";
 import PhaseOutputDetails from "./PhaseOutputDetails";
+import PhaseSummeryOutput from "./PhaseSummeryOutput";
+import UpdatePrompt from "./UpdatePrompt";
 
 const API_URL = import.meta.env.VITE_REACT_APP_API_URL;
 const token = localStorage.getItem("token");
@@ -45,6 +46,11 @@ export default function PhaseDetails() {
   const [questionUpdateModal, setquestionUpdateModal] = useState(false);
   const [questionAddModal, setquestionAddModal] = useState(false);
 
+  const [openPrompt, setopenPrompt] = useState(false);
+  const [openPromptModal, setopenPromptModal] = useState(false);
+  const [promptAddModal, setpromptAddModal] = useState(false);
+  const [showPromts, setshowPromts] = useState(false);
+
   const [blocks, setblocks] = useState([]);
   const [question, setquestion] = useState([]);
   const [col, setcol] = useState([]);
@@ -54,9 +60,11 @@ export default function PhaseDetails() {
   const [singleBlock, setsingleBlock] = useState(null);
   const [showUpdatePhase, setshowUpdatePhase] = useState(true);
   const [showPhaseOutput, setshowPhaseOutput] = useState(false);
+  const [showPhaseSummery, setshowPhaseSummery] = useState(false);
 
   const [userChat, setuserChat] = useState([]);
   const [allUsersList, setAllUsersList] = useState([]);
+  const [SummeryOutput, setSummeryOutput] = useState<any>([]);
 
   // Function to handle closing modal
   const handleClose = () => {
@@ -93,6 +101,8 @@ export default function PhaseDetails() {
       setblockAddModal(false);
       setquestionAddModal(false);
       setshowPhaseOutput(false);
+      setshowPhaseSummery(false);
+      setshowPromts(false);
       if (type === "block") {
         setshowBlock(true);
         const page_list = `${API_URL}/phases/get-block-by-phaseid`;
@@ -152,8 +162,12 @@ export default function PhaseDetails() {
         setshowUpdatePhase(true);
       }
 
-      if (type === "phase-output") {
-        setshowPhaseOutput(true);
+      if (type === "phase-output" || type === "phase-summery") {
+        if (type === "phase-output") {
+          setshowPhaseOutput(true);
+        } else {
+          setshowPhaseSummery(true);
+        }
         const page_list = `${API_URL}/phases/get-phase-output-by-phaseid`;
         const method = "POST";
 
@@ -175,25 +189,6 @@ export default function PhaseDetails() {
           const { data: allUsersList }: any =
             await get_all_data(getAllUsersURL);
           setAllUsersList(allUsersList);
-
-          if (allUsersList.length && blocks.length == 0) {
-            const page_list = `${API_URL}/phases/get-block-by-phaseid`;
-            const method = "POST";
-
-            const options = {
-              method,
-              headers: {
-                "content-type": "application/json",
-                Authorization: `Bearer ${token}`,
-              },
-              data: {
-                phase_id: id,
-              },
-            };
-
-            const { data } = await submitFormData(page_list, options);
-            setblocks(data);
-          }
 
           if (allUsersList.length && question.length == 0) {
             const page_list = `${API_URL}/phases/get-question-by-phaseid`;
@@ -219,6 +214,36 @@ export default function PhaseDetails() {
         //   { name: "name", label: "Name" },
         //   { name: "status", label: "Status" },
         // ]);
+      }
+
+      if (type == "phase prompt") {
+        setshowPromts(true);
+
+        const page_list = `${API_URL}/phase-prompt/findByPhaseId`;
+        const method = "POST";
+
+        const options = {
+          method,
+          headers: {
+            "content-type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          data: {
+            phase_id: id,
+          },
+        };
+
+        const { data } = await submitFormData(page_list, options);
+        setblocks(data);
+        setcol([
+          { name: "id", label: "ID" },
+          { name: "question", label: "question" },
+          { name: "prompt", label: "prompt" },
+          { name: "sort", label: "sort" },
+          { name: "status", label: "Status" },
+        ]);
+
+
       }
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -317,6 +342,37 @@ export default function PhaseDetails() {
     }
   };
 
+  const UpdatePrompthandleSubmit = async (e: any) => {
+    e.preventDefault();
+
+    const formData = new FormData(e.target);
+    let obj: any = {};
+    for (const [key, value] of formData) {
+      obj = { ...obj, [key]: value };
+    }
+
+    const page_list = `${API_URL}/phase-prompt${singleBlock?.id ? `/${singleBlock?.id}` : ""}`;
+    const method = singleBlock?.id ? "Patch" : "POST";
+
+    const options = {
+      method,
+      data: obj,
+      headers: {
+        "content-type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    try {
+      await submitFormData(page_list, options);
+      toast.success("Block Updated!");
+      fetchData("block");
+      setblockUpdateModal(false);
+      setsingleBlock(null);
+    } catch (error) {
+      toast.error("Phase Updated Failed!");
+    }
+  };
+
   // blocks operation
   const view = async (data: any, type = "view") => {
     try {
@@ -364,6 +420,53 @@ export default function PhaseDetails() {
       //   setphase(response.data);
     } catch (error) {
       console.error("Error fetching data:", error);
+    }
+  };
+
+  // Prompt operation
+  const promptOperation = async (data: any, type = "view") => {
+    try {
+      if (type == "view") {
+        setsingleBlock(data);
+        setopenPrompt(true);
+      }
+
+      if (type == "update") {
+        setsingleBlock(data);
+        setopenPromptModal(true);
+      }
+
+      if (type == "delete") {
+        const page_list = `${API_URL}/phase-prompt/${data.id}`;
+        await deleteData(page_list);
+      }
+
+      //   const response = await axiosInstance.get(`/phases/${id}`);
+      //   setphase(response.data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  const getSummeryPhaseOutput = async (userId: any) => {
+    console.log(`userId`, userId);
+    setSummeryOutput([]);
+    try {
+      const page_list = `${API_URL}/summary-output-phase/phase-userId/${id}/${userId}`;
+      const method = "get";
+
+      const options = {
+        method,
+        headers: {
+          "content-type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      };
+
+      const { data } = await submitFormData(page_list, options);
+      setSummeryOutput(data);
+    } catch (error) {
+      // seterror("Something Went Wrong");
     }
   };
 
@@ -437,6 +540,19 @@ export default function PhaseDetails() {
               text: "Phase Output",
               type: "phase-output",
             },
+
+            {
+              icon: <CreditCard size={16} />,
+              text: "Phase Summery",
+              type: "phase-summery",
+            },
+
+            {
+              icon: <CreditCard size={16} />,
+              text: "Phase Prompt",
+              type: "phase prompt",
+            },
+
             // {
             //   icon: <FileText size={16} />,
             //   text: "Tax Information",
@@ -511,6 +627,26 @@ export default function PhaseDetails() {
             question={question}
             allUsersList={allUsersList}
             userChat={userChat}
+          />
+        )}
+
+        {showPhaseSummery && (
+          <PhaseSummeryOutput
+            phaseId={id}
+            question={question}
+            allUsersList={allUsersList}
+            userChat={userChat}
+            getSummeryPhaseOutput={getSummeryPhaseOutput}
+            output={SummeryOutput}
+          />
+        )}
+
+        {showPromts && (
+          <DataTable
+            col={col}
+            allData={blocks}
+            operation={promptOperation}
+            label={selectedType}
           />
         )}
       </div>
@@ -714,6 +850,111 @@ export default function PhaseDetails() {
             <UpdateQuestion
               data={singleBlock}
               handleSubmit={UpdateQueshandleSubmit}
+            />
+          )}
+
+          {/* Close button */}
+        </Box>
+      </Modal>
+
+      {/* Prompt show */}
+      <Modal
+        open={openPrompt}
+        onClose={handleClose}
+        aria-labelledby="modal-title"
+      >
+        <Box sx={modelCss}>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            Prompt Information
+          </Typography>
+
+          {/* Modal content */}
+
+          <div className="row g-4">
+            <div className="col-md-12 col-lg-12">
+              <div className="card">
+                <div className="card-body d-flex flex-column">
+                  <div className="d-flex justify-content-between mb-3">
+                    <div className="d-flex align-items-center">
+                      <div>
+                        <h5 className="mb-0">{singleBlock?.question}</h5>
+                      </div>
+                    </div>
+                    <button className="btn btn-sm text-muted">
+                      <i className="bi bi-three-dots-vertical"></i>
+                    </button>
+                  </div>
+
+                  <p className="text-muted small mb-4">
+                    {singleBlock?.discription}
+                  </p>
+
+                  <div className="row mb-3">
+                    <div className="col">
+                      <small className="text-muted">Sort</small>
+                      <div>
+                        <span className="badge bg-primary-subtle text-primary">
+                          {singleBlock?.sort}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="col">
+                      <small className="text-muted">Status</small>
+                      <div>
+                        <span
+                          className={
+                            singleBlock?.status
+                              ? "badge bg-danger-subtle text-success"
+                              : "badge bg-danger-subtle text-danger"
+                          }
+                        >
+                          {singleBlock?.status ? "Active" : "Inactive"}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="mb-3">
+                    <small className="text-muted">Prompt</small>
+                    <p className="text-muted small mb-4">
+                      {singleBlock?.prompt}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="flex justify-end mt-4 gap-5">
+            <button
+              onClick={handleClose}
+              type="button"
+              className="floating-btn save_btn btn btn-primary"
+            >
+              Close
+            </button>
+          </div>
+
+          {/* Close button */}
+        </Box>
+      </Modal>
+
+      {/* Prompt Update */}
+      <Modal
+        open={openPromptModal}
+        onClose={handleClose}
+        aria-labelledby="modal-title"
+      >
+        <Box sx={modelCss}>
+          {/* Modal content */}
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            Update Prompt
+          </Typography>
+
+          {openPromptModal && singleBlock?.id && (
+            <UpdatePrompt
+              data={singleBlock}
+              handleSubmit={UpdatePrompthandleSubmit}
             />
           )}
 

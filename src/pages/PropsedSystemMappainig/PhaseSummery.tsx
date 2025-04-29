@@ -211,9 +211,9 @@ export default function PhaseSummery({
 }) {
   return (
     <div>
-      <div className="container mt-5 h-100">
+      <div className="container mt-5">
         <p className="text-center text-danger">{error}</p>
-        <div className="row g-4 h-100">
+        <div className="row g-4">
           {/* Left column - first card */}
           <div className="col-md-4 d-flex">
             <motion.div
@@ -389,8 +389,8 @@ export default function PhaseSummery({
         </div>
       </div>
 
-      <div className="container my-5 h-100">
-        <div className="row g-4 h-100">
+      <div className="container my-5">
+        <div className="row g-4">
           {/* Left column - first card */}
           <div className="col-md-9 d-flex">
             <motion.div

@@ -1,31 +1,24 @@
 import React from "react";
 import profileImage from "../../../assets/icons/Profile.svg";
 import { groupBy } from "@/utils";
-import AIOutputShow from "@/shared/showOutputFormat/AIOutputShow";
+const token = localStorage.getItem("token");
+const API_URL = import.meta.env.VITE_REACT_APP_API_URL;
+import { submitFormData } from "@/api/Reqest";
+import PhaseSummery from "../PropsedSystemMappainig/PhaseSummery";
 
-export default function PhaseOutputDetails({
-  blocks,
+export default function PhaseSummeryOutput({
+  phaseId,
   allUsersList,
   userChat,
   question,
+  output,
+  getSummeryPhaseOutput
 }: any) {
-  const [output, setoutput] = React.useState<any>([]);
+  
   const [outPutQues, setoutPutQues] = React.useState<any>([]);
   const [singleData, setsingleData] = React.useState<any>(null);
   const [activeSectionIndex, setActiveSectionIndex] = React.useState(0);
   const [activeFaqs, setActiveFaqs] = React.useState({});
-
-  const activateSection = (index) => {
-    setActiveSectionIndex(index);
-  };
-  const toggleFaq = (sectionIndex, faqIndex) => {
-    setActiveFaqs((prevState) => {
-      const newState = { ...prevState };
-      const sectionKey = `${sectionIndex}-${faqIndex}`;
-      newState[sectionKey] = !newState[sectionKey]; // Toggle the specific FAQ
-      return newState;
-    });
-  };
 
   const OnGOingprogress = (userId) => {
     const chat = userChat.filter((user: any) => user.userId === userId);
@@ -46,23 +39,22 @@ export default function PhaseOutputDetails({
     };
   };
 
-  console.log(`output`, outPutQues);
+  
+
+  console.log(`outputfffff`, output);
   return (
     <div>
       <div className=" bg-light ">
         <div className="row g-4">
           {!singleData &&
-            allUsersList.map((project, index) => (
+            allUsersList?.map((project, index) => (
               <div
                 key={index}
                 className="col-md-6 col-lg-6"
                 style={{ cursor: "pointer" }}
                 onClick={(e) => {
                   setsingleData(project);
-                  setoutput(OnGOingprogress(project.id).output);
-                  if (OnGOingprogress(project.id).output.length > 0) {
-                    setoutPutQues(OnGOingprogress(project.id).output[0]);
-                  }
+                  getSummeryPhaseOutput(project.id)
                 }}
               >
                 <div className="card h-100 shadow-sm">
@@ -85,30 +77,6 @@ export default function PhaseOutputDetails({
                         <i className="bi bi-three-dots-vertical"></i>
                       </button>
                     </div>
-
-                    {/* <p className="text-muted small mb-4">
-                    I distinguish three main text objectives. First, your
-                    objective could be merely to inform people.
-                  </p> */}
-
-                    {/* <div className="row mb-3">
-                    <div className="col">
-                      <small className="text-muted">Start</small>
-                      <div>
-                        <span className="badge bg-primary-subtle text-primary">
-                          {project.startDate}
-                        </span>
-                      </div>
-                    </div>
-                    <div className="col">
-                      <small className="text-muted">Due</small>
-                      <div>
-                        <span className="badge bg-danger-subtle text-danger">
-                          {project.dueDate}
-                        </span>
-                      </div>
-                    </div>
-                  </div> */}
 
                     <div className="mb-3">
                       <div className="d-flex justify-content-between small text-muted">
@@ -209,80 +177,7 @@ export default function PhaseOutputDetails({
       </div>
 
       <div className="row">
-        <div className="col-4 ">
-          <div className="phase-sections mt-4">
-            <div className="section-list" id="sectionList">
-              {output?.map((section: any, index: any) => (
-                <div
-                  key={index}
-                  className={`section-item ${index === activeSectionIndex ? "active bg-white" : ""}`}
-                  onClick={() => {
-                    setoutPutQues(section);
-                    activateSection(index);
-                  }}
-                >
-                  <div className="section-title">{section[0].block_name}</div>
-                  <div className="section-count">
-                    {section.length} questions
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-        {outPutQues[activeSectionIndex]?.block_name && (
-          <div className="col-8 p-5 bg-white mt-4">
-            <div id="sectionContents ">
-              <div className="section-header bg-white">
-                <h2 className="section-title" style={{ fontSize: "1.25rem" }}>
-                  {outPutQues[activeSectionIndex]?.block_name}
-                </h2>
-                {/* <p className="section-description">
-                Define the boundaries and scope of the problem we are trying to
-                solve.
-              </p> */}
-              </div>
-              <div className="section-content">
-                <div className="faq-list ">
-                  {outPutQues.map((faq: any, faqIndex: number) => (
-                    <div
-                      className={`faq-item  ${
-                        activeFaqs[`${activeSectionIndex}-${faqIndex}`]
-                          ? "active"
-                          : ""
-                      }`}
-                      key={faqIndex}
-                      onClick={() => toggleFaq(activeSectionIndex, faqIndex)}
-                    >
-                      <div className="faq-question bg-white">
-                        <span className="question-text">{faq.question}</span>
-                        <i
-                          className={`toggle-icon ${
-                            activeFaqs[`${activeSectionIndex}-${faqIndex}`]
-                              ? "ri-arrow-up-s-line"
-                              : "ri-arrow-down-s-line"
-                          }`}
-                        ></i>
-                      </div>
-                      <div
-                        className={`faq-answer bg-white ${
-                          activeFaqs[`${activeSectionIndex}-${faqIndex}`]
-                            ? "active"
-                            : ""
-                        }`}
-                      >
-                        <p>
-                          {" "}
-                          <AIOutputShow messages={faq.aiReply} />{" "}
-                        </p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
+        {output.length > 0 && <PhaseSummery output={output} error={""} />}
       </div>
     </div>
   );
