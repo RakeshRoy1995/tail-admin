@@ -34,7 +34,7 @@ export default function UpdatePrompt({ data, handleSubmit }: any) {
         </div>
 
         <div className="p-4">
-          <h6 className="mb-4"> {data?.id ? 'Update' : "Add" }  Prompt:</h6>
+          <h6 className="mb-4"> {data?.id ? 'Update' : "Add (Only 5 You can add to a phase)" }  Prompt:</h6>
 
           {/* Username */}
           <div className="row mb-4 align-items-center">

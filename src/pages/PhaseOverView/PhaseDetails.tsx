@@ -51,6 +51,13 @@ export default function PhaseDetails() {
   const [promptAddModal, setpromptAddModal] = useState(false);
   const [showPromts, setshowPromts] = useState(false);
 
+
+  const [aiModal, setaiModal] = useState(false);
+  const [openAiModal, setopenAiModal] = useState(false);
+  const [addAiModal, setaddAiModal] = useState(false);
+  const [showAiModal, setshowAiModal] = useState(false);
+
+
   const [blocks, setblocks] = useState([]);
   const [question, setquestion] = useState([]);
   const [col, setcol] = useState([]);
@@ -71,7 +78,11 @@ export default function PhaseDetails() {
     setOpen(false);
     setblockUpdateModal(false);
     setquestionUpdateModal(false);
+    setpromptAddModal(false);
+    setopenPromptModal(false);
     setOpenQuestion(false);
+    setaddAiModal(false);
+
   };
 
   useEffect(() => {
@@ -103,6 +114,8 @@ export default function PhaseDetails() {
       setshowPhaseOutput(false);
       setshowPhaseSummery(false);
       setshowPromts(false);
+      setpromptAddModal(false);
+      setshowAiModal(false)
       if (type === "block") {
         setshowBlock(true);
         const page_list = `${API_URL}/phases/get-block-by-phaseid`;
@@ -242,9 +255,39 @@ export default function PhaseDetails() {
           { name: "sort", label: "sort" },
           { name: "status", label: "Status" },
         ]);
+      }
 
+      if (type == "add prompt") {
+        setpromptAddModal(true);
+      }
+      if (type == "ai-modal") {
+        setshowAiModal(true);
+        const page_list = `${API_URL}/ai-model`;
+        const method = "get";
+
+        const options = {
+          method,
+          headers: {
+            "content-type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          data: {
+            phase_id: id,
+          },
+        };
+
+        const { data } = await submitFormData(page_list, options);
+        setblocks(data);
+        setcol([
+          { name: "id", label: "ID" },
+          { name: "name", label: "Name" },
+          { name: "code", label: "code" },
+          { name: "sort", label: "sort" },
+          { name: "status", label: "Status" },
+        ]);
 
       }
+
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -364,12 +407,13 @@ export default function PhaseDetails() {
     };
     try {
       await submitFormData(page_list, options);
-      toast.success("Block Updated!");
-      fetchData("block");
-      setblockUpdateModal(false);
+      toast.success("Prompt Add/Updated!");
+      fetchData("phase prompt");
+      setpromptAddModal(false);
+      setopenPromptModal(false);
       setsingleBlock(null);
     } catch (error) {
-      toast.error("Phase Updated Failed!");
+      toast.error("Prompt Add/Updated Failed!");
     }
   };
 
@@ -438,6 +482,31 @@ export default function PhaseDetails() {
 
       if (type == "delete") {
         const page_list = `${API_URL}/phase-prompt/${data.id}`;
+        await deleteData(page_list);
+      }
+
+      //   const response = await axiosInstance.get(`/phases/${id}`);
+      //   setphase(response.data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  // question operation
+  const AiOperation = async (data: any, type = "view") => {
+    try {
+      if (type == "view") {
+        setsingleBlock(data);
+        setOpenQuestion(true);
+      }
+
+      if (type == "update") {
+        setsingleBlock(data);
+        setquestionUpdateModal(true);
+      }
+
+      if (type == "delete") {
+        const page_list = `${API_URL}/question/${data.question_id}`;
         await deleteData(page_list);
       }
 
@@ -553,6 +622,18 @@ export default function PhaseDetails() {
               type: "phase prompt",
             },
 
+            {
+              icon: <CreditCard size={16} />,
+              text: "Add Prompt",
+              type: "add prompt",
+            },
+
+            {
+              icon: <CreditCard size={16} />,
+              text: "AI Model",
+              type: "ai-modal",
+            },
+
             // {
             //   icon: <FileText size={16} />,
             //   text: "Tax Information",
@@ -646,6 +727,22 @@ export default function PhaseDetails() {
             col={col}
             allData={blocks}
             operation={promptOperation}
+            label={ selectedType}
+          />
+        )}
+
+        {promptAddModal && (
+          <UpdatePrompt
+            data={null}
+            handleSubmit={UpdatePrompthandleSubmit}
+          />
+        )}
+
+{showAiModal && (
+          <DataTable
+            col={col}
+            allData={blocks}
+            operation={view}
             label={selectedType}
           />
         )}
