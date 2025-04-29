@@ -25,6 +25,7 @@ import AddPhase from "@/pages/PhaseOverView/AddPhase";
 import GuidePrompt from "@/pages/guide-prompt/GuidePrompt";
 import Example from "@/pages/exapmle/Example";
 import Pagination from "@/pages/exapmle/Pagination";
+import EditUserProfile from "@/pages/UserProfileUpdate/EditUserProfile";
 import PhaseDetails from "@/pages/PhaseOverView/PhaseDetails";
 const PrivateRoute = React.lazy(() => import("./PrivateRoute"));
 const Login = React.lazy(() => import("@/pages/Login/Login"));
@@ -57,11 +58,11 @@ const App: FC = () => {
             
           </Route> */}
           <Route path="/" element={<HomeEntryPage />}></Route>
-
           <Route path="/" element={<PrivateRoute />}>
             <Route path="/example" element={<Example />} />
             <Route path="/pagination" element={<Pagination />} />
             <Route path="/problem-def" element={<ProblemDefLayout />} />
+            <Route path="/profile-update" element={<EditUserProfile />} />
             <Route path="/" element={<Layout />}>
               <Route path="/admin" element={<Admin />} />
               <Route path="/phase-overview" element={<PhaseOverView />} />
@@ -73,7 +74,6 @@ const App: FC = () => {
               <Route path="/block-output" element={<BlockOutput />} />
               <Route path="/ai-model-mgmt" element={<AIModelMgt />} />
               <Route path="/guide-prompts" element={<GuidePrompt />} />
-
 
               <Route path="/form-phase" element={<PhasesForm />} />
               <Route path="/dashboard/role" element={<Role />} />

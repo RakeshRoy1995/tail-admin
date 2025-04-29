@@ -697,3 +697,8 @@ export const getConversationIdByQues = (ques_id: any, output: any) => {
   );
   return conversetion_id;
 };
+
+export function current_user_infos() {
+  const data = JSON.parse(localStorage.getItem("customer_login_auth"));
+  return data;
+}
